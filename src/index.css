@@ -1,0 +1,5 @@
+#root {
+  min-height: 100vh !important; /* occupa tutta l’altezza della finestra */
+  background-color: #f4f2ee !important;
+  overflow: auto !important; /* impedisce il collasso */
+}
