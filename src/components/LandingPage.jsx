@@ -43,6 +43,10 @@ function LandingPage() {
         </Col>
       </Row>
       <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
+      {/* <RegisterModal
+        show={showRegister}
+        handleClose={() => setShowRegister(false)}
+      /> */}
     </Container>
   );
 }

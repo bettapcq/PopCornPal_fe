@@ -1,7 +1,33 @@
 import { Modal, Button, Form } from "react-bootstrap";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/actions/AuthActions";
+import { Alert } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function LoginModal({ show, handleClose }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const error = useSelector((state) => state.auth.error);
+  const isLogged = useSelector((state) => state.auth.isLogged);
+
+  const dispatch = useDispatch();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    dispatch(login(email, password));
+  };
+
+  useEffect(() => {
+    if (isLogged) {
+      handleClose();
+      navigate("/home"); //go to home page after isLogged becomes true
+    }
+  }, [isLogged]);
+
   return (
     <Modal
       show={show}
@@ -14,12 +40,16 @@ function LoginModal({ show, handleClose }) {
       <Modal.Body className="modal-body">
         <h2 className="modal-title">Hey you!</h2>
 
-        <Form>
+        {error && <Alert variant="danger">{error}</Alert>}
+
+        <Form onSubmit={handleLogin} className="d-flex flex-column">
           <Form.Group className="mb-4">
             <Form.Control
               type="email"
               placeholder="Email"
               className="modal-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
 
@@ -28,10 +58,14 @@ function LoginModal({ show, handleClose }) {
               type="password"
               placeholder="Password"
               className="modal-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
 
-          <Button className="modal-button">Login</Button>
+          <Button className="modal-button" type="submit">
+            Login
+          </Button>
           <Button variant="link" className="modal-close" onClick={handleClose}>
             Close
           </Button>
@@ -40,6 +74,5 @@ function LoginModal({ show, handleClose }) {
     </Modal>
   );
 }
-
 
 export default LoginModal;
