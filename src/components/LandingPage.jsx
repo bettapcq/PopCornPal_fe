@@ -1,6 +1,8 @@
 import { Col, Container, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
+import { useState } from "react";
+import LoginModal from "./LoginModal";
 
 function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
@@ -40,7 +42,7 @@ function LandingPage() {
           </Col>
         </Col>
       </Row>
-      );
+      <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
     </Container>
   );
 }

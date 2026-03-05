@@ -33,9 +33,74 @@ h3 {
   background: linear-gradient(179deg, #ebb55e 0%, #f8daa1 80%);
 }
 
+.link {
+  color: #ebb55e;
+}
+
+.login-modal .modal-content {
+  background: linear-gradient(
+    180deg,
+    rgba(70, 60, 120, 0.75) 0%,
+    rgba(20, 15, 40, 0.95) 100%
+  );
+
+  backdrop-filter: blur(10px);
+
+  border-radius: 20px;
+  border: none;
+  padding: 40px;
+}
+
+.modal-title {
+  text-align: center;
+  color: #f3c76a;
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.modal-input {
+  background: transparent !important;
+  border: none;
+  border-bottom: 2px solid #f3c76a;
+  border-radius: 0;
+  color: #f3c76a !important;
+}
+
+.modal-input::placeholder {
+  color: #f3c76a !important;
+  opacity: 0.7 !important;
+}
+
+.modal-input:focus {
+  box-shadow: none;
+  border-bottom: 2px solid #f3c76a;
+  background: transparent;
+}
+
+.modal-button {
+  display: block;
+  margin: auto;
+  background: linear-gradient(180deg, #f7d98a, #e1b75c);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 40px;
+  color: #2b2150;
+  font-weight: 600;
+}
+
+.modal-close {
+  color: #f3c76a;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: right;
+  margin-top: 10px;
+}
+
+/* 
 .profile-img-icon {
   width: 20px;
-}
+} */
 
 .cursor-pointer {
   cursor: pointer;
@@ -52,22 +117,22 @@ h3 {
 .mt-6 {
   margin-top: 100px !important;
 }
-
+/* 
 .toggle-btn-custom {
-  color: #000 !important; /* testo nero */
-  background-color: white !important; /* sfondo grigio chiaro */
+  color: #000 !important;
+  background-color: white !important;
   border: none !important;
-}
-
+} */
+/* 
 .btn-check:checked + .toggle-btn-custom,
 .toggle-btn-custom.active {
-  color: #000 !important; /* testo nero */
-  background-color: #f4f2ee !important; /* sfondo grigio chiaro */
+  color: #000 !important; 
+  background-color: #f4f2ee !important; 
   border-bottom: 2px solid black !important;
 }
 .toggle-btn-custom:hover {
-  color: #000 !important; /* testo nero */
-  background-color: #f4f2ee !important; /* sfondo grigio chiaro */
+  color: #000 !important; 
+  background-color: #f4f2ee !important; 
 }
 .dropdown-menu {
   position: absolute !important;
@@ -88,19 +153,17 @@ h3 {
 .icon-hover {
   color: #6c757d;
 }
-
 .icon-hover.active {
   color: #000 !important;
   fill: #000 !important;
 }
 
-/* Hover: icona nera */
 .nav-link:hover .icon-hover {
   color: #000 !important;
   fill: #000 !important;
 }
 
-/* Active: icona nera */
+
 .toggle-btn-custom.active .icon-hover {
   color: #000 !important;
   fill: #000 !important;
@@ -108,4 +171,4 @@ h3 {
 .toggle-btn-custom,
 .nav-link {
   background-color: transparent !important;
-}
+} */
