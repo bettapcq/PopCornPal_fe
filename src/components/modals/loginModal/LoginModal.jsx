@@ -9,6 +9,7 @@ import { useEffect } from "react";
 function LoginModal({ show, handleClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [validated, setValidated] = useState(false);
 
   const error = useSelector((state) => state.auth.error);
   const isLogged = useSelector((state) => state.auth.isLogged);
@@ -16,9 +17,17 @@ function LoginModal({ show, handleClose }) {
   const dispatch = useDispatch();
 
   const handleLogin = (e) => {
-    e.preventDefault();
+    const form = e.currentTarget;
 
-    dispatch(login(email, password));
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      e.preventDefault();
+      dispatch(login(email, password));
+    }
+
+    setValidated(true);
   };
 
   useEffect(() => {
@@ -41,7 +50,12 @@ function LoginModal({ show, handleClose }) {
 
         {error && <Alert variant="danger">{error}</Alert>}
 
-        <Form onSubmit={handleLogin} className="d-flex flex-column">
+        <Form
+          noValidate
+          validated={validated}
+          onSubmit={handleLogin}
+          className="d-flex flex-column"
+        >
           <Form.Group className="mb-4">
             <Form.Control
               type="email"
@@ -49,7 +63,11 @@ function LoginModal({ show, handleClose }) {
               className="modal-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Email is required.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-4">
@@ -59,7 +77,11 @@ function LoginModal({ show, handleClose }) {
               className="modal-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Password is required.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Button className="modal-button" type="submit">

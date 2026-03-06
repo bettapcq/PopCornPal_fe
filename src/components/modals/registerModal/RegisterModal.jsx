@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { register } from "../../../redux/actions/AuthActions";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Alert } from "react-bootstrap";
+import { validationRules } from "../../../validationRoules";
 
 function RegisterModal({ show, handleClose }) {
   const [username, setUsername] = useState("");
@@ -15,19 +17,28 @@ function RegisterModal({ show, handleClose }) {
 
   const isLogged = useSelector((state) => state.auth.isLogged);
   const error = useSelector((state) => state.auth.error);
+  const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
 
   const handelRegister = (e) => {
-    e.preventDefault();
+    const form = e.currentTarget;
 
-    dispatch(register({ username, dateOfBirth, city, email, password }));
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      e.preventDefault();
+      dispatch(register({ username, dateOfBirth, city, email, password }));
+    }
+
+    setValidated(true);
   };
 
   useEffect(() => {
     if (isLogged) {
       handleClose();
-      navigate("/me"); //go to personal profile after isLogged becomes true
+      navigate("/profile"); //go to personal profile after isLogged becomes true
     }
   }, [isLogged]);
 
@@ -45,8 +56,14 @@ function RegisterModal({ show, handleClose }) {
           {/* form */}
           <Col xs={12} md={6} className="register-form order-2 order-md-1">
             <h2 className="modal-title mb-4">Profile</h2>
+            {error && <Alert variant="danger">{error}</Alert>}
 
-            <Form onSubmit={handelRegister} className="d-flex flex-column">
+            <Form
+              noValidate
+              validated={validated}
+              onSubmit={handelRegister}
+              className="d-flex flex-column"
+            >
               <Form.Group className="mb-3">
                 <Form.Control
                   type="text"
@@ -54,7 +71,14 @@ function RegisterModal({ show, handleClose }) {
                   className="modal-input"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  required={validationRules.username.required}
+                  minLength={validationRules.username.minLength}
+                  maxLength={validationRules.username.maxLength}
                 />
+
+                <Form.Control.Feedback type="invalid">
+                  {validationRules.username.message}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -63,7 +87,11 @@ function RegisterModal({ show, handleClose }) {
                   type="date"
                   value={dateOfBirth}
                   onChange={(e) => setDateOfBirth(e.target.value)}
+                  required={validationRules.dateOfBirth.required}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {validationRules.dateOfBirth.message}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -72,7 +100,11 @@ function RegisterModal({ show, handleClose }) {
                   placeholder="Your city"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
+                  required={validationRules.city.required}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {validationRules.city.message}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -81,7 +113,11 @@ function RegisterModal({ show, handleClose }) {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
+                <Form.Control.Feedback type="invalid">
+                  Email not valid
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -91,7 +127,11 @@ function RegisterModal({ show, handleClose }) {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required={validationRules.password.required}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {validationRules.password.message}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Button
@@ -99,6 +139,13 @@ function RegisterModal({ show, handleClose }) {
                 type="submit"
               >
                 Save
+              </Button>
+              <Button
+                variant="link"
+                className="modal-close"
+                onClick={handleClose}
+              >
+                Close
               </Button>
             </Form>
           </Col>
