@@ -1,6 +1,9 @@
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_ERROR = "REGISTER_ERROR";
 
+// ------LOGIN
 export const login = (email, password) => {
   return async (dispatch) => {
     try {
@@ -28,6 +31,43 @@ export const login = (email, password) => {
     } catch (error) {
       dispatch({
         type: LOGIN_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+//-----REGISTER
+export const register = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch("http://localhost:7001/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: userData.username,
+          dateOfBirth: userData.dateOfBirth,
+          city: userData.city,
+          email: userData.email,
+          password: userData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed"); // Use error message from server if available
+      }
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: data,
+        isLogged: true,
+      });
+    } catch (error) {
+      dispatch({
+        type: REGISTER_ERROR,
         payload: error.message,
       });
     }

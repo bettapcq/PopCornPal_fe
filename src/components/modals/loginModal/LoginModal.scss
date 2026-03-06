@@ -1,21 +1,17 @@
 @import "../../styles/variables";
 
-
+//---- LOGIN MODAL LAYOUT
 
 .login-modal {
-
 
   .modal-content {
     max-width: 420px;
     margin: auto;
   }
 
-
-
   .login-field {
     margin-bottom: 25px;
   }
-
 
   .login-button {
     width: 60%;
@@ -23,16 +19,4 @@
     margin: 25px auto 10px auto;
   }
 
-
-
-  .modal-close {
-    text-align: right;
-    color: $gold-main;
-    display: block;
-    margin-top: 10px;
-  }
-
-  .modal-close:hover {
-    color: $gold-light;
-  }
 }

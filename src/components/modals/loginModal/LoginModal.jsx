@@ -1,7 +1,7 @@
 import { Modal, Button, Form } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/actions/AuthActions";
+import { login } from "../../../redux/actions/AuthActions";
 import { Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -35,7 +35,6 @@ function LoginModal({ show, handleClose }) {
       centered
       backdrop="static"
       keyboard={true}
-      className="my-modal"
     >
       <Modal.Body className="modal-body">
         <h2 className="modal-title">Hey you!</h2>

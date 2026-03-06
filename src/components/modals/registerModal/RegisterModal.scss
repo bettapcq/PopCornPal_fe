@@ -1,0 +1,36 @@
+@import "../../../styles/variables";
+
+.register-modal {
+
+  .modal-content {
+    max-width: 900px;
+  }
+
+
+  .register-info {
+    text-align: center;
+    color: $gold-main;
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.5rem;
+    }
+  }
+
+  .register-button {
+    width: 120px;
+  }
+
+}
+
+@media (min-width: 768px) {
+
+.register-info{
+      border-left: 1px solid $gold-main;
+}
+
+  
+}

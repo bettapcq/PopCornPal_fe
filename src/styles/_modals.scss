@@ -1,6 +1,6 @@
 @import "./variables";
 
-/* stile base valido per tutti i modali */
+//-----ALL MODALS BASE STYLE
 
 .modal-content {
   background: linear-gradient(
@@ -14,7 +14,7 @@
   padding: 40px;
 }
 
-/* titolo modale */
+/* modal title */
 
 .modal-title {
   text-align: center;
@@ -47,7 +47,7 @@
   color: $gold-main;
 }
 
-/* bottone principale */
+/* main button */
 
 .modal-button {
   display: block;

@@ -92,3 +92,15 @@ h3 {
 .nav-link {
   background-color: transparent !important;
 }
+
+
+// date input
+
+input[type="date"] {
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(75%) sepia(70%) saturate(500%) hue-rotate(10deg);
+    cursor: pointer;
+  }
+
+}

@@ -2,7 +2,9 @@ import { Col, Container, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
-import LoginModal from "../../components/modals/LoginModal";
+import LoginModal from "../../components/modals/loginModal/LoginModal";
+import "./LandingPage.scss";
+import RegisterModal from "../../components/modals/registerModal/RegisterModal";
 
 function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
@@ -43,10 +45,10 @@ function LandingPage() {
         </Col>
       </Row>
       <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
-      {/* <RegisterModal
+      <RegisterModal
         show={showRegister}
         handleClose={() => setShowRegister(false)}
-      /> */}
+      />
     </Container>
   );
 }
