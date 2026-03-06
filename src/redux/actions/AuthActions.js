@@ -18,7 +18,7 @@ export const login = (email, password) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || "Login failed"); // Use error message from server if available
       }
 
       dispatch({

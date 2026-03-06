@@ -2,7 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
-import LoginModal from "./LoginModal";
+import LoginModal from "../../components/modals/LoginModal";
 
 function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
@@ -24,7 +24,7 @@ function LandingPage() {
         <Col className="text-center ">
           <Button
             className="landing-btn"
-            variant="primary"
+            variant="secondary"
             size="lg"
             onClick={() => setShowLogin(true)}
           >

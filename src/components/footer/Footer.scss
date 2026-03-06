@@ -1,0 +1,9 @@
+@import "../../styles/variables";
+
+.my-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(31, 30, 63, 0.4) 0%, $footer-dark 70%);
+}
+

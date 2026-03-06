@@ -1,12 +1,12 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import "./styles/bootstrap-custom.scss";
+import "./styles/global.scss";
 import { useState } from "react";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import LandingPage from "./components/LandingPage";
+import LandingPage from "./pages/landingPage/LandingPage";
 import { Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Footer from "./components/Footer";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const [count, setCount] = useState(0);

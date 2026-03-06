@@ -1,0 +1,29 @@
+@import "./variables";
+
+
+.btn-primary,
+.landing-btn {
+  color: $text-dark;
+  width: 60%;
+  background: linear-gradient(179deg, $gold-main 0%, $gold-light 80%);
+  border: none;
+}
+
+
+.toggle-btn-custom {
+  color: #000 !important;
+  background-color: white !important;
+  border: none !important;
+}
+
+.btn-check:checked + .toggle-btn-custom,
+.toggle-btn-custom.active {
+  color: #000 !important;
+  background-color: #f4f2ee !important;
+  border-bottom: 2px solid black !important;
+}
+
+.toggle-btn-custom:hover {
+  color: #000 !important;
+  background-color: #f4f2ee !important;
+}

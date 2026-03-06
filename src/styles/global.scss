@@ -1,0 +1,94 @@
+@import "./variables";
+
+body {
+  height: 100vh;
+  margin: 0;
+  font-family: $font-primary;
+}
+
+h1,
+h2,
+h3 {
+  font-family: $font-heading;
+}
+
+.main-container {
+  min-height: 100vh;
+  position: relative;
+  background-image: url("/src/assets/img/background.jpg");
+}
+
+.my-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(31, 30, 63, 0.4) 0%,
+    $footer-dark 80%
+  );
+}
+
+.logo-full {
+  width: $logo-size;
+}
+
+.profile-img-icon {
+  width: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.fs-7 {
+  font-size: 0.7rem;
+}
+
+.fs-8 {
+  font-size: 0.5rem;
+}
+
+.mt-6 {
+  margin-top: 100px !important;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  z-index: 1050;
+}
+
+.mini-img {
+  width: 15px;
+  height: 15px;
+}
+
+.badge-oro {
+  background-color: #fce3bc !important;
+  font-size: 0.6rem !important;
+  border: none !important;
+}
+
+.icon-hover {
+  color: #6c757d;
+}
+
+.icon-hover.active {
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+.nav-link:hover .icon-hover {
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+.toggle-btn-custom.active .icon-hover {
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+.toggle-btn-custom,
+.nav-link {
+  background-color: transparent !important;
+}

@@ -1,0 +1,28 @@
+
+
+@import "bootstrap/scss/functions";
+@import "./variables";
+
+
+$custom-colors: (
+  "primary": $gold-main,
+  "secondary": $footer-dark,
+  "warning": $gold-light,
+  "light": $text-light
+);
+
+
+@import "bootstrap/scss/variables";
+
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+
+
+@import "bootstrap/scss/bootstrap";
+
+
+
+@import "./buttons";
+@import "./modals";
+@import "./alerts";

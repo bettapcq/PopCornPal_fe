@@ -1,0 +1,76 @@
+@import "./variables";
+
+/* stile base valido per tutti i modali */
+
+.modal-content {
+  background: linear-gradient(
+    180deg,
+    rgba(70, 60, 120, 0.75) 0%,
+    rgba(20, 15, 40, 0.95) 100%
+  );
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: none;
+  padding: 40px;
+}
+
+/* titolo modale */
+
+.modal-title {
+  text-align: center;
+  color: $gold-main;
+  font-size: 32px;
+  margin-bottom: 40px;
+  font-family: $font-heading;
+}
+
+/* input base */
+
+.modal-input,
+.modal-input.form-control {
+  background: transparent !important;
+  border: none;
+  border-bottom: 2px solid $gold-main;
+  border-radius: 0;
+  color: $gold-main !important;
+}
+
+.modal-input::placeholder {
+  color: $gold-main;
+  opacity: 0.7;
+}
+
+.modal-input:focus {
+  background: transparent;
+  box-shadow: none;
+  border-bottom: 2px solid $gold-main;
+  color: $gold-main;
+}
+
+/* bottone principale */
+
+.modal-button {
+  display: block;
+  margin: 30px auto 10px auto;
+  background: linear-gradient(180deg, $gold-light, $gold-main);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 40px;
+  color: #2b2150;
+  font-weight: 600;
+}
+
+/* link close */
+
+.modal-close {
+  color: $gold-main;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.modal-close:hover {
+  color: $gold-light;
+}
