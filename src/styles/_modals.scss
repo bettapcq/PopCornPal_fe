@@ -52,7 +52,13 @@
 .modal-button {
   display: block;
   margin: 30px auto 10px auto;
-  background: linear-gradient(180deg, $gold-light, $gold-main);
+  background: linear-gradient(
+    180deg,
+    #fff3b0 0%,
+    #f5c76a 30%,
+    #c89b3c 80%,
+    #a67c2d 100%
+  );
   border: none;
   border-radius: 10px;
   padding: 10px 40px;

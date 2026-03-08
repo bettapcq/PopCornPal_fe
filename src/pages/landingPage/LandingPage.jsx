@@ -5,6 +5,7 @@ import { useState } from "react";
 import LoginModal from "../../components/modals/loginModal/LoginModal";
 import "./LandingPage.scss";
 import RegisterModal from "../../components/modals/registerModal/RegisterModal";
+import spaceVideo from "../../assets/videos/space.mp4";
 
 function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
@@ -12,6 +13,13 @@ function LandingPage() {
 
   return (
     <Container className="pt-5" fluid>
+      {/* video background */}
+      <div className="video-wrapper">
+        <video autoPlay muted loop className="background-video">
+          <source src={spaceVideo} type="video/mp4" />
+        </video>
+        <div className="video-fade"></div>
+      </div>
       <Row className="justify-content-center">
         <Col className="text-center">
           <Image
