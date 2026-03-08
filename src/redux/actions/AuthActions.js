@@ -5,6 +5,7 @@ export const REGISTER_ERROR = "REGISTER_ERROR";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR";
 export const RESET_PASSWORD_CLOSE = "RESET_PASSWORD_CLOSE";
+export const LOGOUT = "LOGOUT";
 
 // ------LOGIN
 export const login = (email, password) => {
@@ -29,7 +30,7 @@ export const login = (email, password) => {
 
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: data.message,
+        payload: data,
       });
     } catch (error) {
       dispatch({
@@ -40,8 +41,23 @@ export const login = (email, password) => {
   };
 };
 
+// -----LOGOUT
+
+export const logout = () => {
+  return (dispatch) => {
+    // rimuove il token salvato
+    localStorage.removeItem("token");
+
+    dispatch({
+      type: LOGOUT,
+    });
+  };
+};
+
 //-----REGISTER
 export const register = (userData) => {
+  console.log("REGISTER PAYLOAD:", userData);
+
   return async (dispatch) => {
     try {
       const response = await fetch("http://localhost:7001/auth/register", {
@@ -49,13 +65,7 @@ export const register = (userData) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: userData.username,
-          dateOfBirth: userData.dateOfBirth,
-          city: userData.city,
-          email: userData.email,
-          password: userData.password,
-        }),
+        body: JSON.stringify(userData),
       });
 
       const data = await response.json();
@@ -66,7 +76,6 @@ export const register = (userData) => {
       dispatch({
         type: REGISTER_SUCCESS,
         payload: data,
-        isLogged: true,
       });
     } catch (error) {
       dispatch({

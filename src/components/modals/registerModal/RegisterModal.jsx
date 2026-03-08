@@ -2,6 +2,7 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import "../registerModal/RegisterModal.scss";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { register } from "../../../redux/actions/AuthActions";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -18,8 +19,10 @@ function RegisterModal({ show, handleClose }) {
   const isLogged = useSelector((state) => state.auth.isLogged);
   const error = useSelector((state) => state.auth.error);
   const [validated, setValidated] = useState(false);
+  const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handelRegister = (e) => {
     const form = e.currentTarget;
@@ -29,6 +32,17 @@ function RegisterModal({ show, handleClose }) {
       e.stopPropagation();
     } else {
       e.preventDefault();
+
+      console.log({
+        "REGISTER MODAL INPUTS": {
+          username,
+          dateOfBirth,
+          city,
+          email,
+          password,
+        },
+      });
+
       dispatch(register({ username, dateOfBirth, city, email, password }));
     }
 
@@ -36,11 +50,11 @@ function RegisterModal({ show, handleClose }) {
   };
 
   useEffect(() => {
-    if (isLogged) {
+    if (isLogged && user) {
       handleClose();
-      navigate("/profile"); //go to personal profile after isLogged becomes true
+      navigate(`/private/profile/${user.userId}`); //go to personal profile after isLogged becomes true
     }
-  }, [isLogged]);
+  }, [isLogged, user]);
 
   return (
     <Modal

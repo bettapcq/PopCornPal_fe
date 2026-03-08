@@ -6,26 +6,24 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_ERROR,
   RESET_PASSWORD_CLOSE,
+  LOGOUT,
 } from "../actions/AuthActions";
 
 const initialState = {
-  user: null,
   token: null,
   isLogged: false,
   error: null,
   message: null,
   loading: false,
-  success: false,
 };
 
-function userReducer(state = initialState, action) {
+function AuthReducer(state = initialState, action) {
   switch (action.type) {
     //-----LOGIN CASES
 
     case LOGIN_SUCCESS:
       return {
         ...state,
-        user: action.payload.user,
         token: action.payload.token,
         isLogged: true,
         error: null,
@@ -37,11 +35,15 @@ function userReducer(state = initialState, action) {
         error: action.payload,
       };
 
+    case LOGOUT:
+      return initialState;
+
     //-----REGISTER CASES
 
     case REGISTER_SUCCESS:
       return {
         ...state,
+        token: action.payload.token,
         user: action.payload.user,
         isLogged: true,
         error: null,
@@ -77,4 +79,4 @@ function userReducer(state = initialState, action) {
   }
 }
 
-export default userReducer;
+export default AuthReducer;
