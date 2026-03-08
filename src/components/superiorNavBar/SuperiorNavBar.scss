@@ -5,9 +5,7 @@
 
   padding: 10px 20px;
 
-  /* LINKS ---------------------------------------------------- */
-
-  .nav-link {
+  .my-collapse .nav-link {
     font-weight: 500;
     margin: 0 8px;
 
@@ -20,29 +18,41 @@
     );
 
     background-clip: text;
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
     transition: all 0.25s ease;
   }
 
-  .nav-link:hover {
+  .my-collapse .nav-link:hover {
     background: linear-gradient(180deg, #fff7c2, #ffd978);
 
     background-clip: text;
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .nav-link.active {
-    background: linear-gradient(180deg, #fff3b0 0%, #f5c76a 50%, #c89b3c 100%);
+  // ----active
+
+  .my-collapse .nav-link.active {
+    background: linear-gradient(180deg, #fff3b0 0%, #f5c76a 45%, #c89b3c 100%);
 
     color: #1a1c3f !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
+    -webkit-text-fill-color: #1a1c3f;
 
-  // ---dropdown
+    border-radius: 12px;
+
+    padding: 6px 18px;
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+  // ----dropdown
 
   .dropdown-menu {
     margin: 0.5em 1em;
+
     background: linear-gradient(
       178deg,
       rgba(245, 199, 106, 1) 0%,
@@ -51,13 +61,25 @@
 
     border: none;
 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+
     .dropdown-item {
+      background: none !important;
+      padding-left: 1.5rem;
+
       color: $space-dark !important;
+      -webkit-text-fill-color: $space-dark !important;
+
       font-weight: 500;
 
       &:hover {
-        background-color: transparent;
+        background: none !important;
+
         color: $text-dark !important;
+        -webkit-text-fill-color: $text-dark !important;
+
+        color: #1a1c3f !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
     }
 
@@ -66,33 +88,27 @@
     }
   }
 
-  // ---- icons
+  // ----icons
 
-  .nav-link svg {
+  .nav-icon {
     color: #f5c76a;
     font-size: 18px;
     transition: color 0.2s ease;
   }
 
-  .nav-link:hover svg {
+  .nav-icon:hover {
     color: #fff7c2;
   }
+
+  // ---toggle
 
   .navbar-toggler {
     border: none;
     box-shadow: none;
   }
 
-  //---toggle
   .navbar-toggler-icon {
     filter: invert(78%) sepia(47%) saturate(425%) hue-rotate(356deg)
       brightness(102%) contrast(92%);
   }
-}
-
-// collapse
-.my-collapse {
-  border-bottom: 1px $space-light solid;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
 }
