@@ -20,13 +20,17 @@ function LoginModal({ show, handleClose }) {
   const error = useSelector((state) => state.auth.error);
   const isLogged = useSelector((state) => state.auth.isLogged);
   const message = useSelector((state) => state.auth.message);
+  const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLogged) {
       handleClose();
-      navigate("/home"); //go to home page after isLogged becomes true
+
+      // !!!!!  TODO: decide where to navigate after login, maybe to the profile page or to the home page
+
+      navigate(`/private/profile/${user.userId}`); //go to profile page after isLogged becomes true
     }
   }, [isLogged]);
 
