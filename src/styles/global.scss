@@ -4,8 +4,8 @@ body {
   height: 100vh;
   margin: 0;
   font-family: $font-primary;
-   background-image: url("/src/assets/img/background.jpg");
-   background-size: cover;
+  background-image: url("/src/assets/img/background.jpg");
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -15,7 +15,6 @@ h2,
 h3 {
   font-family: $font-heading;
 }
-
 
 .my-footer {
   position: fixed;
@@ -32,8 +31,19 @@ h3 {
   width: $logo-size;
 }
 
+.logo-mini {
+  width: $logo-size-mini;
+}
+
 .profile-img-icon {
   width: 20px;
+}
+
+.avatar {
+  padding: 3px;
+  background: radial-gradient(circle, $gold-main 90%, $gold-light 10%);
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .cursor-pointer {
@@ -92,14 +102,11 @@ h3 {
   background-color: transparent !important;
 }
 
-
 // date input
 
 input[type="date"] {
-
   &::-webkit-calendar-picker-indicator {
     filter: invert(75%) sepia(70%) saturate(500%) hue-rotate(10deg);
     cursor: pointer;
   }
-
 }
