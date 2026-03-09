@@ -21,8 +21,6 @@ function LoginModal({ show, handleClose }) {
   const isLogged = useSelector((state) => state.auth.isLogged);
   const message = useSelector((state) => state.auth.message);
   const user = useSelector((state) => state.users.profile);
-  const state = useSelector((state) => state);
-  console.log(state);
   const dispatch = useDispatch();
 
   useEffect(() => {

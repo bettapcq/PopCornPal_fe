@@ -15,6 +15,7 @@ import { register } from "../../../redux/actions/AuthActions";
 import { useEffect } from "react";
 import { validationRules } from "../../../validationRoules";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 function RegisterModal({ show, handleClose }) {
   const [username, setUsername] = useState("");
@@ -149,7 +150,7 @@ function RegisterModal({ show, handleClose }) {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <InputGroup>
+                <InputGroup className="d-flex no-wrap">
                   <Form.Control
                     className="modal-input"
                     placeholder="New password"
@@ -163,11 +164,12 @@ function RegisterModal({ show, handleClose }) {
                   <InputGroup.Text
                     onClick={togglePassword}
                     style={{ cursor: "pointer" }}
+                    className="eye-div"
                   >
                     {showPassword ? (
-                      <FontAwesomeIcon icon={["fas", "eye-slash"]} />
+                      <FontAwesomeIcon icon={faEyeSlash} className="eye-icon" />
                     ) : (
-                      <FontAwesomeIcon icon={["fas", "eye"]} />
+                      <FontAwesomeIcon icon={faEye} className="eye-icon" />
                     )}
                   </InputGroup.Text>
                 </InputGroup>

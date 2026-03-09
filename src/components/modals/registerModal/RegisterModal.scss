@@ -1,11 +1,9 @@
 @import "../../../styles/variables";
 
 .register-modal {
-
   .modal-content {
     max-width: 900px;
   }
-
 
   .register-info {
     text-align: center;
@@ -23,15 +21,29 @@
   .register-button {
     width: 120px;
   }
-
 }
 
 @media (min-width: 768px) {
-
-.register-info{
-      border-left: 1px solid $gold-main;
+  .register-info {
+    border-left: 1px solid $gold-main;
+  }
+}
+.input-group-text {
+  justify-content: center;
+  border-radius: 0 !important;
 }
 
-  
+.eye-div {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-left: 6px;
+  display: flex;
+  align-items: center;
 }
 
+.eye-icon {
+  color: #f0c36d;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
