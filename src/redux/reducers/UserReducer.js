@@ -3,7 +3,7 @@ export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const GET_USER_ERROR = "GET_USER_ERROR";
 
 const initialState = {
-  user: null,
+  profile: null,
   loading: false,
   error: null,
 };
@@ -20,7 +20,7 @@ function UserReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        user: action.payload,
+        profile: action.payload,
       };
 
     case GET_USER_ERROR:

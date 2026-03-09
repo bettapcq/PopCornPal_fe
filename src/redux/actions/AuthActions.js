@@ -6,6 +6,7 @@ export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR";
 export const RESET_PASSWORD_CLOSE = "RESET_PASSWORD_CLOSE";
 export const LOGOUT = "LOGOUT";
+import { getMyProfile } from "./UserActions";
 
 // ------LOGIN
 export const login = (email, password) => {
@@ -28,10 +29,17 @@ export const login = (email, password) => {
         throw new Error(data.message || "Login failed"); // Use error message from server if available
       }
 
+      //save token in localstorage:
+
+      localStorage.setItem("token", data.token);
+
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: data,
+        payload: data.token,
       });
+
+      //after login success get my profile:
+      dispatch(getMyProfile());
     } catch (error) {
       dispatch({
         type: LOGIN_ERROR,

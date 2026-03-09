@@ -20,8 +20,9 @@ function LoginModal({ show, handleClose }) {
   const error = useSelector((state) => state.auth.error);
   const isLogged = useSelector((state) => state.auth.isLogged);
   const message = useSelector((state) => state.auth.message);
-  const user = useSelector((state) => state.auth.user);
-
+  const user = useSelector((state) => state.users.profile);
+  const state = useSelector((state) => state);
+  console.log(state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,9 +34,11 @@ function LoginModal({ show, handleClose }) {
 
       // !!!!!  TODO: decide where to navigate after login, maybe to the profile page or to the home page
 
-      navigate(`/private/profile/${user.userId}`); //go to profile page after isLogged becomes true
+      navigate(`/private/profile`); //go to profile page after isLogged becomes true
     }
-  }, [isLogged, user]);
+  }, [isLogged, user, handleClose, navigate]);
+
+  console.log("PROFILE:", user);
 
   const handleLogin = (e) => {
     const form = e.currentTarget;
@@ -67,6 +70,7 @@ function LoginModal({ show, handleClose }) {
     handleClose();
     setShowReset(true);
   };
+
   return (
     <>
       <Modal

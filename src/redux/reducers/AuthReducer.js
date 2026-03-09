@@ -15,7 +15,6 @@ const initialState = {
   error: null,
   message: null,
   loading: false,
-  user: null,
 };
 
 function AuthReducer(state = initialState, action) {
@@ -26,7 +25,6 @@ function AuthReducer(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
-        user: action.payload.user,
         isLogged: true,
       };
 
@@ -45,7 +43,6 @@ function AuthReducer(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
-        user: action.payload.user,
         isLogged: true,
         error: null,
       };
