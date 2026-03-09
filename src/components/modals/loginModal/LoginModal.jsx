@@ -1,4 +1,4 @@
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, ModalTitle } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/actions/AuthActions";
@@ -144,7 +144,7 @@ function LoginModal({ show, handleClose }) {
 
       <Modal show={showReset} onHide={handleCloseReset} centered>
         <Modal.Body>
-          <h4>Reset password</h4>
+          <ModalTitle>Reset Password</ModalTitle>
 
           {message && <Alert variant="success">{message.message}</Alert>}
           {error && <Alert variant="danger">{error}</Alert>}

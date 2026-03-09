@@ -41,7 +41,13 @@ h3 {
 
 .avatar {
   padding: 3px;
-  background: radial-gradient(circle, $gold-main 90%, $gold-light 10%);
+  background: linear-gradient(
+    180deg,
+    #fff3b0 0%,
+    #f5c76a 30%,
+    #c89b3c 80%,
+    #a67c2d 100%
+  );
   object-fit: cover;
   border-radius: 50%;
 }
