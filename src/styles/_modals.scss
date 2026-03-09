@@ -12,6 +12,7 @@
   border-radius: 20px;
   border: none;
   padding: 40px;
+  color: $gold-main;
 }
 
 /* modal title */
@@ -26,8 +27,7 @@
 
 /* input base */
 
-.modal-input,
-.modal-input.form-control {
+.form-control.modal-input {
   background-color: transparent !important;
   border: none;
   border-bottom: 2px solid $gold-main;
@@ -40,11 +40,11 @@
   opacity: 0.7;
 }
 
-.modal-input:focus {
-  background: transparent;
-  box-shadow: none;
-  border-bottom: 2px solid $gold-main;
-  color: $gold-main;
+.form-control.modal-input:focus {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-bottom: 2px solid $gold-main !important;
+  color: $gold-main !important;
 }
 
 /* main button */
@@ -84,4 +84,36 @@
 
 .modal-close:hover {
   color: $gold-light;
+}
+
+.input-group-text {
+  justify-content: center;
+  border-radius: 0 !important;
+}
+
+.eye-div {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-left: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon {
+  color: #f0c36d;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+//set browser default autofill settings
+.form-control.modal-input:-webkit-autofill,
+.form-control.modal-input:-webkit-autofill:hover,
+.form-control.modal-input:-webkit-autofill:focus,
+.form-control.modal-input:-webkit-autofill:active {
+  -webkit-text-fill-color: $gold-main !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(20, 15, 40, 0.95) inset !important;
+  box-shadow: 0 0 0 1000px rgba(20, 15, 40, 0.95) inset !important;
+  border-bottom: 2px solid $gold-main !important;
+  transition: background-color 9999s ease-in-out 0s;
 }

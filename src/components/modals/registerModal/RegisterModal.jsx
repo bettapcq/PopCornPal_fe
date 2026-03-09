@@ -79,9 +79,9 @@ function RegisterModal({ show, handleClose }) {
       size="lg"
     >
       <Modal.Body>
-        <Row className="justify-content-between align-items-center register-layout">
+        <Row className="justify-content-between align-items-center">
           {/* form */}
-          <Col xs={12} md={6} className="register-form order-2 order-md-1">
+          <Col xs={12} md={6} className=" order-2 order-md-1">
             <h2 className="modal-title mb-4">Profile</h2>
             {error && <Alert variant="danger">{error}</Alert>}
 
@@ -91,7 +91,7 @@ function RegisterModal({ show, handleClose }) {
               onSubmit={handelRegister}
               className="d-flex flex-column"
             >
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-3 register-divider">
                 <Form.Control
                   type="text"
                   placeholder="Username"

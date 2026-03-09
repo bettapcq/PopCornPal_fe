@@ -5,9 +5,9 @@ import { login } from "../../../redux/actions/AuthActions";
 import { Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { resetPassword } from "../../../redux/actions/AuthActions";
 import { useNavigate } from "react-router-dom";
 import { RESET_PASSWORD_CLOSE } from "../../../redux/actions/AuthActions";
+import ResetPasswordModal from "../resetPwdModal/ResetPasswordModal";
 
 function LoginModal({ show, handleClose }) {
   const navigate = useNavigate();
@@ -52,21 +52,14 @@ function LoginModal({ show, handleClose }) {
     setValidated(true);
   };
 
-  const handleResetPassword = (e) => {
-    e.preventDefault();
-    dispatch(resetPassword(resetEmail));
-  };
-
-  const handleCloseReset = () => {
-    dispatch({ type: RESET_PASSWORD_CLOSE });
-    setShowReset(false);
-    setResetEmail("");
-  };
-
   const handleOpenReset = () => {
     dispatch({ type: RESET_PASSWORD_CLOSE });
     handleClose();
     setShowReset(true);
+  };
+
+  const handleCloseReset = () => {
+    setShowReset(false);
   };
 
   return (
@@ -142,37 +135,7 @@ function LoginModal({ show, handleClose }) {
 
       {/* Reset Password Modal */}
 
-      <Modal show={showReset} onHide={handleCloseReset} centered>
-        <Modal.Body>
-          <ModalTitle>Reset Password</ModalTitle>
-
-          {message && <Alert variant="success">{message.message}</Alert>}
-          {error && <Alert variant="danger">{error}</Alert>}
-
-          <Form onSubmit={handleResetPassword}>
-            <Form.Control
-              type="email"
-              placeholder="Insert your email"
-              value={resetEmail}
-              onChange={(e) => setResetEmail(e.target.value)}
-              required
-            />
-
-            <Button className="mt-3" type="submit">
-              Send reset email
-            </Button>
-
-            <Button
-              type="button"
-              variant="link"
-              className="modal-close"
-              onClick={handleCloseReset}
-            >
-              Close
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      <ResetPasswordModal show={showReset} handleClose={handleCloseReset} />
     </>
   );
 }
