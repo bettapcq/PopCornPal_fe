@@ -25,14 +25,17 @@ function LoginModal({ show, handleClose }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isLogged) {
+    console.log("isLogged:", isLogged);
+    console.log("USER FROM STORE:", user);
+
+    if (isLogged && user) {
       handleClose();
 
       // !!!!!  TODO: decide where to navigate after login, maybe to the profile page or to the home page
 
       navigate(`/private/profile/${user.userId}`); //go to profile page after isLogged becomes true
     }
-  }, [isLogged]);
+  }, [isLogged, user]);
 
   const handleLogin = (e) => {
     const form = e.currentTarget;
