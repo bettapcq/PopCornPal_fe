@@ -33,7 +33,7 @@ function SuperiorNavBar() {
             <Nav.Link as={NavLink} to="/private/home">
               Home
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/private/profile/me">
+            <Nav.Link as={NavLink} to="/private/profile">
               My Profile
             </Nav.Link>
             <Nav.Link as={NavLink} to="/private/events">
