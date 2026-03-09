@@ -1,0 +1,23 @@
+@import "../../styles/variables";
+
+.profile-hero {
+  background: transparent;
+  border: none;
+  color: $space-light;
+}
+
+.profile-name {
+  font-size: 3rem;
+  font-weight: 600;
+  color: $gold-main;
+}
+
+.profile-divider {
+  border-color: $gold-main;
+  opacity: 0.6;
+}
+
+.profile-description {
+  color: #e2e2e2;
+  max-width: 700px;
+}

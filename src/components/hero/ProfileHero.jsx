@@ -1,30 +1,58 @@
 import { useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import "../hero/ProfileHero.scss";
+import { Col, Row, Image, Card, CardText } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
+import { faMapMarker } from "@fortawesome/free-solid-svg-icons/faMapMarker";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 
 function ProfileHero() {
-  const profile = useSelector((state) => {
-    state.users.profile;
-  });
+  const profile = useSelector((state) => state.users.profile);
+
   return (
-    <Card className="p-4">
-      <Row className="align-items-center">
-        <Col xs={12} md={3} className="text-center">
-          <Image src="/profile.jpg" roundedCircle fluid />
-        </Col>
+    <Card className="profile-hero">
+      <Card.Body>
+        <Row className="align-items-center">
+          <Col xs={12} md={3} className="text-center">
+            <Image
+              src={profile?.profileImg || avatar_placeholder}
+              roundedCircle
+              className="avatar p-3"
+              fluid
+            />
+          </Col>
 
-        <Col xs={12} md={9}>
-          <h2>Bettapcq</h2>
+          <Col xs={12} md={9}>
+            <Card.Title className="profile-name">
+              {profile?.username || "Username"}
+            </Card.Title>
 
-          <div className="mb-2">⭐ ⭐ ⭐ ⭐ ☆</div>
+            <div className="ratio-stars mb-2">★ ★ ★ ☆ ☆</div>
 
-          <hr />
-
-          <p>Turin · 33 years</p>
-
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-        </Col>
-      </Row>
+            <hr className="profile-divider my-4" />
+            <Row className="align-items-center my-3">
+              <Col xs={5}>
+                <Card.Subtitle className="profile-data mb-2 text-end">
+                  <FontAwesomeIcon icon={faMapMarker} className="col me-2" />
+                  {profile?.city || "City"}
+                </Card.Subtitle>
+              </Col>
+              <Col xs={5}>
+                <Card.Subtitle xs={6} className="mb-2">
+                  <FontAwesomeIcon icon={faBirthdayCake} className="me-2" />
+                  {profile?.age || "Age"} years
+                </Card.Subtitle>
+              </Col>
+            </Row>
+          </Col>
+          <Col>
+            <Card.Text className="profile-bio m-4">
+              {profile?.bio || "Profile Bio"}
+            </Card.Text>
+          </Col>
+        </Row>
+      </Card.Body>
     </Card>
   );
 }

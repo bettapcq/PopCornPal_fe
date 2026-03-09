@@ -8,8 +8,18 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
 import { faBell, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
+import { getMyProfile } from "../../redux/actions/UserActions";
+import { useEffect } from "react";
 
 function SuperiorNavBar() {
+  const user = useSelector((state) => state.users.profile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMyProfile());
+  }, [dispatch]);
+
   return (
     <Navbar expand="lg" className="my-nav bg-body-tertiary mt-3 mb-4">
       <Container className="justify-content-between" fluid>
@@ -57,7 +67,7 @@ function SuperiorNavBar() {
           title={
             <Image
               className="rounded-circle avatar"
-              src={avatar_placeholder}
+              src={user?.profileImg || avatar_placeholder}
               alt="avatar"
               height={45}
               width={45}

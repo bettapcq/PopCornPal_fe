@@ -79,7 +79,7 @@ export const register = (userData) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed"); // Use error message from server if available
+        throw new Error(data.errorsList || "Registration failed"); // Use error message from server if available
       }
       dispatch({
         type: REGISTER_SUCCESS,
@@ -90,7 +90,7 @@ export const register = (userData) => {
     } catch (error) {
       dispatch({
         type: REGISTER_ERROR,
-        payload: error.errorsList.message,
+        payload: error.message,
       });
     }
   };
