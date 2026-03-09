@@ -85,10 +85,12 @@ export const register = (userData) => {
         type: REGISTER_SUCCESS,
         payload: data,
       });
+
+      dispatch(getMyProfile());
     } catch (error) {
       dispatch({
         type: REGISTER_ERROR,
-        payload: error.message,
+        payload: error.errorsList.message,
       });
     }
   };

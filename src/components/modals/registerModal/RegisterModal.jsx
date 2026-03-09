@@ -1,13 +1,20 @@
-import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  Form,
+  Row,
+  Col,
+  Alert,
+  InputGroup,
+} from "react-bootstrap";
 import "../registerModal/RegisterModal.scss";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../../redux/actions/AuthActions";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Alert } from "react-bootstrap";
 import { validationRules } from "../../../validationRoules";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function RegisterModal({ show, handleClose }) {
   const [username, setUsername] = useState("");
@@ -15,6 +22,7 @@ function RegisterModal({ show, handleClose }) {
   const [city, setCity] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
 
   const isLogged = useSelector((state) => state.auth.isLogged);
   const error = useSelector((state) => state.auth.error);
@@ -23,6 +31,10 @@ function RegisterModal({ show, handleClose }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handelRegister = (e) => {
     const form = e.currentTarget;
@@ -52,7 +64,7 @@ function RegisterModal({ show, handleClose }) {
   useEffect(() => {
     if (isLogged && user) {
       handleClose();
-      navigate(`/private/profile/${user.userId}`); //go to personal profile after isLogged becomes true
+      navigate(`/private/profile`); //go to personal profile after isLogged becomes true
     }
   }, [isLogged, user]);
 
@@ -85,7 +97,7 @@ function RegisterModal({ show, handleClose }) {
                   className="modal-input"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  required={validationRules.username.required}
+                  required
                   minLength={validationRules.username.minLength}
                   maxLength={validationRules.username.maxLength}
                 />
@@ -101,7 +113,7 @@ function RegisterModal({ show, handleClose }) {
                   type="date"
                   value={dateOfBirth}
                   onChange={(e) => setDateOfBirth(e.target.value)}
-                  required={validationRules.dateOfBirth.required}
+                  required
                 />
                 <Form.Control.Feedback type="invalid">
                   {validationRules.dateOfBirth.message}
@@ -114,7 +126,9 @@ function RegisterModal({ show, handleClose }) {
                   placeholder="Your city"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  required={validationRules.city.required}
+                  minLength={validationRules.city.minLength}
+                  maxLength={validationRules.city.maxLength}
+                  required
                 />
                 <Form.Control.Feedback type="invalid">
                   {validationRules.city.message}
@@ -135,14 +149,29 @@ function RegisterModal({ show, handleClose }) {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Control
-                  className="modal-input"
-                  placeholder="New password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required={validationRules.password.required}
-                />
+                <InputGroup>
+                  <Form.Control
+                    className="modal-input"
+                    placeholder="New password"
+                    type={showPassword ? "password" : "text"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    pattern={validationRules.password.pattern}
+                    required
+                  />
+
+                  <InputGroup.Text
+                    onClick={togglePassword}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {showPassword ? (
+                      <FontAwesomeIcon icon={["fas", "eye-slash"]} />
+                    ) : (
+                      <FontAwesomeIcon icon={["fas", "eye"]} />
+                    )}
+                  </InputGroup.Text>
+                </InputGroup>
+
                 <Form.Control.Feedback type="invalid">
                   {validationRules.password.message}
                 </Form.Control.Feedback>
