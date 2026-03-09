@@ -1,6 +1,6 @@
-export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const GET_USER_ERROR = "GET_USER_ERROR";
+export const PROFILE_LOADING = "PROFILE_LOADING";
+export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
+export const PROFILE_ERROR = "PROFILE_ERROR";
 
 const initialState = {
   profile: null,
@@ -10,20 +10,21 @@ const initialState = {
 
 function UserReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_USER_REQUEST:
+    case PROFILE_LOADING:
       return {
         ...state,
         loading: true,
+        error: null,
       };
 
-    case GET_USER_SUCCESS:
+    case PROFILE_SUCCESS:
       return {
         ...state,
         loading: false,
         profile: action.payload,
       };
 
-    case GET_USER_ERROR:
+    case PROFILE_ERROR:
       return {
         ...state,
         loading: false,

@@ -1,10 +1,12 @@
-import { GET_USER_REQUEST } from "../reducers/UserReducer";
-import { GET_USER_SUCCESS } from "../reducers/UserReducer";
-import { GET_USER_ERROR } from "../reducers/UserReducer";
+import {
+  PROFILE_LOADING,
+  PROFILE_SUCCESS,
+  PROFILE_ERROR,
+} from "../reducers/UserReducer";
 
 export const getMyProfile = () => {
   return async (dispatch) => {
-    dispatch({ type: GET_USER_REQUEST });
+    dispatch({ type: PROFILE_LOADING });
 
     const token = localStorage.getItem("token");
 
@@ -24,12 +26,47 @@ export const getMyProfile = () => {
       }
 
       dispatch({
-        type: GET_USER_SUCCESS,
+        type: PROFILE_SUCCESS,
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: GET_USER_ERROR,
+        type: PROFILE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const editProfileDetails = (updatedData) => {
+  return async (dispatch) => {
+    dispatch({ type: PROFILE_LOADING });
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch("http://localhost:7001/users/me/details", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Updating profile failed");
+      }
+
+      dispatch({
+        type: PROFILE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: PROFILE_ERROR,
         payload: error.message,
       });
     }
