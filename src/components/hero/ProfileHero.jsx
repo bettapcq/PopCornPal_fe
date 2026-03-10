@@ -1,6 +1,15 @@
 import { useState } from "react";
 import "../hero/ProfileHero.scss";
-import { Col, Row, Image, Card, Button, Modal } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Image,
+  Card,
+  Button,
+  Modal,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,16 +29,22 @@ function ProfileHero() {
 
   return (
     <>
-      <Card className="profile-hero">
+      <Card className="profile-hero mt-0">
         <Card.Body>
           <Row>
             <Col className="text-end">
-              <FontAwesomeIcon
-                as={Button}
-                onClick={handleOpen}
-                icon={faPencilAlt}
-                className="pencil-btn "
-              />
+              <OverlayTrigger
+                placement="right"
+                delay={{ show: 250, hide: 400 }}
+                overlay={<Tooltip id="button-tooltip-2">Edit profile</Tooltip>}
+              >
+                <FontAwesomeIcon
+                  as={Button}
+                  onClick={handleOpen}
+                  icon={faPencilAlt}
+                  className="pencil-btn "
+                />
+              </OverlayTrigger>
             </Col>
           </Row>
           <Row className="align-items-center">
@@ -37,12 +52,12 @@ function ProfileHero() {
               <Image
                 src={profile?.profileImg || avatar_placeholder}
                 roundedCircle
-                className="avatar p-3"
-                fluid
+                className="avatar p-3 "
+                width={200}
               />
             </Col>
 
-            <Col xs={12} md={9}>
+            <Col xs={12} md={9} className="p-4 text-center text-lg-start">
               <Card.Title className="profile-name">
                 {profile?.username || "Username"}
               </Card.Title>

@@ -19,10 +19,10 @@ function ProfilePage() {
   }, [dispatch]);
 
   return (
-    <Container>
-      <Row className="d-flex flex-column flex-lg-row">
+    <Container className="main-content" fluid>
+      <Row className="d-flex flex-column flex-lg-row ">
         {/* col dx */}
-        <Col xs={12} lg={8}>
+        <Col xs={12} lg={9}>
           <Row className="d-flex flex-column">
             <Col>
               <ProfileHero />
@@ -31,7 +31,7 @@ function ProfilePage() {
           </Row>
         </Col>
         {/* col sx */}
-        <Col xs={12} lg={4}>
+        <Col xs={12} lg={3}>
           <AsideSection />
         </Col>
       </Row>

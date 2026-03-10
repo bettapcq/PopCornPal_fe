@@ -21,7 +21,7 @@ function SuperiorNavBar() {
   }, [dispatch]);
 
   return (
-    <Navbar expand="lg" className="my-nav bg-body-tertiary mt-3 mb-4">
+    <Navbar expand="lg" className="my-nav mt-3 mb-4">
       <Container className="justify-content-between" fluid>
         {/* logo */}
 

@@ -2,12 +2,12 @@
 
 .my-nav {
   background: linear-gradient(180deg, #1f2147 0%, #141632 60%, #0b0c1a 100%);
-
+  border: 0;
   padding: 10px 20px;
 
   .my-collapse .nav-link {
     font-weight: 500;
-    margin: 0 8px;
+    margin: 0;
 
     background: linear-gradient(
       180deg,
