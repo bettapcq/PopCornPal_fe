@@ -30,7 +30,7 @@
 .form-control.modal-input {
   background-color: transparent !important;
   border: none;
-  border-bottom: 2px solid $gold-main;
+  border-bottom: $gold-main solid 1px;
   border-radius: 0;
   color: $gold-main !important;
 }

@@ -11,10 +11,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile } from "../../redux/actions/UserActions";
 import { useEffect } from "react";
+import { logout } from "../../redux/actions/AuthActions";
 
 function SuperiorNavBar() {
   const user = useSelector((state) => state.users.profile);
   const dispatch = useDispatch();
+
+  const HandleLogout = () => {
+    dispatch(logout());
+  };
 
   useEffect(() => {
     dispatch(getMyProfile());
@@ -83,7 +88,12 @@ function SuperiorNavBar() {
             Settings
           </NavDropdown.Item>
           <NavDropdown.Divider color="$text-light" />
-          <NavDropdown.Item as={NavLink} to="/">
+          <NavDropdown.Item
+            type="button"
+            onClick={HandleLogout}
+            as={NavLink}
+            to="/"
+          >
             Log out
           </NavDropdown.Item>
         </NavDropdown>

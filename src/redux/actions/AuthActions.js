@@ -79,11 +79,13 @@ export const register = (userData) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.errorsList || "Registration failed"); // Use error message from server if available
+        throw new Error(data.errorsList || "Registration failed"); // User error message from server if available
       }
+
+      localStorage.setItem("token", data.token);
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: data,
+        payload: data.token,
       });
 
       dispatch(getMyProfile());

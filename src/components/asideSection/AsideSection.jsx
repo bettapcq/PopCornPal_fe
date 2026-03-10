@@ -11,7 +11,7 @@ function AsideSection() {
     <Container className="" fluid>
       {/* PAST EVENTS PORTION */}
       <Row className="d-flex flex-column glass-section my-4">
-        <Col className="my-2 mx-0">
+        <Col className="my-2">
           <h3>Past Events</h3>
         </Col>
         <Col className="d-none d-lg-block">

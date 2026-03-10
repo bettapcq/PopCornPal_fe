@@ -11,7 +11,7 @@ export const validationRules = {
 
   password: {
     required: true,
-    pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{4,}$/,
+    pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$",
     message: `Password must contain at least 4 characters, 1 number, 1 lowercase letter, 1 uppercase letter`,
   },
 

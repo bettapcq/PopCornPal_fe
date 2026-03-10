@@ -37,29 +37,36 @@ function RegisterModal({ show, handleClose }) {
     setShowPassword(!showPassword);
   };
 
-  const handelRegister = (e) => {
+  const handleRegister = (e) => {
+    e.preventDefault();
+
     const form = e.currentTarget;
 
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-    } else {
-      e.preventDefault();
-
-      console.log({
-        "REGISTER MODAL INPUTS": {
-          username,
-          dateOfBirth,
-          city,
-          email,
-          password,
-        },
-      });
-
-      dispatch(register({ username, dateOfBirth, city, email, password }));
+    console.log(form.querySelector(":invalid"));
+    if (!form.checkValidity()) {
+      setValidated(true);
+      return;
     }
 
-    setValidated(true);
+    console.log("REGISTER MODAL INPUTS", {
+      username,
+      dateOfBirth,
+      city,
+      email,
+      password,
+    });
+
+    dispatch(register({ username, dateOfBirth, city, email, password }));
+  };
+
+  const handleCloseModal = () => {
+    setEmail("");
+    setCity("");
+    setDateOfBirth("");
+    setPassword("");
+    setUsername("");
+    setValidated(false);
+    handleClose();
   };
 
   useEffect(() => {
@@ -88,7 +95,7 @@ function RegisterModal({ show, handleClose }) {
             <Form
               noValidate
               validated={validated}
-              onSubmit={handelRegister}
+              onSubmit={handleRegister}
               className="d-flex flex-column"
             >
               <Form.Group className="mb-3 register-divider">
@@ -139,6 +146,7 @@ function RegisterModal({ show, handleClose }) {
               <Form.Group className="mb-3">
                 <Form.Control
                   className="modal-input"
+                  type="email"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -150,7 +158,7 @@ function RegisterModal({ show, handleClose }) {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <InputGroup className="d-flex no-wrap">
+                <InputGroup hasValidation className="d-flex no-wrap">
                   <Form.Control
                     className="modal-input"
                     placeholder="New password"
@@ -172,11 +180,10 @@ function RegisterModal({ show, handleClose }) {
                       <FontAwesomeIcon icon={faEye} className="eye-icon" />
                     )}
                   </InputGroup.Text>
+                  <Form.Control.Feedback type="invalid">
+                    {validationRules.password.message}
+                  </Form.Control.Feedback>
                 </InputGroup>
-
-                <Form.Control.Feedback type="invalid">
-                  {validationRules.password.message}
-                </Form.Control.Feedback>
               </Form.Group>
 
               <Button
@@ -188,7 +195,7 @@ function RegisterModal({ show, handleClose }) {
               <Button
                 variant="link"
                 className="modal-close"
-                onClick={handleClose}
+                onClick={handleCloseModal}
               >
                 Close
               </Button>
