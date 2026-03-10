@@ -2,11 +2,11 @@ import "../superiorNavBar/SuperiorNavBar.scss";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Image } from "react-bootstrap";
+import { Image, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
-import { faBell, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faComment, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile } from "../../redux/actions/UserActions";
@@ -52,19 +52,43 @@ function SuperiorNavBar() {
               My Profile
             </Nav.Link>
             <Nav.Link as={NavLink} to="/private/events">
-              My Events
+              Notifications
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/private/messages">
+              Messages
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
 
         {/* icons */}
 
-        <Nav.Link as={NavLink} to="/private/messages" className="px-3">
+        <Nav.Link
+          as={NavLink}
+          to="/private/messages"
+          className="px-3 d-lg-none"
+        >
           <FontAwesomeIcon icon={faComment} className="nav-icon" />
         </Nav.Link>
-        <Nav.Link as={NavLink} to="/private/notifications" className="px-3">
+        <Nav.Link
+          as={NavLink}
+          to="/private/notifications"
+          className="px-3 d-lg-none"
+        >
           <FontAwesomeIcon icon={faBell} className="nav-icon" />
         </Nav.Link>
+        <Nav.Link
+          as={NavLink}
+          to="/private/create-event"
+          className="px-3 d-lg-none"
+        >
+          <FontAwesomeIcon icon={faPlus} className="create-event-icon" />
+        </Nav.Link>
+        <Button
+          className="create-event-btn d-none d-lg-flex"
+          onClick={() => navigate("/private/create-event")}
+        >
+          + New Party
+        </Button>
 
         {/* desktop avatar */}
 
@@ -86,6 +110,9 @@ function SuperiorNavBar() {
           </NavDropdown.Item>
           <NavDropdown.Item as={NavLink} to="/private/edit-profile">
             Settings
+          </NavDropdown.Item>
+          <NavDropdown.Item as={NavLink} to="/private/backoffice">
+            Backoffice
           </NavDropdown.Item>
           <NavDropdown.Divider color="$text-light" />
           <NavDropdown.Item
