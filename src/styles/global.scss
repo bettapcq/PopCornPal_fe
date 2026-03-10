@@ -54,13 +54,7 @@ h3 {
 
 .avatar {
   padding: 3px;
-  background: linear-gradient(
-    180deg,
-    #fff3b0 0%,
-    #f5c76a 30%,
-    #c89b3c 80%,
-    #a67c2d 100%
-  );
+  background: $gold-gradient;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -98,7 +92,7 @@ h3 {
 }
 
 .icon-hover {
-  color: #6c757d;
+  color: $space-light;
 }
 
 .icon-hover.active {
@@ -127,5 +121,20 @@ input[type="date"] {
   &::-webkit-calendar-picker-indicator {
     filter: invert(75%) sepia(70%) saturate(500%) hue-rotate(10deg);
     cursor: pointer;
+  }
+}
+
+//reting-stars
+
+.star {
+  margin-left: 2px;
+  color: $gold-main;
+  background: $gold-gradient;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0px 4px 4px $space-dark);
+  .star svg {
+    fill: transparent;
   }
 }

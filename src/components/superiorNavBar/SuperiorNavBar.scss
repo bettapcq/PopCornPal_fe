@@ -9,13 +9,7 @@
     font-weight: 500;
     margin: 0;
 
-    background: linear-gradient(
-      180deg,
-      #fff3b0 0%,
-      #f5c76a 40%,
-      #c89b3c 70%,
-      #a67c2d 100%
-    );
+    background: $gold-gradient;
 
     background-clip: text;
     -webkit-background-clip: text;
@@ -91,13 +85,23 @@
   // ----icons
 
   .nav-icon {
-    color: #f5c76a;
+    color: $gold-main;
     font-size: 18px;
     transition: color 0.2s ease;
   }
 
   .nav-icon:hover {
-    color: #fff7c2;
+    color: $space-light;
+  }
+
+  .create-event-icon {
+    color: $pop-red;
+    font-size: 18px;
+    transition: color 0.2s ease;
+  }
+
+  .create-event-icon:hover {
+    color: $space-light;
   }
 
   // ---toggle
@@ -110,5 +114,23 @@
   .navbar-toggler-icon {
     filter: invert(78%) sepia(47%) saturate(425%) hue-rotate(356deg)
       brightness(102%) contrast(92%);
+  }
+}
+
+.create-event-btn {
+  background: linear-gradient(180deg, $gold-main, $pop-red);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 5px;
+  margin-right: 2rem;
+  font-weight: 600;
+  color: $space-dark;
+  white-space: nowrap;
+  max-width: 150px;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    opacity: 0.9;
   }
 }

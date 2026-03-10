@@ -3,13 +3,7 @@
 .landing-btn {
   color: #1f1e3f;
   width: 40%;
-  background: linear-gradient(
-    180deg,
-    #fff3b0 0%,
-    #f5c76a 30%,
-    #c89b3c 80%,
-    #a67c2d 100%
-  );
+  background: $gold-gradient;
   transition: all 0.2s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }

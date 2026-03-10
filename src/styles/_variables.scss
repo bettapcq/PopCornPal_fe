@@ -11,6 +11,8 @@ $gold-light: #f8daa1;
 $text-dark: #1f1e3f;
 $text-light: #7796ac;
 
+$pop-red: #ff5a7a;
+
 /* FONTS */
 
 $font-primary: "Poppins", sans-serif;
@@ -24,3 +26,7 @@ $logo-size-mini: 50px;
 /* SHADOW */
 
 $shadow-soft: 0 3px 8px rgba(0, 0, 0, 0.3);
+
+/* GOLD GRADIENT */
+
+$gold-gradient: linear-gradient(180deg, #fff6b7, #f5c26b, #d89c2b, #a96b10);
