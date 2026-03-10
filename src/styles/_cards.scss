@@ -1,0 +1,33 @@
+@import "./variables";
+
+.card {
+  font-family: $primary;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 15, 40, 0.95) 0%,
+    rgba(10, 10, 30, 0.95) 100%
+  );
+
+  border: none;
+  border-radius: 5px;
+
+  box-shadow: 5px 5px 5px rgba(0, 0.6, 0);
+
+  color: $space-light;
+}
+
+.card-hover {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  }
+}
+
+.card-title {
+  color: $gold-light;
+  margin: 1.5rem 1rem;
+}
