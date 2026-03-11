@@ -5,12 +5,15 @@ import "./AsideSection.scss";
 import EventCard from "../eventCards/eventCard/EventCard";
 
 function AsideSection() {
-  // const joinedEvents = useSelector((state) => state.events.joined);
+  const joinedEvents = useSelector(
+    (state) => state.events.userEvents.joinedEvents.content,
+  );
   const pastEvents = useSelector(
     (state) => state.events.userEvents.pastEvents.content,
   );
 
   console.log("PAST EVENTS FROM STORE: ", pastEvents);
+  console.log("JOINED EVENTS FROM STORE: ", joinedEvents);
 
   return (
     <Container fluid>
@@ -51,26 +54,35 @@ function AsideSection() {
 
       {/* JOINED EVENTS PORTION */}
       <h2>Events Joined</h2>
-      <Row className="d-flex flex-column glass-section my-4">
-        <Col className="my-2"></Col>
-        <Col className="d-none d-lg-block">
-          {/* {joinedEvents?.map((event) => (
-            <EventMiniCard key={event.id} event={event} />
-          ))} */}
+      <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
+        <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
+          {joinedEvents?.length > 0 ? (
+            <Row xs={12} className="g-2">
+              {joinedEvents.map((event) => (
+                <Col xs={6} key={event.eventId}>
+                  <EventMiniCard event={event} />
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p className="text-center no-content-text">No joined events yet</p>
+          )}
         </Col>
         <Col className="d-lg-none">
           <Carousel>
-            {/* {joinedEvents?.length !== 0 ? (
+            {joinedEvents?.length > 0 ? (
               joinedEvents.map((event) => (
-                <Carousel.Item key={event.id}>
-                  <EventMiniCard event={event} />
+                <Carousel.Item key={event.eventId}>
+                  <EventCard event={event} />
                 </Carousel.Item>
               ))
             ) : (
               <Carousel.Item>
-                <p className="text-center">No joined events yet</p>
+                <p className="text-center no-content-text">
+                  No joined events yet
+                </p>
               </Carousel.Item>
-            )} */}
+            )}
           </Carousel>
         </Col>
       </Row>

@@ -57,7 +57,7 @@ export const getUserPastEvents = (userId, page = 0) => {
 
     try {
       const response = await fetch(
-        `${eventsUrl}?creatorId=${userId}&timeFilter=past&&size=200`,
+        `${eventsUrl}?creatorId=${userId}&timeFilter=past&size=200`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ export const getUserFutureEvents = (userId) => {
 
     try {
       const response = await fetch(
-        `${eventsUrl}?creatorId=${userId}&page&size=200`,
+        `${eventsUrl}?creatorId=${userId}&size=200`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -120,15 +120,17 @@ export const getUserJoinedEvents = (userId) => {
   return async (dispatch) => {
     dispatch({ type: GET_EVENTS_LOADING });
 
-    const eventsUrl = "http://localhost:7001/events/joined";
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`${eventsUrl}?creatorId=${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `http://localhost:7001/events/joined/${userId}?page=0&size=200`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       const data = await response.json();
 

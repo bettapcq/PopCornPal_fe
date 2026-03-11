@@ -9,8 +9,7 @@ function PrivatePages() {
       <SuperiorNavBar />
       <Routes>
         <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />;
-        {/* <Route path="/profile/:userId" element={<ProfilePage />} /> */}
+        <Route path="/profile/:userId?" element={<ProfilePage />} />
         {/* <Route path="/event" element={<EventsPage />} /> */}
         {/* <Route path="/settings" element={<SettingsPage />} /> */}
         {/* <Route path="/messages" element={<MessagesPage />} /> */}

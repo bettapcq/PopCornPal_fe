@@ -4,6 +4,7 @@ import { getProfile } from "../../redux/actions/UserActions";
 import {
   getUserFutureEvents,
   getUserPastEvents,
+  getUserJoinedEvents,
 } from "../../redux/actions/EventActions";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
@@ -33,10 +34,9 @@ function ProfilePage() {
     if (!profileId) return;
 
     dispatch(getProfile(profileId));
-    dispatch(getUserFutureEvents(profileId, 0, 3));
-    dispatch(getUserPastEvents(profileId, 0, 3));
-    //TODO:
-    //dispatch(getUserJoinedEvents(profileId))
+    dispatch(getUserFutureEvents(profileId));
+    dispatch(getUserPastEvents(profileId));
+    dispatch(getUserJoinedEvents(profileId));
   }, [dispatch, userId, myId]);
 
   return (
