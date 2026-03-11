@@ -24,7 +24,6 @@ function EventReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
-        events: action.payload,
       };
 
     case GET_HOME_EVENTS_SUCCESS:

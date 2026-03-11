@@ -10,9 +10,9 @@ import {
 } from "../actions/AuthActions";
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem("token"),
   userLogged: null,
-  isLogged: false,
+  isLogged: !!localStorage.getItem("token"),
   error: null,
   message: null,
   loading: false,

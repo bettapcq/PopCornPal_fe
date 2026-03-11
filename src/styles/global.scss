@@ -17,6 +17,10 @@ h3 {
   color: $gold-main;
 }
 
+.no-content-text {
+  color: $space-light;
+}
+
 .my-footer {
   position: fixed;
   bottom: 0;
@@ -131,7 +135,7 @@ input[type="date"] {
   color: $gold-main;
   background: $gold-gradient;
 
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0px 4px 4px $space-dark);
   .star svg {

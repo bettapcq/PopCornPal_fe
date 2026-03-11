@@ -1,35 +1,21 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Col, Row } from "react-bootstrap";
-import {
-  faUser,
-  faGlobeAsia,
-  faHome,
-  faStar,
-  faStarHalfStroke,
-} from "@fortawesome/free-solid-svg-icons";
+import { Card } from "react-bootstrap";
+import "./EventMiniCard.scss";
+import poster_placeholder from "../../../assets/img/poster-placeholder.jpg";
 
-function EventMiniCard() {
+function EventMiniCard(props) {
   return (
-    <Card className="my-3">
-      <Card.Img variant="top" src="https://picsum.photos/140/120" />
-      <Card.Title>
-        <FontAwesomeIcon className="me-1" icon={faGlobeAsia} />
-        <FontAwesomeIcon className="me-1" icon={faHome} />
-        EventTitle
-      </Card.Title>
-      <Card.Text className="ms-3">Movie Title</Card.Text>
-      <Card.Text className="ms-3">date</Card.Text>
-      <Card.Body className="d-flex flex-row justify-content-between align-items-center">
-        <Card.Text xs={2} className="mb-0">
-          <FontAwesomeIcon xs={2} icon={faUser} /> 4/4
-        </Card.Text>
-        <Card.Text xs={8} className="wrap no-wrap text-nowrap">
-          <FontAwesomeIcon icon={faStar} className="star" />
-          <FontAwesomeIcon icon={faStar} className="star" />
-          <FontAwesomeIcon icon={faStar} className="star" />
-          <FontAwesomeIcon icon={faStar} className="star" />
-          <FontAwesomeIcon icon={faStarHalfStroke} className="star" />
-        </Card.Text>
+    <Card className="event-mini-card h-100 w-100">
+      <Card.Img
+        variant="top"
+        src={props.event.movie.Poster}
+        alt={props.event.title}
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = poster_placeholder;
+        }}
+      />
+      <Card.Body>
+        <Card.Text>{props.event.title}</Card.Text>
       </Card.Body>
     </Card>
   );

@@ -25,6 +25,8 @@ export const login = (email, password) => {
 
       const data = await response.json();
 
+      console.log("LOGIN RESPONSE:", data);
+
       if (!response.ok) {
         throw new Error(data.message || "Login failed"); // Use error message from server if available
       }
@@ -36,7 +38,10 @@ export const login = (email, password) => {
 
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: data.token,
+        payload: {
+          token: data.token,
+          userLogged: data.userLogged,
+        },
       });
 
       //after login success get my profile:
@@ -87,7 +92,10 @@ export const register = (userData) => {
       const userId = data.userLogged.userId;
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: data.token,
+        payload: {
+          token: data.token,
+          userLogged: data.userLogged,
+        },
       });
 
       dispatch(getProfile(userId));
@@ -124,4 +132,25 @@ export const resetPassword = (email) => {
       });
     }
   };
+};
+
+//to refresh page
+export const getMe = () => async (dispatch, getState) => {
+  const token = getState().auth.token;
+
+  const response = await fetch("http://localhost:7001/users/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  dispatch({
+    type: LOGIN_SUCCESS,
+    payload: {
+      token,
+      userLogged: data,
+    },
+  });
 };

@@ -1,0 +1,16 @@
+.event-mini-card {
+  min-height: 200px;
+  border: none;
+  background: transparent;
+}
+
+.event-mini-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.event-mini-card img:hover {
+  transform: scale(1.05);
+}

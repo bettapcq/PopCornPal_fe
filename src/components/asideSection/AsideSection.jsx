@@ -2,78 +2,76 @@ import { Container, Row, Col, Carousel } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import EventMiniCard from "../eventCards/eventMiniCard/EventMiniCard";
 import "./AsideSection.scss";
+import EventCard from "../eventCards/eventCard/EventCard";
 
 function AsideSection() {
-  //   const joinedEvents = useSelector((state) => state.events.joined);
-  //   const pastEvents = useSelector((state) => state.events.past);
+  // const joinedEvents = useSelector((state) => state.events.joined);
+  const pastEvents = useSelector(
+    (state) => state.events.userEvents.pastEvents.content,
+  );
+
+  console.log("PAST EVENTS FROM STORE: ", pastEvents);
 
   return (
-    <Container className="" fluid>
+    <Container fluid>
       {/* PAST EVENTS PORTION */}
-      <Row className="d-flex flex-column glass-section my-4">
-        <Col className="my-2">
-          <h3>Past Events</h3>
-        </Col>
-        <Col className="d-none d-lg-block">
-          {/* {pastEvents?.map((event) => (
-            <EventMiniCard key={event.id} event={event} />
-          ))} */}
-          <EventMiniCard />
-          <EventMiniCard />
-          <EventMiniCard />
+      <h2>Past Events</h2>
+      <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
+        <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
+          {pastEvents?.length > 0 ? (
+            <Row xs={12} className="g-2">
+              {pastEvents.map((event) => (
+                <Col xs={6} key={event.eventId}>
+                  <EventMiniCard event={event} />
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p className="text-center no-content-text">No past events yet</p>
+          )}
         </Col>
         <Col className="d-lg-none">
           <Carousel>
-            {/* {pastEvents?.map((event) => (
-            <EventMiniCard key={event.id} event={event} />
-          ))} */}
-            <Carousel.Item interval={1000}>
-              <EventMiniCard />
-            </Carousel.Item>
-            <Carousel.Item interval={1000}>
-              <EventMiniCard />
-            </Carousel.Item>
-            <Carousel.Item>
-              <EventMiniCard />
-            </Carousel.Item>
+            {pastEvents?.length > 0 ? (
+              pastEvents.map((event) => (
+                <Carousel.Item key={event.eventId}>
+                  <EventCard event={event} />
+                </Carousel.Item>
+              ))
+            ) : (
+              <Carousel.Item>
+                <p className="text-center no-content-text">
+                  No past events yet
+                </p>
+              </Carousel.Item>
+            )}
           </Carousel>
-          {/* {pastEvents?.map((event) => (
-            <EventMiniCard key={event.id} event={event} />
-          ))} */}
         </Col>
       </Row>
 
       {/* JOINED EVENTS PORTION */}
+      <h2>Events Joined</h2>
       <Row className="d-flex flex-column glass-section my-4">
-        <Col className="my-2">
-          <h3>Events Joined</h3>
-        </Col>
+        <Col className="my-2"></Col>
         <Col className="d-none d-lg-block">
           {/* {joinedEvents?.map((event) => (
             <EventMiniCard key={event.id} event={event} />
           ))} */}
-          <EventMiniCard />
-          <EventMiniCard />
-          <EventMiniCard />
         </Col>
         <Col className="d-lg-none">
           <Carousel>
-            {/* {pastEvents?.map((event) => (
-            <EventMiniCard key={event.id} event={event} />
-          ))} */}
-            <Carousel.Item interval={1000}>
-              <EventMiniCard />
-            </Carousel.Item>
-            <Carousel.Item interval={1000}>
-              <EventMiniCard />
-            </Carousel.Item>
-            <Carousel.Item>
-              <EventMiniCard />
-            </Carousel.Item>
+            {/* {joinedEvents?.length !== 0 ? (
+              joinedEvents.map((event) => (
+                <Carousel.Item key={event.id}>
+                  <EventMiniCard event={event} />
+                </Carousel.Item>
+              ))
+            ) : (
+              <Carousel.Item>
+                <p className="text-center">No joined events yet</p>
+              </Carousel.Item>
+            )} */}
           </Carousel>
-          {/* {pastEvents?.map((event) => (
-            <EventMiniCard key={event.id} event={event} />
-          ))} */}
         </Col>
       </Row>
     </Container>
