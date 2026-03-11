@@ -11,6 +11,7 @@ import {
 
 const initialState = {
   token: null,
+  userLogged: null,
   isLogged: false,
   error: null,
   message: null,
@@ -25,6 +26,7 @@ function AuthReducer(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
+        userLogged: action.payload.userLogged,
         isLogged: true,
       };
 
@@ -43,6 +45,7 @@ function AuthReducer(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
+        userLogged: action.pay.userLogged,
         isLogged: true,
         error: null,
       };

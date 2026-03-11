@@ -6,7 +6,7 @@ export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR";
 export const RESET_PASSWORD_CLOSE = "RESET_PASSWORD_CLOSE";
 export const LOGOUT = "LOGOUT";
-import { getMyProfile } from "./UserActions";
+import { getProfile } from "./UserActions";
 
 // ------LOGIN
 export const login = (email, password) => {
@@ -32,6 +32,7 @@ export const login = (email, password) => {
       //save token in localstorage:
 
       localStorage.setItem("token", data.token);
+      const userId = data.userLogged.userId;
 
       dispatch({
         type: LOGIN_SUCCESS,
@@ -39,7 +40,7 @@ export const login = (email, password) => {
       });
 
       //after login success get my profile:
-      dispatch(getMyProfile());
+      dispatch(getProfile(userId));
     } catch (error) {
       dispatch({
         type: LOGIN_ERROR,
@@ -83,12 +84,13 @@ export const register = (userData) => {
       }
 
       localStorage.setItem("token", data.token);
+      const userId = data.userLogged.userId;
       dispatch({
         type: REGISTER_SUCCESS,
         payload: data.token,
       });
 
-      dispatch(getMyProfile());
+      dispatch(getProfile(userId));
     } catch (error) {
       dispatch({
         type: REGISTER_ERROR,

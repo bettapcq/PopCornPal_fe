@@ -4,14 +4,18 @@ import {
   PROFILE_ERROR,
 } from "../reducers/UserReducer";
 
-export const getMyProfile = () => {
+export const getProfile = (userId) => {
   return async (dispatch) => {
     dispatch({ type: PROFILE_LOADING });
+
+    const profileUrl = userId
+      ? `http://localhost:7001/users/${userId}`
+      : `http://localhost:7001/users/me`;
 
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:7001/users/me", {
+      const response = await fetch(profileUrl, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +61,7 @@ export const editProfileDetails = (updatedData) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Updating profile failed");
+        throw new Error(data.errorsList || "Updating profile failed");
       }
 
       dispatch({

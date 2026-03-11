@@ -3,26 +3,32 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Image, Button } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
 import { faBell, faComment, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyProfile } from "../../redux/actions/UserActions";
+import { getProfile } from "../../redux/actions/UserActions";
 import { useEffect } from "react";
 import { logout } from "../../redux/actions/AuthActions";
 
 function SuperiorNavBar() {
   const user = useSelector((state) => state.users.profile);
+  const myId = useSelector((state) => state.auth.userLogged?.userId); // "?" for the first render
+  const params = useParams();
+  const userId = params.userId;
   const dispatch = useDispatch();
+
+  const profileId = userId || myId;
 
   const HandleLogout = () => {
     dispatch(logout());
   };
 
   useEffect(() => {
-    dispatch(getMyProfile());
+    if (!profileId) return;
+    dispatch(getProfile(profileId));
   }, [dispatch]);
 
   return (

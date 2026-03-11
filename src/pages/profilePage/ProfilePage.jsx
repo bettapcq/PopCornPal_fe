@@ -1,22 +1,32 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyProfile } from "../../redux/actions/UserActions";
+import { getProfile } from "../../redux/actions/UserActions";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import ProfileHero from "../../components/hero/ProfileHero";
 import AsideSection from "../../components/asideSection/AsideSection";
 
 function ProfilePage() {
-  const { userId } = useParams();
   const user = useSelector((state) => state.users.profile);
+  const myId = useSelector((state) => state.auth.userLogged?.userId);
+  const params = useParams();
+  const userId = params.userId;
+  // const events = useSelector((state) => state.events.events);
+
+  const profileId = userId || myId;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if(userId){
-    //   dispatch(getUserProfile(userId));
-    // }
-    dispatch(getMyProfile());
-  }, [dispatch]);
+    if (!profileId) return;
+    if (profileId !== user?.userId) {
+      dispatch(getProfile(profileId));
+      dispatch(getUserFutureEvents(profileId));
+      dispatch(getUserPastEvents(profileId));
+      //TODO:
+      //dispatch(getUserJoinedEvents(profileId))
+    }
+  }, [dispatch, profileId]);
 
   return (
     <Container className="main-content" fluid>
