@@ -32,7 +32,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleEvent } from "../../redux/actions/EventActions";
 import { joinEvent } from "../../redux/actions/EventActions";
-import DeleteConfirmModal from "../../components/modals/deleteConfirmModal/deleteConfirmModal.";
+import DeleteConfirmModal from "../../components/modals/deleteConfirmModal/ConfirmModal.";
+import ConfirmModal from "../../components/modals/deleteConfirmModal/ConfirmModal.";
 
 function EventPage() {
   const params = useParams();
@@ -59,8 +60,14 @@ function EventPage() {
     }
   }, [currentEventId, dispatch, message]);
 
-  const handleJoin = (e) => {
+  //Join:
+  const [showJoinModal, setShowJoinModal] = useState(false);
+  const handleOpenJoin = () => setShowJoinModal(true);
+  const handleCloseJoin = () => setShowJoinModal(false);
+
+  const handleJoin = () => {
     dispatch(joinEvent(currentEventId));
+    setShowJoinModal(false);
   };
 
   if (currentEvent?.eventDateTime) {
@@ -279,7 +286,7 @@ function EventPage() {
                               disabled={
                                 currentEvent.availableSpots === 0 || isPastEvent
                               }
-                              onClick={handleJoin}
+                              onClick={handleOpenJoin}
                             >
                               {isPastEvent
                                 ? "Event finished"
@@ -296,16 +303,14 @@ function EventPage() {
               </Row>
             </Card.Body>
           </Card>
-          <DeleteConfirmModal
+          <ConfirmModal
             show={showDeleteModal}
             handleClose={handleCloseDelete}
             handleConfirm={handleDeleteEvent}
-            itemName="event"
+            confirmType="Delete event"
+            variantBtn="danger"
+            msg="Are you sure do you want to delete this event?"
           />
-        </Container>
-      )}
-    </>
-  );
 }
 
 export default EventPage;

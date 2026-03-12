@@ -1,25 +1,32 @@
 import { Modal, Button } from "react-bootstrap";
 
-function DeleteConfirmModal({ show, handleClose, handleConfirm, itemName }) {
+function ConfirmModal({
+  show,
+  handleClose,
+  handleConfirm,
+  msg,
+  confirmType,
+  variantBtn,
+}) {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Delete {itemName}</Modal.Title>
+        <Modal.Title>{confirmType}</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>Are you sure you want to delete this {itemName}?</Modal.Body>
+      <Modal.Body>{msg}?</Modal.Body>
 
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cancel
         </Button>
 
-        <Button variant="danger" onClick={handleConfirm}>
-          Delete
+        <Button variant={variantBtn} onClick={handleConfirm}>
+          {confirmType}
         </Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default DeleteConfirmModal;
+export default ConfirmModal;
