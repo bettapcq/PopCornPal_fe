@@ -2,7 +2,7 @@ import { Container, Row, Col, Carousel } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import EventMiniCard from "../eventCards/eventMiniCard/EventMiniCard";
 import "./AsideSection.scss";
-import EventCard from "../eventCards/eventCard/EventCard";
+import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
 
 function AsideSection() {
   const joinedEvents = useSelector(
@@ -19,6 +19,7 @@ function AsideSection() {
     <Container fluid>
       {/* PAST EVENTS PORTION */}
       <h2>Past Events</h2>
+      {/* lg version */}
       <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
         <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
           {pastEvents?.length > 0 ? (
@@ -33,12 +34,13 @@ function AsideSection() {
             <p className="text-center no-content-text">No past events yet</p>
           )}
         </Col>
+        {/* xs version */}
         <Col className="d-lg-none">
           <Carousel>
             {pastEvents?.length > 0 ? (
               pastEvents.map((event) => (
                 <Carousel.Item key={event.eventId}>
-                  <EventCard event={event} />
+                  <EventXsCard event={event} />
                 </Carousel.Item>
               ))
             ) : (
@@ -54,6 +56,7 @@ function AsideSection() {
 
       {/* JOINED EVENTS PORTION */}
       <h2>Events Joined</h2>
+      {/* lg version */}
       <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
         <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
           {joinedEvents?.length > 0 ? (
@@ -68,12 +71,13 @@ function AsideSection() {
             <p className="text-center no-content-text">No joined events yet</p>
           )}
         </Col>
+        {/* xs version */}
         <Col className="d-lg-none">
           <Carousel>
             {joinedEvents?.length > 0 ? (
               joinedEvents.map((event) => (
                 <Carousel.Item key={event.eventId}>
-                  <EventCard event={event} />
+                  <EventXsCard event={event} />
                 </Carousel.Item>
               ))
             ) : (

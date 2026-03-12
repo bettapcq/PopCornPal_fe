@@ -1,0 +1,35 @@
+.event-xs-card {
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.event-xs-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.event-xs-card img:hover {
+  transform: scale(1.05);
+}
+
+.event-xs-card .card-body {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-xs-card .card-text {
+  font-size: 0.85rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

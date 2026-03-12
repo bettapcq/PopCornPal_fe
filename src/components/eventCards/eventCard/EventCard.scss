@@ -1,0 +1,40 @@
+@import "../../../styles/variables";
+
+.event-card {
+  .card-title {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: $gold-main;
+  }
+
+  .card-text {
+    font-size: 1.3rem;
+    padding-left: 1.5rem;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .btn {
+    margin-top: auto;
+    align-self: flex-end;
+    background: linear-gradient(135deg, $gold-light, $gold-main);
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(255, 200, 120, 0.35);
+    }
+  }
+}
+
+.event-card img {
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
