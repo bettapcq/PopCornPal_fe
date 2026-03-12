@@ -21,13 +21,20 @@ import {
   faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import EditProfileModal from "../modals/editProfileModal/editProfileModal.jsx";
+import { useParams } from "react-router-dom";
 
 function ProfileHero() {
   const profile = useSelector((state) => state.users.profile);
+  const userLogged = useSelector((state) => state.auth.userLogged);
+  const params = useParams();
+  const profileId = Number(params.userId);
+
   const [showEdit, setShowEdit] = useState(false);
 
   const handleOpen = () => setShowEdit(true);
   const handleClose = () => setShowEdit(false);
+
+  const isMyProfile = profileId === userLogged?.userId;
 
   return (
     <>
@@ -35,18 +42,27 @@ function ProfileHero() {
         <Card.Body>
           <Row>
             <Col className="text-end">
-              <OverlayTrigger
-                placement="right"
-                delay={{ show: 250, hide: 400 }}
-                overlay={<Tooltip id="button-tooltip-2">Edit profile</Tooltip>}
-              >
-                <FontAwesomeIcon
-                  as={Button}
-                  onClick={handleOpen}
-                  icon={faPencilAlt}
-                  className="pencil-btn "
-                />
-              </OverlayTrigger>
+              {/* profile button edit toggle */}
+              {isMyProfile && (
+                <Row className="flex-row justify-content-end text-end">
+                  <Col>
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">Edit profile</Tooltip>
+                      }
+                    >
+                      <FontAwesomeIcon
+                        as={Button}
+                        onClick={handleOpen}
+                        icon={faPencilAlt}
+                        className="pencil-btn "
+                      />
+                    </OverlayTrigger>
+                  </Col>
+                </Row>
+              )}
             </Col>
           </Row>
           <Row className="align-items-center">
