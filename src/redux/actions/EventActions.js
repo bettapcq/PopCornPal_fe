@@ -8,6 +8,8 @@ export const GET_USERS_JOINED_EVENTS_SUCCESS =
   " GET_USERS_JOINED_EVENTS_SUCCESS";
 export const GET_SINGLE_EVENT_SUCCESS = "GET_SINGLE_EVENT_SUCCESS";
 export const JOIN_EVENT_SUCCESS = "JOIN_EVENT_SUCCESS";
+export const DELETE_EVENT_SUCCESS = "DELETE_EVENT_SUCCESS";
+export const CLEAR_EVENTS_ALERTS = "CLEAR_EVENTS_ALERTS";
 
 // --------- HOME EVENTS FETCH
 
@@ -32,7 +34,7 @@ export const getFilteredEvents = (filters = {}) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error("Error fetching events");
+        throw new Error(data.message || "Error fetching events");
       }
 
       dispatch({
@@ -64,6 +66,10 @@ export const getSingleEvent = (eventId) => {
       });
 
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error fetching events");
+      }
 
       dispatch({
         type: GET_SINGLE_EVENT_SUCCESS,
@@ -99,6 +105,9 @@ export const getUserPastEvents = (userId) => {
 
       const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.message || "Error fetching events");
+      }
       dispatch({
         type: GET_USERS_PAST_EVENTS_SUCCESS,
         payload: data,
@@ -133,6 +142,10 @@ export const getUserFutureEvents = (userId) => {
 
       const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.message || "Error fetching events");
+      }
+
       dispatch({
         type: GET_USERS_FUTURE_EVENTS_SUCCESS,
         payload: data,
@@ -165,6 +178,10 @@ export const getUserJoinedEvents = (userId) => {
       );
 
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error fetching events");
+      }
 
       dispatch({
         type: GET_USERS_JOINED_EVENTS_SUCCESS,
@@ -200,9 +217,43 @@ export const joinEvent = (eventId) => {
 
       const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.message || "Error joining event");
+      }
+
       dispatch({
         type: JOIN_EVENT_SUCCESS,
         payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: EVENTS_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const deleteEvent = (eventId) => {
+  return async (dispatch) => {
+    dispatch({ type: EVENTS_LOADING });
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`http://localhost:7001/events/${eventId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error deleting event");
+      }
+
+      dispatch({
+        type: DELETE_EVENT_SUCCESS,
+        payload: eventId,
       });
     } catch (error) {
       dispatch({

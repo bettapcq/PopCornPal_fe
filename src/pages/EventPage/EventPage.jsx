@@ -9,10 +9,15 @@ import {
   Spinner,
   OverlayTrigger,
   Tooltip,
+  Alert,
 } from "react-bootstrap";
 import poster_placeholder from "../../assets/img/poster-placeholder.jpg";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  CLEAR_EVENTS_ALERTS,
+  deleteEvent,
+} from "../../redux/actions/EventActions";
 import {
   faUser,
   faFilm,
@@ -22,11 +27,12 @@ import {
   faPencilAlt,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleEvent } from "../../redux/actions/EventActions";
 import { joinEvent } from "../../redux/actions/EventActions";
+import DeleteConfirmModal from "../../components/modals/deleteConfirmModal/deleteConfirmModal.";
 
 function EventPage() {
   const params = useParams();
@@ -39,13 +45,19 @@ function EventPage() {
   const participationStatus = useSelector(
     (state) => state.events.participationStatus[currentEventId],
   );
+  const navigate = useNavigate();
+  const message = useSelector((state) => state.events.message);
   let date = null;
 
   console.log("EVENT ID:", currentEventId);
+  console.log("CURRENT EVENT: ", currentEvent);
 
+  //dispatch details
   useEffect(() => {
-    dispatch(getSingleEvent(currentEventId));
-  }, [currentEventId, dispatch]);
+    if (!message) {
+      dispatch(getSingleEvent(currentEventId));
+    }
+  }, [currentEventId, dispatch, message]);
 
   const handleJoin = (e) => {
     dispatch(joinEvent(currentEventId));
@@ -54,21 +66,56 @@ function EventPage() {
   if (currentEvent?.eventDateTime) {
     date = new Date(currentEvent.eventDateTime);
   }
-
-  const isPastEvent = date < new Date();
+  const isPastEvent = date && date < new Date();
 
   const isCreator = userLogged?.userId === currentEvent?.creator?.userId;
+
+  //Delete:
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleOpenDelete = () => setShowDeleteModal(true);
+  const handleCloseDelete = () => setShowDeleteModal(false);
+
+  const handleDeleteEvent = () => {
+    dispatch(deleteEvent(currentEventId));
+    setShowDeleteModal(false);
+  };
+
+  const handleMessageTurnBack = () => {
+    dispatch({ type: CLEAR_EVENTS_ALERTS });
+    navigate(`/private/profile/${userLogged.userId}`);
+  };
 
   return (
     <>
       {/* loading */}
-      {loading && (
-        <div className="text-center mt-5">
-          <Spinner variant="" animation="radius" />
-        </div>
+      {loading && <Spinner variant="info" animation="radius" />}
+      {message && (
+        <Alert variant="success" className="my-alert">
+          {message}{" "}
+          <Button
+            variant="link"
+            className="modal-link"
+            onClick={handleMessageTurnBack}
+          >
+            Turn back
+          </Button>
+        </Alert>
       )}
       {/* error */}
-      {error && <p className="text-danger text-center mt-5">{error}</p>}
+      {error && (
+        <Alert variant="danger" className="my-alert">
+          {error}{" "}
+          <Button
+            variant="link"
+            className="modal-link"
+            onClick={handleMessageTurnBack}
+          >
+            Turn back
+          </Button>
+        </Alert>
+      )}
       {/* no loading e no error build omponent */}
       {!error && !loading && currentEvent && (
         <Container className="event-detail-container">
@@ -161,7 +208,7 @@ function EventPage() {
                             />
                             {currentEvent.eventType === "ONLINE"
                               ? "Online"
-                              : currentEvent.location}
+                              : `${currentEvent.location?.street} ${currentEvent.location?.civicNumber}, ${currentEvent.location?.city}`}
                           </Card.Text>
                         )}
                       </Col>
@@ -222,6 +269,7 @@ function EventPage() {
                                 as={Button}
                                 icon={faTrashAlt}
                                 className="pencil-btn event-delete-icon"
+                                onClick={handleOpenDelete}
                               />
                             </OverlayTrigger>
                           ) : (
@@ -248,6 +296,12 @@ function EventPage() {
               </Row>
             </Card.Body>
           </Card>
+          <DeleteConfirmModal
+            show={showDeleteModal}
+            handleClose={handleCloseDelete}
+            handleConfirm={handleDeleteEvent}
+            itemName="event"
+          />
         </Container>
       )}
     </>

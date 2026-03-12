@@ -8,6 +8,8 @@ import {
   GET_USERS_JOINED_EVENTS_SUCCESS,
   JOIN_EVENT_SUCCESS,
   GET_SINGLE_EVENT_SUCCESS,
+  DELETE_EVENT_SUCCESS,
+  CLEAR_EVENTS_ALERTS,
 } from "../actions/EventActions";
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
   },
 
   loading: false,
+  message: null,
   error: null,
 };
 
@@ -89,6 +92,24 @@ function EventReducer(state = initialState, action) {
         participationStatus: {
           ...state.participationStatus,
           [action.payload.eventId]: action.payload.participationStatus,
+        },
+      };
+    case DELETE_EVENT_SUCCESS:
+      return {
+        ...state,
+        message: "Event successfully deleted",
+        selectedEvent: null,
+        homeEvents: state.homeEvents.filter(
+          (event) => event.eventId !== action.payload,
+        ),
+        userEvents: {
+          ...state.userEvents,
+          futureEvents: {
+            ...state.userEvents.futureEvents,
+            content: state.userEvents.futureEvents?.content?.filter(
+              (event) => event.eventId !== action.payload,
+            ),
+          },
         },
       };
 
