@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import SuperiorNavBar from "../components/superiorNavBAr/SuperiorNavBar";
 import HomePage from "./HomePage/HomePage";
 import ProfilePage from "./profilePage/ProfilePage";
+import EventPage from "./EventPage/EventPage";
 
 function PrivatePages() {
   return (
@@ -10,7 +11,7 @@ function PrivatePages() {
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/profile/:userId?" element={<ProfilePage />} />
-        {/* <Route path="/event" element={<EventsPage />} /> */}
+        <Route path="/event/:userId" element={<EventPage />} />
         {/* <Route path="/settings" element={<SettingsPage />} /> */}
         {/* <Route path="/messages" element={<MessagesPage />} /> */}
       </Routes>

@@ -1,0 +1,44 @@
+@import "../../styles//variables";
+
+.event-detail-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+.event-detail-card {
+  max-width: 1000px;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(90, 80, 150, 0.7),
+    rgba(0, 0, 0, 0.8)
+  );
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.event-poster {
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+}
+
+.join-btn {
+  margin-top: 10px;
+  background: linear-gradient(180deg, $gold-light, $gold-main);
+  border: none;
+}
+
+.participants {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.participant-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid $gold-light;
+}

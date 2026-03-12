@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import ProfileHero from "../../components/hero/ProfileHero";
 import AsideSection from "../../components/asideSection/AsideSection";
-import MainSection from "../../components/mainSection/MainSection";
+import ProfileMainSection from "../../components/ProfileMainSection/ProfileMainSection";
 
 function ProfilePage() {
   const myId = useSelector((state) => state.auth.userLogged?.userId);
@@ -53,7 +53,7 @@ function ProfilePage() {
               <ProfileHero />
             </Col>
             <Col>
-              <MainSection profileUsername={profileUsername} />
+              <ProfileMainSection profileUsername={profileUsername} />
             </Col>
           </Row>
         </Col>

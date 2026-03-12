@@ -53,8 +53,8 @@ function EventCard(props) {
         </Card.Text>
         <Card.Body className="d-flex flex-row justify-content-between mt-auto">
           <Card.Text xs={2} className="mb-0">
-            <FontAwesomeIcon xs={2} icon={faUser} /> 4/
-            {props.event.maxParticipants}
+            <FontAwesomeIcon xs={2} icon={faUser} />{" "}
+            {props.event.availableSpots}/{props.event.maxParticipants}
           </Card.Text>
         </Card.Body>
         <Card.Body className="d-flex justify-content-between align-items-center mt-auto">
