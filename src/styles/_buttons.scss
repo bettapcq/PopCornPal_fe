@@ -1,14 +1,13 @@
 @import "./variables";
 
-
 .btn-primary,
 .landing-btn {
   color: $text-dark;
+  min-height: 50px;
   width: 60%;
   background: linear-gradient(179deg, $gold-main 0%, $gold-light 80%);
   border: none;
 }
-
 
 .toggle-btn-custom {
   color: #000 !important;
@@ -26,4 +25,10 @@
 .toggle-btn-custom:hover {
   color: #000 !important;
   background-color: #f4f2ee !important;
+}
+
+.btn:disabled {
+  background-color: #6c757d;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
