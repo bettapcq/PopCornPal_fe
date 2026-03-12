@@ -17,6 +17,8 @@ import {
   faBirthdayCake,
   faPencilAlt,
   faMapMarker,
+  faStar,
+  faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import EditProfileModal from "../modals/editProfileModal/editProfileModal.jsx";
 
@@ -29,7 +31,7 @@ function ProfileHero() {
 
   return (
     <>
-      <Card className="profile-hero mt-0">
+      <Card className="profile-hero mt-0 mb-4 pb-4">
         <Card.Body>
           <Row>
             <Col className="text-end">
@@ -61,9 +63,13 @@ function ProfileHero() {
               <Card.Title className="profile-name">
                 {profile?.username || "Username"}
               </Card.Title>
-
-              <div className="ratio-stars mb-2">★ ★ ★ ☆ ☆</div>
-
+              <Card.Text xs={3} className="d-flex text-nowrap p-4">
+                <FontAwesomeIcon icon={faStar} className="star" />
+                <FontAwesomeIcon icon={faStar} className="star" />
+                <FontAwesomeIcon icon={faStar} className="star" />
+                <FontAwesomeIcon icon={faStar} className="star" />
+                <FontAwesomeIcon icon={faStarHalfStroke} className="star" />
+              </Card.Text>
               <hr className="profile-divider my-4" />
               <Row className="align-items-center my-3">
                 <Col xs={5}>
@@ -81,7 +87,7 @@ function ProfileHero() {
               </Row>
             </Col>
             <Col>
-              <Card.Text className="profile-bio m-4">
+              <Card.Text className="profile-bio m-4 p-4">
                 {profile?.bio || "Profile Bio"}
               </Card.Text>
             </Col>

@@ -57,7 +57,7 @@ function SuperiorNavBar() {
             <Nav.Link as={NavLink} to="/private/profile">
               My Profile
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/private/events">
+            <Nav.Link as={NavLink} to="/private/notifications">
               Notifications
             </Nav.Link>
             <Nav.Link as={NavLink} to="/private/messages">

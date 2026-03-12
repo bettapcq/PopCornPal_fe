@@ -10,9 +10,13 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import ProfileHero from "../../components/hero/ProfileHero";
 import AsideSection from "../../components/asideSection/AsideSection";
+import MainSection from "../../components/mainSection/MainSection";
 
 function ProfilePage() {
   const myId = useSelector((state) => state.auth.userLogged?.userId);
+  const profileUsername = useSelector(
+    (state) => state.auth.userLogged?.username,
+  );
   const params = useParams();
   const userId = params.userId;
   // const events = useSelector((state) => state.events.events);
@@ -48,7 +52,9 @@ function ProfilePage() {
             <Col>
               <ProfileHero />
             </Col>
-            <Col>MY EVENTS SECTION</Col>
+            <Col>
+              <MainSection profileUsername={profileUsername} />
+            </Col>
           </Row>
         </Col>
         {/* col sx */}
