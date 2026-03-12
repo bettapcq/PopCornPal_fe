@@ -10,9 +10,9 @@ import {
 const initialState = {
   homeEvents: [],
   userEvents: {
-    pastEvents: [],
-    futureEvents: [],
-    joinedEvents: [],
+    pastEvents: { content: [] },
+    futureEvents: { content: [] },
+    joinedEvents: { content: [] },
   },
   loading: false,
   error: null,
