@@ -11,7 +11,7 @@ function PrivatePages() {
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/profile/:userId?" element={<ProfilePage />} />
-        <Route path="/event/:userId?" element={<EventPage />} />
+        <Route path="/event/:eventId?" element={<EventPage />} />
         {/* <Route path="/settings" element={<SettingsPage />} /> */}
         {/* <Route path="/messages" element={<MessagesPage />} /> */}
       </Routes>

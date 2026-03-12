@@ -37,7 +37,14 @@ function AuthReducer(state = initialState, action) {
       };
 
     case LOGOUT:
-      return initialState;
+      localStorage.removeItem("token");
+
+      return {
+        ...state,
+        token: null,
+        userLogged: null,
+        isLogged: false,
+      };
 
     //-----REGISTER CASES
 
@@ -45,7 +52,7 @@ function AuthReducer(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
-        userLogged: action.pay.userLogged,
+        userLogged: action.payload.userLogged,
         isLogged: true,
         error: null,
       };

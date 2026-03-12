@@ -15,7 +15,7 @@ function EventXsCard(props) {
   return (
     <Card
       style={{ cursor: "pointer" }}
-      onClick={() => navigate(`private/event/${props.event.eventId}`)}
+      onClick={() => navigate(`/private/event/${props.event.eventId}`)}
       className="event-xs-card h-100 w-100"
     >
       <Card.Img

@@ -3,7 +3,7 @@ import EventCard from "../eventCards/eventCard/EventCard";
 import { useSelector } from "react-redux";
 import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
 
-function MainSection(props) {
+function ProfileMainSection(props) {
   const futureEvents = useSelector(
     (state) => state.events.userEvents.futureEvents?.content,
   );
@@ -51,4 +51,4 @@ function MainSection(props) {
   );
 }
 
-export default MainSection;
+export default ProfileMainSection;
