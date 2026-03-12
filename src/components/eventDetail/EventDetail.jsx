@@ -1,5 +1,6 @@
 import "./EventDetail.scss";
-import { Card, Row, Col, Container } from "react-bootstrap";
+import { Card, Row, Col, Container, Button } from "react-bootstrap";
+import poster_placeholder from "../../assets/img/poster-placeholder.jpg";
 
 function EventDetail() {
   return (
@@ -9,7 +10,7 @@ function EventDetail() {
           <Row>
             <Col md={4}>
               <img
-                // src={event.movie.poster}
+                src={poster_placeholder}
                 className="event-poster img-fluid"
               />
             </Col>

@@ -9,7 +9,7 @@ function EventMiniCard(props) {
   return (
     <Card
       style={{ cursor: "pointer" }}
-      onClick={() => navigate(`private/event/${props.event.eventId}`)}
+      onClick={() => navigate(`/private/event/${props.event.eventId}`)}
       className="event-mini-card h-100 w-100"
     >
       <Card.Img
