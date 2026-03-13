@@ -15,7 +15,8 @@ import { logout } from "../../redux/actions/AuthActions";
 
 function SuperiorNavBar() {
   const user = useSelector((state) => state.users.profile);
-  const myId = useSelector((state) => state.auth.userLogged?.userId); // "?" for the first render
+  const userLogged = useSelector((state) => state.auth.userLogged);
+  const myId = userLogged?.userId; // "?" for the first render
   const params = useParams();
   const userId = params.userId;
   const dispatch = useDispatch();
@@ -112,6 +113,7 @@ function SuperiorNavBar() {
           id="profile-dropdown"
           align="end"
         >
+          <p className="w-100 fs-7 text-center px-1">{userLogged?.email}</p>
           <NavDropdown.Item as={NavLink} to="/private/profile/me">
             My Profile
           </NavDropdown.Item>

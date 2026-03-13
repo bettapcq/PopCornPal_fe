@@ -46,6 +46,8 @@
 
   .dropdown-menu {
     margin: 0.5em 1em;
+    width: max-content;
+    white-space: nowrap;
 
     background: linear-gradient(
       178deg,
