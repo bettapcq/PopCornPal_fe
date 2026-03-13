@@ -32,4 +32,38 @@ export const validationRules = {
     },
     message: "Date of birth must be in the past",
   },
+
+  maxParticipants: {
+    required: true,
+    min: 2,
+    message: "Event must have min 2 maxParticipants",
+  },
+
+  title: {
+    required: true,
+    minLength: 2,
+    message: "Title can have min 2 and max 40 characters",
+  },
+
+  description: {
+    minLength: 2,
+    message: "Description can have min 2 and max 150 characters",
+  },
+
+  dateTime: {
+    required: true,
+    validate: (dateTime) => {
+      if (!dateTime) return false;
+      const now = new Date();
+      const selected = new Date(date);
+      return selected > now;
+    },
+    message: "Event date must be in the future",
+  },
+
+  eventCity: {
+    minLength: 2,
+    maxLength: 40,
+    message: "City must be between 2 and 40 characters",
+  },
 };

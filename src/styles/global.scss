@@ -138,9 +138,10 @@ a {
 
 // date input
 
-input[type="date"] {
+input[type="date"],
+input[type="datetime-local"] {
   &::-webkit-calendar-picker-indicator {
-    filter: invert(75%) sepia(70%) saturate(500%) hue-rotate(10deg);
+    filter: invert(75%) sepia(70%) saturate(150%) hue-rotate(10deg);
     cursor: pointer;
   }
 }

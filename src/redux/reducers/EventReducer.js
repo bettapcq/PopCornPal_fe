@@ -9,7 +9,7 @@ import {
   JOIN_EVENT_SUCCESS,
   GET_SINGLE_EVENT_SUCCESS,
   DELETE_EVENT_SUCCESS,
-  CLEAR_EVENTS_ALERTS,
+  CREATE_EVENT_SUCCESS,
 } from "../actions/EventActions";
 
 const initialState = {
@@ -111,6 +111,15 @@ function EventReducer(state = initialState, action) {
             ),
           },
         },
+      };
+
+    case CREATE_EVENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        payload: action.payload,
+        selectedEvent: action.payload,
+        message: "Event created successfully",
       };
 
     default:

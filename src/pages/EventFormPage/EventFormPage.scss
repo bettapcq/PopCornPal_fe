@@ -1,0 +1,66 @@
+@import "../../styles/variables";
+
+.event-form-card {
+  max-width: 700px;
+  margin: auto;
+  margin-bottom: 50px;
+  padding: 20px;
+  border-radius: 15px;
+  .form-control,
+  .form-select {
+    background-color: #0b0b1a;
+    color: $space-light;
+    border: 1px solid #2a2a5a;
+  }
+
+  .form-control::placeholder {
+    color: #a0a0c0;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    background-color: #0b0b1a;
+    color: #ffffff;
+    border-color: $gold-main;
+    box-shadow: none;
+  }
+
+  .form-control:valid,
+  .form-select:valid {
+    background-color: #0b0b1a;
+    color: white;
+  }
+
+  .form-label {
+    color: $gold-main;
+    font-weight: 500;
+  }
+  background: linear-gradient(180deg, rgb(65, 55, 118), rgba(0, 0, 0, 0.867));
+}
+
+.address-autocomplete {
+  position: relative;
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: 88%;
+  left: 3%;
+  width: 100%;
+
+  margin-top: 6px;
+
+  background: #08132c;
+  border: 1px solid #3a3a6a;
+  border-radius: 8px;
+  z-index: 20;
+}
+
+.autocomplete-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.autocomplete-item:hover {
+  background: #111a44;
+}

@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Image, Button } from "react-bootstrap";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
 import { faBell, faComment, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -19,6 +19,7 @@ function SuperiorNavBar() {
   const params = useParams();
   const userId = params.userId;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const profileId = userId || myId;
 
@@ -91,7 +92,7 @@ function SuperiorNavBar() {
         </Nav.Link>
         <Button
           className="create-event-btn d-none d-lg-flex"
-          onClick={() => navigate("/private/create-event")}
+          onClick={() => navigate("/private/event/new")}
         >
           + New Party
         </Button>
