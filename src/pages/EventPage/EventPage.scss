@@ -33,13 +33,11 @@
   }
 }
 
-.event-poster {
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-  width: 100%;
-  aspect-ratio: 2 / 3;
+.event-card .card-img-left {
+  width: 40%;
+  height: auto;
   object-fit: cover;
-  transition: transform 0.2s ease;
+  border-radius: 10px 0 0 10px;
 }
 
 .participants {

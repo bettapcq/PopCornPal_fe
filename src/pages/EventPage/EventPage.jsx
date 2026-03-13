@@ -32,7 +32,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleEvent } from "../../redux/actions/EventActions";
 import { joinEvent } from "../../redux/actions/EventActions";
-import DeleteConfirmModal from "../../components/modals/deleteConfirmModal/ConfirmModal.";
 import ConfirmModal from "../../components/modals/deleteConfirmModal/ConfirmModal.";
 
 function EventPage() {
@@ -71,7 +70,7 @@ function EventPage() {
   };
 
   if (currentEvent?.eventDateTime) {
-    date = new Date(currentEvent.eventDateTime);
+    date = new Date(currentEvent?.eventDateTime);
   }
   const isPastEvent = date && date < new Date();
 
@@ -133,12 +132,12 @@ function EventPage() {
                 <Col md={4}>
                   <Image
                     src={currentEvent?.movie.Poster || poster_placeholder}
+                    className="event-poster"
                     alt={currentEvent?.title}
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = poster_placeholder;
                     }}
-                    className="event-poster"
                   />
                 </Col>
 
@@ -167,7 +166,7 @@ function EventPage() {
                   <Row className="flex-column g-4">
                     <Col
                       as={Link}
-                      to={`/private/profile/${currentEvent.creator.userId}`}
+                      to={`/private/profile/${currentEvent?.creator.userId}`}
                       className="d-flex flex-row align-items-center "
                     >
                       <Image
@@ -178,7 +177,7 @@ function EventPage() {
                         width={45}
                       />
                       <Card.Subtitle className="avatar-link">
-                        {currentEvent.creator.username}
+                        {currentEvent?.creator.username}
                       </Card.Subtitle>
                     </Col>
                     <Col>
@@ -213,9 +212,9 @@ function EventPage() {
                               icon={faMapMarker}
                               className="general-icon"
                             />
-                            {currentEvent.eventType === "ONLINE"
+                            {currentEvent?.eventType === "ONLINE"
                               ? "Online"
-                              : `${currentEvent.location?.street} ${currentEvent.location?.civicNumber}, ${currentEvent.location?.city}`}
+                              : `${currentEvent?.location?.street} ${currentEvent?.location?.civicNumber}, ${currentEvent?.location?.city}`}
                           </Card.Text>
                         )}
                       </Col>
@@ -284,13 +283,14 @@ function EventPage() {
                               variant="primary"
                               className="w-100 join-btn"
                               disabled={
-                                currentEvent.availableSpots === 0 || isPastEvent
+                                currentEvent?.availableSpots === 0 ||
+                                isPastEvent
                               }
                               onClick={handleOpenJoin}
                             >
                               {isPastEvent
                                 ? "Event finished"
-                                : currentEvent.availableSpots === 0
+                                : currentEvent?.availableSpots === 0
                                   ? "Sold Out"
                                   : "Join Event"}
                             </Button>
@@ -311,6 +311,18 @@ function EventPage() {
             variantBtn="danger"
             msg="Are you sure do you want to delete this event?"
           />
+          <ConfirmModal
+            show={showJoinModal}
+            handleClose={handleCloseJoin}
+            handleConfirm={handleJoin}
+            confirmType="Join event"
+            variantBtn="success"
+            msg="Do you want to join this event?"
+          />
+        </Container>
+      )}
+    </>
+  );
 }
 
 export default EventPage;
