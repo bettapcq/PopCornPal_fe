@@ -5,7 +5,7 @@ export const GET_USERS_PAST_EVENTS_SUCCESS = "GET_USER_PAST_EVENTS_SUCCESS";
 export const GET_USERS_FUTURE_EVENTS_SUCCESS =
   "GET_USERS_FUTURE_EVENTS_SUCCESS";
 export const GET_USERS_JOINED_EVENTS_SUCCESS =
-  " GET_USERS_JOINED_EVENTS_SUCCESS";
+  "GET_USERS_JOINED_EVENTS_SUCCESS";
 export const GET_SINGLE_EVENT_SUCCESS = "GET_SINGLE_EVENT_SUCCESS";
 export const JOIN_EVENT_SUCCESS = "JOIN_EVENT_SUCCESS";
 export const DELETE_EVENT_SUCCESS = "DELETE_EVENT_SUCCESS";
@@ -224,7 +224,10 @@ export const joinEvent = (eventId) => {
 
       dispatch({
         type: JOIN_EVENT_SUCCESS,
-        payload: data,
+        payload: {
+          eventId: data.eventId,
+          participationStatus: data.participationStatus,
+        },
       });
     } catch (error) {
       dispatch({
@@ -234,6 +237,8 @@ export const joinEvent = (eventId) => {
     }
   };
 };
+
+//-- DELETE EVENT
 
 export const deleteEvent = (eventId) => {
   return async (dispatch) => {
