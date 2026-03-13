@@ -18,7 +18,7 @@ function AsideSection() {
   return (
     <Container fluid>
       {/* PAST EVENTS PORTION */}
-      <h2>Past Events</h2>
+      <h2>Past Events Created</h2>
       {/* lg version */}
       <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
         <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
@@ -55,7 +55,7 @@ function AsideSection() {
       </Row>
 
       {/* JOINED EVENTS PORTION */}
-      <h2>Events Joined</h2>
+      <h2>Past Events Joined</h2>
       {/* lg version */}
       <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
         <Col xs={12} className="d-none d-lg-flex aside-events flex-column">

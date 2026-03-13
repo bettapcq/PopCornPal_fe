@@ -1,4 +1,3 @@
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import {
   EVENTS_LOADING,
   EVENTS_ERROR,
@@ -10,6 +9,7 @@ import {
   GET_SINGLE_EVENT_SUCCESS,
   DELETE_EVENT_SUCCESS,
   CREATE_EVENT_SUCCESS,
+  CLEAR_EVENTS_ALERTS,
 } from "../actions/EventActions";
 
 const initialState = {
@@ -93,6 +93,10 @@ function EventReducer(state = initialState, action) {
           ...state.participationStatus,
           [action.payload.eventId]: action.payload.participationStatus,
         },
+        selectedEvent: {
+          ...state.selectedEvent,
+          userParticipationStatus: action.payload.participationStatus,
+        },
       };
     case DELETE_EVENT_SUCCESS:
       return {
@@ -119,7 +123,13 @@ function EventReducer(state = initialState, action) {
         loading: false,
         payload: action.payload,
         selectedEvent: action.payload,
-        message: "Event created successfully",
+      };
+
+    case CLEAR_EVENTS_ALERTS:
+      return {
+        ...state,
+        message: null,
+        error: null,
       };
 
     default:

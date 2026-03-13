@@ -14,6 +14,7 @@ import "./EventCard.scss";
 
 function EventCard(props) {
   const date = new Date(props.event.eventDateTime);
+  const isFull = props.event.reservedSpots >= props.event.maxParticipants;
   return (
     <Card className="my-3 flex-row event-card">
       <Card.Img
@@ -52,9 +53,12 @@ function EventCard(props) {
           })}
         </Card.Text>
         <Card.Body className="d-flex flex-row justify-content-between mt-auto">
-          <Card.Text xs={2} className="mb-0">
+          <Card.Text
+            xs={2}
+            className={`mb-0 ${isFull ? "text-danger" : "text-success"}`}
+          >
             <FontAwesomeIcon xs={2} icon={faUser} />{" "}
-            {props.event.availableSpots}/{props.event.maxParticipants}
+            {props.event.reservedSpots || 0}/{props.event.maxParticipants}
           </Card.Text>
         </Card.Body>
         <Card.Body className="d-flex justify-content-between align-items-center mt-auto">

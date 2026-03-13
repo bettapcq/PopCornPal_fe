@@ -39,12 +39,10 @@ function EventPage() {
   const currentEventId = params.eventId;
   const dispatch = useDispatch();
   const currentEvent = useSelector((state) => state.events.selectedEvent);
+  const participationStatus = currentEvent?.userParticipationStatus;
   const loading = useSelector((state) => state.events.loading);
   const error = useSelector((state) => state.events.error);
   const userLogged = useSelector((state) => state.auth.userLogged);
-  const participationStatus = useSelector(
-    (state) => state.events.participationStatus[currentEventId],
-  );
   const navigate = useNavigate();
   const message = useSelector((state) => state.events.message);
   let date = null;
@@ -57,17 +55,22 @@ function EventPage() {
     if (!message) {
       dispatch(getSingleEvent(currentEventId));
     }
-  }, [currentEventId, dispatch, message]);
+  }, [currentEventId, dispatch]);
+
+  const isFull = currentEvent?.reservedSpots >= currentEvent?.maxParticipants;
 
   //Join:
   const [showJoinModal, setShowJoinModal] = useState(false);
   const handleOpenJoin = () => setShowJoinModal(true);
   const handleCloseJoin = () => setShowJoinModal(false);
 
-  const handleJoin = () => {
+  const handleJoin = async () => {
     dispatch(joinEvent(currentEventId));
+    dispatch(getSingleEvent(currentEventId));
     setShowJoinModal(false);
   };
+
+  console.log("STATUS: ", participationStatus);
 
   if (currentEvent?.eventDateTime) {
     date = new Date(currentEvent?.eventDateTime);
@@ -86,11 +89,11 @@ function EventPage() {
   const handleDeleteEvent = () => {
     dispatch(deleteEvent(currentEventId));
     setShowDeleteModal(false);
+    dispatch(getSingleEvent(currentEventId));
   };
 
   const handleMessageTurnBack = () => {
     dispatch({ type: CLEAR_EVENTS_ALERTS });
-    navigate(`/private/profile/${userLogged.userId}`);
   };
 
   return (
@@ -249,13 +252,15 @@ function EventPage() {
                     <Col>
                       <Row className="d-flex flex-row justify-content-between align-items-center me-auto my-3 ">
                         <Col xs={4}>
-                          <Card.Text>
+                          <Card.Text
+                            className={` ${isFull ? "text-danger" : "text-success"}`}
+                          >
                             <FontAwesomeIcon
                               className="general-icon"
                               xs={2}
                               icon={faUser}
                             />
-                            {currentEvent.availableSpots}/
+                            {currentEvent.reservedSpots || 0}/
                             {currentEvent.maxParticipants}
                           </Card.Text>
                         </Col>
@@ -279,12 +284,21 @@ function EventPage() {
                               />
                             </OverlayTrigger>
                           ) : (
+                            // dinamic button
                             <Button
-                              variant="primary"
+                              variant={
+                                participationStatus === "ACCEPTED"
+                                  ? "success"
+                                  : participationStatus === "PENDING"
+                                    ? "warning"
+                                    : "primary"
+                              }
                               className="w-100 join-btn"
                               disabled={
+                                isPastEvent ||
                                 currentEvent?.availableSpots === 0 ||
-                                isPastEvent
+                                participationStatus === "PENDING" ||
+                                participationStatus === "ACCEPTED"
                               }
                               onClick={handleOpenJoin}
                             >
@@ -292,7 +306,11 @@ function EventPage() {
                                 ? "Event finished"
                                 : currentEvent?.availableSpots === 0
                                   ? "Sold Out"
-                                  : "Join Event"}
+                                  : participationStatus === "PENDING"
+                                    ? "Request sent"
+                                    : participationStatus === "ACCEPTED"
+                                      ? "Joined"
+                                      : "Join Event"}
                             </Button>
                           )}
                         </Col>
