@@ -1,38 +1,18 @@
 import "./EventPage.scss";
-import {
-  Card,
-  Row,
-  Col,
-  Container,
-  Button,
-  Image,
-  Spinner,
-  OverlayTrigger,
-  Tooltip,
-  Alert,
-} from "react-bootstrap";
-import poster_placeholder from "../../assets/img/poster-placeholder.jpg";
-import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Container, Button, Spinner, Alert, Row, Col } from "react-bootstrap";
 import {
   CLEAR_EVENTS_ALERTS,
   deleteEvent,
+  getParticipationRequests,
 } from "../../redux/actions/EventActions";
-import {
-  faUser,
-  faFilm,
-  faClock,
-  faCalendarAlt,
-  faMapMarker,
-  faPencilAlt,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import EventDetailCard from "../../components/eventCards/eventDetailCard/EventDetailCard";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleEvent } from "../../redux/actions/EventActions";
 import { joinEvent } from "../../redux/actions/EventActions";
 import ConfirmModal from "../../components/modals/deleteConfirmModal/ConfirmModal.";
+import PendingRequestsSection from "../../components/pendingRequestsSection/PendingRequestsSection";
 
 function EventPage() {
   const params = useParams();
@@ -54,6 +34,7 @@ function EventPage() {
   useEffect(() => {
     if (!message) {
       dispatch(getSingleEvent(currentEventId));
+      dispatch(getParticipationRequests(currentEventId));
     }
   }, [currentEventId, dispatch]);
 
@@ -70,14 +51,18 @@ function EventPage() {
     setShowJoinModal(false);
   };
 
-  console.log("STATUS: ", participationStatus);
-
   if (currentEvent?.eventDateTime) {
     date = new Date(currentEvent?.eventDateTime);
   }
   const isPastEvent = date && date < new Date();
 
-  const isCreator = userLogged?.userId === currentEvent?.creator?.userId;
+  const isCreator =
+    Number(userLogged?.userId) === Number(currentEvent?.creator?.userId);
+
+  console.log("STATUS: ", participationStatus);
+  console.log("USER LOGGED:", userLogged);
+  console.log("EVENT CREATOR:", currentEvent?.creator);
+  console.log("IS CREATOR:", isCreator);
 
   //Delete:
 
@@ -127,216 +112,46 @@ function EventPage() {
       )}
       {/* no loading e no error build omponent */}
       {!error && !loading && currentEvent && (
-        <Container className="event-detail-container">
-          <Card className="event-detail-card">
-            <Card.Body>
-              <Row>
-                {/* POSTER */}
-                <Col md={4}>
-                  <Image
-                    src={currentEvent?.movie.Poster || poster_placeholder}
-                    className="event-poster"
-                    alt={currentEvent?.title}
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = poster_placeholder;
-                    }}
-                  />
-                </Col>
+        <Container className="event-detail-container w-100" fluid>
+          <Row className="w-100">
+            <Col xs={8}>
+              {/* SECTION DETAILS */}
+              <EventDetailCard
+                currentEvent={currentEvent}
+                isCreator={isCreator}
+                isPastEvent={isPastEvent}
+                participationStatus={participationStatus}
+                isFull={isFull}
+                date={date}
+                handleOpenJoin={handleOpenJoin}
+                handleOpenDelete={handleOpenDelete}
+              />
+              {/* SECTION PARTICIPANTS */}
+            </Col>
 
-                <Col md={8}>
-                  {/* creator button edit toggle */}
-                  {isCreator && !isPastEvent && (
-                    <Row className="flex-row justify-content-end text-end">
-                      <Col>
-                        <OverlayTrigger
-                          placement="right"
-                          delay={{ show: 250, hide: 400 }}
-                          overlay={
-                            <Tooltip id="button-tooltip-2">Edit event</Tooltip>
-                          }
-                        >
-                          <FontAwesomeIcon
-                            as={Button}
-                            icon={faPencilAlt}
-                            className="pencil-btn"
-                          />
-                        </OverlayTrigger>
-                      </Col>
-                    </Row>
-                  )}
-                  {/* CARD BODY */}
-                  <Row className="flex-column g-4">
-                    <Col
-                      as={Link}
-                      to={`/private/profile/${currentEvent?.creator.userId}`}
-                      className="d-flex flex-row align-items-center "
-                    >
-                      <Image
-                        className="rounded-circle avatar m-3 avatar-link"
-                        src={avatar_placeholder}
-                        alt="avatar"
-                        height={45}
-                        width={45}
-                      />
-                      <Card.Subtitle className="avatar-link">
-                        {currentEvent?.creator.username}
-                      </Card.Subtitle>
-                    </Col>
-                    <Col>
-                      <h2>{currentEvent.title}</h2>
-                      <p>{currentEvent.description}</p>
-                    </Col>
-                    <Row className="my-4">
-                      <Col>
-                        <Card.Text>
-                          <FontAwesomeIcon
-                            className="general-icon"
-                            icon={faCalendarAlt}
-                          />
-                          {date.toLocaleDateString("it-IT")}
-                        </Card.Text>
-                        {date && (
-                          <Card.Text>
-                            <FontAwesomeIcon
-                              className="general-icon"
-                              icon={faClock}
-                            />
+            <Col xs={4}>
+              {/* SECTION REQUESTS */}
+              <PendingRequestsSection />
+              {/* SECTION MESSAGES */}
+            </Col>
 
-                            {date.toLocaleTimeString("it-IT", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </Card.Text>
-                        )}
-                        {date && (
-                          <Card.Text>
-                            <FontAwesomeIcon
-                              icon={faMapMarker}
-                              className="general-icon"
-                            />
-                            {currentEvent?.eventType === "ONLINE"
-                              ? "Online"
-                              : `${currentEvent?.location?.street} ${currentEvent?.location?.civicNumber}, ${currentEvent?.location?.city}`}
-                          </Card.Text>
-                        )}
-                      </Col>
-
-                      {/* MOVIE SECTION */}
-                      <Col className="event-divider">
-                        <Card.Text className="movie-title mb-3">
-                          <FontAwesomeIcon
-                            className="general-icon"
-                            icon={faFilm}
-                          />
-                          MOVIE:
-                        </Card.Text>
-                        <Card.Subtitle className="mb-0 ms-2">
-                          {currentEvent.movie.Title}
-                        </Card.Subtitle>
-                        <Card.Text className="mb-0  ms-2">
-                          {currentEvent.movie.Year}
-                        </Card.Text>
-                        <Card.Text className="mb-0  ms-2">
-                          {currentEvent.movie.Plot}
-                        </Card.Text>
-                        <Card.Text className="mb-0  ms-2">
-                          {currentEvent.movie.Runtime}
-                        </Card.Text>
-                        <Card.Text className="mb-0  ms-2">
-                          {currentEvent.movie.Genre}
-                        </Card.Text>
-                      </Col>
-                    </Row>
-                    {/* CARD FOOTER */}
-                    <Col>
-                      <Row className="d-flex flex-row justify-content-between align-items-center me-auto my-3 ">
-                        <Col xs={4}>
-                          <Card.Text
-                            className={` ${isFull ? "text-danger" : "text-success"}`}
-                          >
-                            <FontAwesomeIcon
-                              className="general-icon"
-                              xs={2}
-                              icon={faUser}
-                            />
-                            {currentEvent.reservedSpots || 0}/
-                            {currentEvent.maxParticipants}
-                          </Card.Text>
-                        </Col>
-                        {/* creator button delete toggle*/}
-                        <Col xs={4} className="text-end">
-                          {isCreator && !isPastEvent ? (
-                            <OverlayTrigger
-                              placement="right"
-                              delay={{ show: 250, hide: 400 }}
-                              overlay={
-                                <Tooltip id="button-tooltip-2">
-                                  Delete event
-                                </Tooltip>
-                              }
-                            >
-                              <FontAwesomeIcon
-                                as={Button}
-                                icon={faTrashAlt}
-                                className="pencil-btn event-delete-icon"
-                                onClick={handleOpenDelete}
-                              />
-                            </OverlayTrigger>
-                          ) : (
-                            // dinamic button
-                            <Button
-                              variant={
-                                participationStatus === "ACCEPTED"
-                                  ? "success"
-                                  : participationStatus === "PENDING"
-                                    ? "warning"
-                                    : "primary"
-                              }
-                              className="w-100 join-btn"
-                              disabled={
-                                isPastEvent ||
-                                currentEvent?.availableSpots === 0 ||
-                                participationStatus === "PENDING" ||
-                                participationStatus === "ACCEPTED"
-                              }
-                              onClick={handleOpenJoin}
-                            >
-                              {isPastEvent
-                                ? "Event finished"
-                                : currentEvent?.availableSpots === 0
-                                  ? "Sold Out"
-                                  : participationStatus === "PENDING"
-                                    ? "Request sent"
-                                    : participationStatus === "ACCEPTED"
-                                      ? "Joined"
-                                      : "Join Event"}
-                            </Button>
-                          )}
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
-          <ConfirmModal
-            show={showDeleteModal}
-            handleClose={handleCloseDelete}
-            handleConfirm={handleDeleteEvent}
-            confirmType="Delete event"
-            variantBtn="danger"
-            msg="Are you sure do you want to delete this event?"
-          />
-          <ConfirmModal
-            show={showJoinModal}
-            handleClose={handleCloseJoin}
-            handleConfirm={handleJoin}
-            confirmType="Join event"
-            variantBtn="success"
-            msg="Do you want to join this event?"
-          />
+            <ConfirmModal
+              show={showDeleteModal}
+              handleClose={handleCloseDelete}
+              handleConfirm={handleDeleteEvent}
+              confirmType="Delete event"
+              variantBtn="danger"
+              msg="Are you sure do you want to delete this event?"
+            />
+            <ConfirmModal
+              show={showJoinModal}
+              handleClose={handleCloseJoin}
+              handleConfirm={handleJoin}
+              confirmType="Join event"
+              variantBtn="success"
+              msg="Do you want to join this event?"
+            />
+          </Row>
         </Container>
       )}
     </>

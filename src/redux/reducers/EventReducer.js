@@ -10,12 +10,14 @@ import {
   DELETE_EVENT_SUCCESS,
   CREATE_EVENT_SUCCESS,
   CLEAR_EVENTS_ALERTS,
+  GET_EVENT_REQUESTS_SUCCESS,
 } from "../actions/EventActions";
 
 const initialState = {
   homeEvents: [],
   selectedEvent: null,
   participationStatus: {},
+  participationsRequests: [],
   userEvents: {
     pastEvents: { content: [] },
     futureEvents: { content: [] },
@@ -130,6 +132,15 @@ function EventReducer(state = initialState, action) {
         ...state,
         message: null,
         error: null,
+      };
+
+    case GET_EVENT_REQUESTS_SUCCESS:
+      return {
+        ...state,
+        participationsRequests: action.payload,
+        error: null,
+        loading: null,
+        message: null,
       };
 
     default:
