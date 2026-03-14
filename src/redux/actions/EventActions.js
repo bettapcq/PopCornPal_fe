@@ -12,6 +12,7 @@ export const DELETE_EVENT_SUCCESS = "DELETE_EVENT_SUCCESS";
 export const CLEAR_EVENTS_ALERTS = "CLEAR_EVENTS_ALERTS";
 export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
 export const GET_EVENT_REQUESTS_SUCCESS = "GET_EVENT_REQUESTS_SUCCESS";
+export const EDIT_EVENT_SUCCESS = "EDIT_EVENT_SUCCESS";
 
 // --------- HOME EVENTS FETCH
 
@@ -273,7 +274,7 @@ export const deleteEvent = (eventId) => {
 
 // CREATE EVENT
 
-export const createEvent = (eventData, navigate) => {
+export const createEvent = (eventData) => {
   return async (dispatch) => {
     dispatch({ type: EVENTS_LOADING });
 
@@ -336,6 +337,44 @@ export const getParticipationRequests = (eventId) => {
         type: GET_EVENT_REQUESTS_SUCCESS,
         payload: data,
       });
+    } catch (error) {
+      dispatch({
+        type: EVENTS_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+//EDIT EVENT
+
+export const editEvent = (eventId, eventData) => {
+  return async (dispatch) => {
+    dispatch({ type: EVENTS_LOADING });
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`http://localhost:7001/events/${eventId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error editing event");
+      }
+
+      dispatch({
+        type: EDIT_EVENT_SUCCESS,
+        payload: data,
+      });
+      return data;
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,

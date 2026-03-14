@@ -34,7 +34,9 @@ function EventPage() {
   useEffect(() => {
     if (!message) {
       dispatch(getSingleEvent(currentEventId));
-      dispatch(getParticipationRequests(currentEventId));
+      if (isCreator) {
+        dispatch(getParticipationRequests(currentEventId));
+      }
     }
   }, [currentEventId, dispatch]);
 
@@ -113,9 +115,10 @@ function EventPage() {
       {/* no loading e no error build omponent */}
       {!error && !loading && currentEvent && (
         <Container className="event-detail-container w-100" fluid>
-          <Row className="w-100">
-            <Col xs={8}>
+          <Row className="w-100 justify-content-center">
+            <Col xs={12} lg={8}>
               {/* SECTION DETAILS */}
+
               <EventDetailCard
                 currentEvent={currentEvent}
                 isCreator={isCreator}
@@ -128,12 +131,13 @@ function EventPage() {
               />
               {/* SECTION PARTICIPANTS */}
             </Col>
-
-            <Col xs={4}>
-              {/* SECTION REQUESTS */}
-              <PendingRequestsSection />
-              {/* SECTION MESSAGES */}
-            </Col>
+            {isCreator && (
+              <Col xs={4}>
+                {/* SECTION REQUESTS */}
+                <PendingRequestsSection />
+                {/* SECTION MESSAGES */}
+              </Col>
+            )}
 
             <ConfirmModal
               show={showDeleteModal}

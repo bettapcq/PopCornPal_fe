@@ -10,7 +10,7 @@ import {
   faPencilAlt,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   Row,
@@ -31,6 +31,8 @@ function EventDetailCard({
   handleOpenJoin,
   handleOpenDelete,
 }) {
+  const navigate = useNavigate();
+
   return (
     <Card className="event-detail-card">
       <Card.Body>
@@ -62,6 +64,9 @@ function EventDetailCard({
                   >
                     <FontAwesomeIcon
                       as={Button}
+                      onClick={() =>
+                        navigate(`/private/event/form/${currentEvent.eventId}`)
+                      }
                       icon={faPencilAlt}
                       className="pencil-btn"
                     />

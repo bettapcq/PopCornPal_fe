@@ -11,6 +11,7 @@ import {
   CREATE_EVENT_SUCCESS,
   CLEAR_EVENTS_ALERTS,
   GET_EVENT_REQUESTS_SUCCESS,
+  EDIT_EVENT_SUCCESS,
 } from "../actions/EventActions";
 
 const initialState = {
@@ -141,6 +142,14 @@ function EventReducer(state = initialState, action) {
         error: null,
         loading: null,
         message: null,
+      };
+
+    case EDIT_EVENT_SUCCESS:
+      return {
+        ...state,
+        loading: null,
+        error: null,
+        selectedEvent: action.payload,
       };
 
     default:

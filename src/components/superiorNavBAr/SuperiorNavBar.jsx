@@ -93,7 +93,7 @@ function SuperiorNavBar() {
         </Nav.Link>
         <Button
           className="create-event-btn d-none d-lg-flex"
-          onClick={() => navigate("/private/event/new")}
+          onClick={() => navigate("/private/event/form")}
         >
           + New Party
         </Button>

@@ -8,18 +8,34 @@ import {
   Spinner,
   Alert,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validationRules } from "../../validationRoules";
 import "./EventFormPage.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { createEvent } from "../../redux/actions/EventActions";
-import { useNavigate } from "react-router-dom";
+import {
+  createEvent,
+  editEvent,
+  getSingleEvent,
+} from "../../redux/actions/EventActions";
+import { useNavigate, useParams } from "react-router-dom";
 import { CLEAR_EVENTS_ALERTS } from "../../redux/actions/EventActions";
 
 function EventFormPage() {
+  const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const isEditForm = Boolean(params.eventId);
   const userLogged = useSelector((state) => state.auth.userLogged);
+
+  const loading = useSelector((state) => state.events.loading);
+  const error = useSelector((state) => state.events.error);
+  const message = useSelector((state) => state.events.message);
+  const token = localStorage.getItem("token");
+  const selectedEvent = useSelector((state) => state.events.selectedEvent);
+
   const [validated, setValidated] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -36,6 +52,87 @@ function EventFormPage() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    //no location if online
+    if (e.target.name === "eventType" && e.target.value === "ONLINE") {
+      setSelectedLocation(null);
+      setAddressQuery("");
+      setSuggestions([]);
+    }
+  };
+
+  //--- IF EDIT mode (if eventId exist on path) fetch event on page and populate form
+
+  useEffect(() => {
+    if (isEditForm) {
+      dispatch(getSingleEvent(params.eventId));
+    }
+  }, [params.eventId]);
+
+  useEffect(() => {
+    if (isEditForm && selectedEvent) {
+      setFormData({
+        title: selectedEvent.title,
+        description: selectedEvent.description,
+        dateTime: selectedEvent.eventDateTime,
+        eventType: selectedEvent.eventType,
+        language: selectedEvent.language,
+        imdbID: selectedEvent.movie.imdbID,
+        maxParticipants: selectedEvent.maxParticipants,
+        location: selectedEvent.location || null,
+      });
+
+      // refetch the location to populate location input
+      setSelectedLocation(selectedEvent.location || null);
+      if (selectedEvent.location) {
+        setAddressQuery(
+          `${selectedEvent.location.country},${selectedEvent.location.city}`,
+        );
+      } else {
+        setAddressQuery("");
+      }
+    }
+  }, [selectedEvent]);
+
+  //----------SUBMIT
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.eventType === "IN_PERSON" && !selectedLocation) {
+      alert("Please select a valid address from the suggestions");
+      return;
+    }
+
+    const form = e.currentTarget;
+
+    if (!form.checkValidity()) {
+      setValidated(true);
+      return;
+    }
+
+    let result;
+
+    if (isEditForm) {
+      result = await dispatch(
+        editEvent(params.eventId, {
+          ...formData,
+          location:
+            formData.eventType === "IN_PERSON" ? selectedLocation : null,
+        }),
+      );
+    } else {
+      result = await dispatch(
+        createEvent({
+          ...formData,
+          location: selectedLocation,
+        }),
+      );
+    }
+
+    if (result) {
+      navigate(`/private/event/${result.eventId}`);
+    }
   };
 
   // -----------GEOAPIFY FETCH FOR AUTOCOMPLETE SEARCH AND SEND LOCATION
@@ -43,25 +140,20 @@ function EventFormPage() {
   const [addressQuery, setAddressQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const token = localStorage.getItem("token");
-  const loading = useSelector((state) => state.events.loading);
-  const error = useSelector((state) => state.events.error);
-  const message = useSelector((state) => state.events.message);
-  const navigate = useNavigate();
 
   const handleSelectAddress = (item) => {
-    const p = item.properties;
+    const input = item.properties;
 
     setSelectedLocation({
-      street: p.street || "",
-      civicNumber: p.housenumber || "",
-      city: p.city || p.town || "",
-      country: p.country,
-      latitude: p.lat,
-      longitude: p.lon,
+      street: input.street || "",
+      civicNumber: input.housenumber || "",
+      city: input.city || input.town || "",
+      country: input.country,
+      latitude: input.lat,
+      longitude: input.lon,
     });
 
-    setAddressQuery(p.formatted);
+    setAddressQuery(input.formatted);
     setSuggestions([]);
   };
 
@@ -88,34 +180,7 @@ function EventFormPage() {
     }
   };
 
-  //----------SUBMIT
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (formData.eventType === "IN_PERSON" && !selectedLocation) {
-      alert("Please select a valid address from the suggestions");
-      return;
-    }
-
-    const form = e.currentTarget;
-
-    if (!form.checkValidity()) {
-      setValidated(true);
-      return;
-    }
-
-    const result = await dispatch(
-      createEvent({
-        ...formData,
-        location: selectedLocation,
-      }),
-    );
-
-    if (result) {
-      navigate(`/private/event/${result.eventId}`);
-    }
-  };
+  //--- mini modal turn back button
 
   const handleMessageTurnBack = () => {
     dispatch({ type: CLEAR_EVENTS_ALERTS });
@@ -156,13 +221,16 @@ function EventFormPage() {
         <Container className="py-4 mb-4" fluid>
           <Card className="event-form-card">
             <Card.Body>
-              <h2 className="mb-4">Create New Event</h2>
+              <h2 className="mb-4">
+                {isEditForm ? "Edit Event" : "Create Event"}
+              </h2>
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Event Title</Form.Label>
                   <Form.Control
                     name="title"
                     placeholder="Movie night..."
+                    value={formData.title}
                     onChange={handleChange}
                     minLength={2}
                     maxLength={40}
@@ -177,6 +245,7 @@ function EventFormPage() {
                   <Form.Control
                     as="textarea"
                     placeholder="Join with me.."
+                    value={formData.description}
                     rows={3}
                     name="description"
                     minLength={2}
@@ -193,6 +262,7 @@ function EventFormPage() {
                     <Form.Control
                       type="datetime-local"
                       name="dateTime"
+                      value={formData.dateTime}
                       onChange={handleChange}
                       required
                     />
@@ -205,6 +275,7 @@ function EventFormPage() {
                     <Form.Control
                       type="number"
                       name="maxParticipants"
+                      value={formData.maxParticipants}
                       min={2}
                       onChange={handleChange}
                       required
@@ -216,7 +287,11 @@ function EventFormPage() {
                 </Row>
                 <Form.Group className="mb-3">
                   <Form.Label>Event Type</Form.Label>
-                  <Form.Select name="eventType" onChange={handleChange}>
+                  <Form.Select
+                    name="eventType"
+                    value={formData.eventType}
+                    onChange={handleChange}
+                  >
                     <option value="IN_PERSON">In Person</option>
                     <option value="ONLINE" required>
                       Online
@@ -228,7 +303,11 @@ function EventFormPage() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Language</Form.Label>
-                  <Form.Select name="language" onChange={handleChange}>
+                  <Form.Select
+                    name="language"
+                    value={formData.language}
+                    onChange={handleChange}
+                  >
                     <option value="EN" required>
                       EN
                     </option>
@@ -246,6 +325,7 @@ function EventFormPage() {
                   <Form.Label>Movie IMDb ID</Form.Label>
                   <Form.Control
                     name="imdbID"
+                    value={formData.imdbID}
                     placeholder="tt1375666"
                     onChange={handleChange}
                   />
@@ -267,24 +347,26 @@ function EventFormPage() {
                         fetchAddressSearch(value);
                       }}
                     />
-                    {suggestions.length > 0 && (
+                    {suggestions?.length > 0 && (
                       <div className="autocomplete-list">
-                        {suggestions.map((item) => (
-                          <div
-                            key={item.properties.place_id}
-                            className="autocomplete-item"
-                            onClick={() => handleSelectAddress(item)}
-                          >
-                            {item.properties.formatted}
-                          </div>
-                        ))}
+                        {suggestions
+                          .filter((item) => item?.properties)
+                          .map((item) => (
+                            <div
+                              key={item.properties.place_id}
+                              className="autocomplete-item"
+                              onClick={() => handleSelectAddress(item)}
+                            >
+                              {item.properties.formatted}
+                            </div>
+                          ))}
                       </div>
                     )}
                   </Row>
                 )}
                 {/* TODO: add policy select */}
                 <Button variant="primary" className="w-100" type="submit">
-                  Create Event
+                  {isEditForm ? "Edit" : "Create"}
                 </Button>
               </Form>
             </Card.Body>
