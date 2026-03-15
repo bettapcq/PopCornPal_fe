@@ -18,7 +18,7 @@ const initialState = {
   homeEvents: [],
   selectedEvent: null,
   participationStatus: {},
-  participationsRequests: [],
+  participationRequests: [],
   userEvents: {
     pastEvents: { content: [] },
     futureEvents: { content: [] },
@@ -138,7 +138,7 @@ function EventReducer(state = initialState, action) {
     case GET_EVENT_REQUESTS_SUCCESS:
       return {
         ...state,
-        participationsRequests: action.payload,
+        participationRequests: action.payload,
         error: null,
         loading: null,
         message: null,

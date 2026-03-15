@@ -25,7 +25,13 @@ function EventPage() {
   const userLogged = useSelector((state) => state.auth.userLogged);
   const navigate = useNavigate();
   const message = useSelector((state) => state.events.message);
+  const pendingReqList = useSelector(
+    (state) => state.events.participationRequests,
+  );
   let date = null;
+
+  const isCreator =
+    Number(userLogged?.userId) === Number(currentEvent?.creator?.userId);
 
   console.log("EVENT ID:", currentEventId);
   console.log("CURRENT EVENT: ", currentEvent);
@@ -38,7 +44,7 @@ function EventPage() {
         dispatch(getParticipationRequests(currentEventId));
       }
     }
-  }, [currentEventId, dispatch]);
+  }, [currentEventId, dispatch, isCreator]);
 
   const isFull = currentEvent?.reservedSpots >= currentEvent?.maxParticipants;
 
@@ -58,13 +64,11 @@ function EventPage() {
   }
   const isPastEvent = date && date < new Date();
 
-  const isCreator =
-    Number(userLogged?.userId) === Number(currentEvent?.creator?.userId);
-
   console.log("STATUS: ", participationStatus);
   console.log("USER LOGGED:", userLogged);
   console.log("EVENT CREATOR:", currentEvent?.creator);
   console.log("IS CREATOR:", isCreator);
+  console.log("PENDING REQUESTS: ", pendingReqList);
 
   //Delete:
 
