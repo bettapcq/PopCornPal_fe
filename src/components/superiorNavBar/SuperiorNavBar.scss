@@ -136,3 +136,32 @@
     opacity: 0.9;
   }
 }
+
+.notification-unread-icon {
+  color: $pop-violet !important;
+}
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+
+  font-size: 0.7rem;
+  line-height: 1;
+
+  color: $space-dark !important;
+  background-color: $pop-violet !important;
+
+  border-radius: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notification-link {
+  position: relative;
+  display: inline-block;
+}

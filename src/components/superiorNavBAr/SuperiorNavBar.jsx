@@ -2,16 +2,25 @@ import "../superiorNavBar/SuperiorNavBar.scss";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Image, Button } from "react-bootstrap";
+import { Image, Button, Badge } from "react-bootstrap";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
-import { faBell, faComment, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBell,
+  faComment,
+  faPlus,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../redux/actions/UserActions";
 import { useEffect } from "react";
 import { logout } from "../../redux/actions/AuthActions";
+import {
+  getNotifications,
+  getnotificationUnreadCount,
+} from "../../redux/actions/NotificationActions";
 
 function SuperiorNavBar() {
   const user = useSelector((state) => state.users.profile);
@@ -21,6 +30,12 @@ function SuperiorNavBar() {
   const userId = params.userId;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const unreadNotificationCount = useSelector(
+    (state) => state.notifications.unreadCount,
+  );
+  const notifications = useSelector(
+    (state) => state.notifications.notifications.content,
+  );
 
   const profileId = userId || myId;
 
@@ -31,7 +46,12 @@ function SuperiorNavBar() {
   useEffect(() => {
     if (!profileId) return;
     dispatch(getProfile(profileId));
-  }, [dispatch]);
+    dispatch(getNotifications());
+    dispatch(getnotificationUnreadCount());
+  }, [dispatch, profileId]);
+
+  console.log("NOTIFICATIONS: ", notifications);
+  console.log("COUNT: ", unreadNotificationCount);
 
   return (
     <Navbar expand="lg" className="my-nav mt-3 mb-4">
@@ -59,9 +79,43 @@ function SuperiorNavBar() {
             <Nav.Link as={NavLink} to="/private/profile">
               My Profile
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/private/notifications">
-              Notifications
-            </Nav.Link>
+            <NavDropdown
+              title={
+                <span className="nav-link notification-link">
+                  Notifications
+                  {unreadNotificationCount > 0 && (
+                    <Badge pill className="notification-badge">
+                      {Number(unreadNotificationCount)}
+                    </Badge>
+                  )}
+                </span>
+              }
+            >
+              {notifications?.slice(0, 5).map((n) => (
+                <NavDropdown.Item
+                  key={n.notificationId}
+                  onClick={() => navigate(n.link)}
+                >
+                  {n.read === false ? (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faExclamationCircle}
+                        className="notification-unread-icon"
+                      />
+                      <strong>{n.message}</strong>
+                    </>
+                  ) : (
+                    <p>{n.message}</p>
+                  )}
+                </NavDropdown.Item>
+              ))}
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                onClick={() => navigate("/private/notifications")}
+              >
+                View all notifications
+              </NavDropdown.Item>
+            </NavDropdown>
             <Nav.Link as={NavLink} to="/private/messages">
               Messages
             </Nav.Link>
