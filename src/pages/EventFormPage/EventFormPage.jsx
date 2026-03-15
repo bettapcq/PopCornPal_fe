@@ -92,7 +92,7 @@ function EventFormPage() {
         setAddressQuery("");
       }
     }
-  }, [selectedEvent]);
+  }, [isEditForm, selectedEvent]);
 
   //----------SUBMIT
 
