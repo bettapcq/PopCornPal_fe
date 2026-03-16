@@ -1,7 +1,7 @@
 import { Modal, Button, Form, ModalTitle } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../../redux/actions/AuthActions";
+import { CLEAR_AUTH_ERROR, login } from "../../../redux/actions/AuthActions";
 import { Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -19,7 +19,6 @@ function LoginModal({ show, handleClose }) {
 
   const error = useSelector((state) => state.auth.error);
   const isLogged = useSelector((state) => state.auth.isLogged);
-  const message = useSelector((state) => state.auth.message);
   const user = useSelector((state) => state.users.profile);
   const dispatch = useDispatch();
 
@@ -50,6 +49,14 @@ function LoginModal({ show, handleClose }) {
     }
 
     setValidated(true);
+  };
+
+  const handleCloseLogin = () => {
+    setEmail("");
+    setPassword("");
+    dispatch({ type: CLEAR_AUTH_ERROR });
+    setValidated(false);
+    handleClose();
   };
 
   const handleOpenReset = () => {
@@ -125,7 +132,7 @@ function LoginModal({ show, handleClose }) {
               type="button"
               variant="link"
               className="modal-close"
-              onClick={handleClose}
+              onClick={handleCloseLogin}
             >
               Close
             </Button>

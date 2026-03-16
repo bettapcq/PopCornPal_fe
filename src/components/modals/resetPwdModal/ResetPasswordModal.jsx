@@ -1,7 +1,11 @@
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPassword } from "../../../redux/actions/AuthActions";
+import {
+  CLEAR_AUTH_ERROR,
+  RESET_PASSWORD_CLOSE,
+  resetPassword,
+} from "../../../redux/actions/AuthActions";
 
 function ResetPasswordModal({ show, handleClose }) {
   const [email, setEmail] = useState("");
@@ -17,6 +21,8 @@ function ResetPasswordModal({ show, handleClose }) {
 
   const handleCloseModal = () => {
     setEmail("");
+    dispatch({ type: CLEAR_AUTH_ERROR });
+    dispatch({ type: RESET_PASSWORD_CLOSE });
     handleClose();
   };
 

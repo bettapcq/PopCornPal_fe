@@ -5,6 +5,7 @@ export const REGISTER_ERROR = "REGISTER_ERROR";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR";
 export const RESET_PASSWORD_CLOSE = "RESET_PASSWORD_CLOSE";
+export const CLEAR_AUTH_ERROR = "CLEAR_AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
 import { getProfile } from "./UserActions";
 

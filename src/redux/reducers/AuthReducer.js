@@ -7,6 +7,7 @@ import {
   RESET_PASSWORD_ERROR,
   RESET_PASSWORD_CLOSE,
   LOGOUT,
+  CLEAR_AUTH_ERROR,
 } from "../actions/AuthActions";
 
 const initialState = {
@@ -81,6 +82,13 @@ function AuthReducer(state = initialState, action) {
 
     case RESET_PASSWORD_ERROR:
       return { ...state, loading: false, error: action.payload };
+
+    case CLEAR_AUTH_ERROR:
+      return {
+        ...state,
+        error: null,
+        message: null,
+      };
 
     default:
       return state;
