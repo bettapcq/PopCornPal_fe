@@ -10,6 +10,7 @@ function PendingRequestsSection() {
   const participationRequests = useSelector(
     (state) => state.participations.requests,
   );
+  const selectedEvent = useSelector((state) => state.events.selectedEvent);
 
   console.log("Pending Req: ", participationRequests);
 
@@ -47,6 +48,10 @@ function PendingRequestsSection() {
                       <Button
                         size="sm"
                         variant="success"
+                        disabled={
+                          selectedEvent.reservedSpots ===
+                          selectedEvent.maxParticipants
+                        }
                         onClick={() => {
                           dispatch(
                             manageParticipationsRequests(
