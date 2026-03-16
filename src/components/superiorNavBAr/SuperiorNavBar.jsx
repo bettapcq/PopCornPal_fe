@@ -20,6 +20,7 @@ import { logout } from "../../redux/actions/AuthActions";
 import {
   getNotifications,
   getnotificationUnreadCount,
+  markNotificationAsRead,
 } from "../../redux/actions/NotificationActions";
 
 function SuperiorNavBar() {
@@ -48,7 +49,7 @@ function SuperiorNavBar() {
     dispatch(getProfile(profileId));
     dispatch(getNotifications());
     dispatch(getnotificationUnreadCount());
-  }, [dispatch, profileId]);
+  }, [dispatch, profileId, unreadNotificationCount]);
 
   console.log("NOTIFICATIONS: ", notifications);
   console.log("COUNT: ", unreadNotificationCount);
@@ -79,43 +80,43 @@ function SuperiorNavBar() {
             <Nav.Link as={NavLink} to="/private/profile">
               My Profile
             </Nav.Link>
-            <NavDropdown
-              title={
-                <span className="nav-link notification-link">
-                  Notifications
-                  {unreadNotificationCount > 0 && (
-                    <Badge pill className="notification-badge">
-                      {Number(unreadNotificationCount)}
-                    </Badge>
-                  )}
-                </span>
-              }
-            >
-              {notifications?.slice(0, 5).map((n) => (
+            <div className="notification-link">
+              <NavDropdown title={"Notifications"}>
+                {notifications?.slice(0, 5).map((n) => (
+                  <NavDropdown.Item
+                    key={n.notificationId}
+                    onClick={() => {
+                      dispatch(markNotificationAsRead(n.notificationId));
+                      navigate(n.link);
+                    }}
+                  >
+                    {n.read === false ? (
+                      <>
+                        <FontAwesomeIcon
+                          icon={faExclamationCircle}
+                          className="notification-unread-icon"
+                        />
+                        <strong>{n.message}</strong>
+                      </>
+                    ) : (
+                      <p className="m-0">{n.message}</p>
+                    )}
+                  </NavDropdown.Item>
+                ))}
+                <NavDropdown.Divider />
                 <NavDropdown.Item
-                  key={n.notificationId}
-                  onClick={() => navigate(n.link)}
+                  onClick={() => navigate("/private/notifications")}
                 >
-                  {n.read === false ? (
-                    <>
-                      <FontAwesomeIcon
-                        icon={faExclamationCircle}
-                        className="notification-unread-icon"
-                      />
-                      <strong>{n.message}</strong>
-                    </>
-                  ) : (
-                    <p>{n.message}</p>
-                  )}
+                  View all notifications
                 </NavDropdown.Item>
-              ))}
-              <NavDropdown.Divider />
-              <NavDropdown.Item
-                onClick={() => navigate("/private/notifications")}
-              >
-                View all notifications
-              </NavDropdown.Item>
-            </NavDropdown>
+              </NavDropdown>
+              {unreadNotificationCount > 0 && (
+                <span className="notification-badge">
+                  {unreadNotificationCount}
+                </span>
+              )}
+            </div>
+
             <Nav.Link as={NavLink} to="/private/messages">
               Messages
             </Nav.Link>
@@ -134,9 +135,15 @@ function SuperiorNavBar() {
         <Nav.Link
           as={NavLink}
           to="/private/notifications"
-          className="px-3 d-lg-none"
+          className="px-3 d-lg-none notification-icon-wrapper"
         >
           <FontAwesomeIcon icon={faBell} className="nav-icon" />
+
+          {unreadNotificationCount > 0 && (
+            <Badge pill className="notification-badge">
+              {unreadNotificationCount}
+            </Badge>
+          )}
         </Nav.Link>
         <Nav.Link
           as={NavLink}

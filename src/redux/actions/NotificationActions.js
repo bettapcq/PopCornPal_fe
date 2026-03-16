@@ -3,6 +3,8 @@ export const GET_NOTIFICATIONS_SUCCESS = "GET_NOTIFICATIONS_SUCCESS";
 export const NOTIFICATIONS_ERROR = "NOTIFICATIONS_ERROR";
 export const GET_NOTIFIFATIONS_UNREAD_COUNT_SUCCESS =
   "GET_NOTIFIFATIONS_UNREAD_COUNT_SUCCESS";
+export const NOTIFIFATION_MARKED_AS_READ_SUCCESS =
+  "NOTIFIFATION_MARKED_AS_READ_SUCCESS";
 
 export const getNotifications = () => {
   return async (dispatch) => {
@@ -68,5 +70,21 @@ export const getnotificationUnreadCount = () => {
         payload: error.message,
       });
     }
+  };
+};
+
+export const markNotificationAsRead = (notificationId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+
+    await fetch(`http://localhost:7001/notifications/${notificationId}/read`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch(getNotifications());
+    dispatch(getnotificationUnreadCount());
   };
 };
