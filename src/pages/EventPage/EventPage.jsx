@@ -3,16 +3,19 @@ import { Container, Button, Spinner, Alert, Row, Col } from "react-bootstrap";
 import {
   CLEAR_EVENTS_ALERTS,
   deleteEvent,
-  getParticipationRequests,
+  getSingleEvent,
 } from "../../redux/actions/EventActions";
 import EventDetailCard from "../../components/eventCards/eventDetailCard/EventDetailCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleEvent } from "../../redux/actions/EventActions";
-import { joinEvent } from "../../redux/actions/EventActions";
 import ConfirmModal from "../../components/modals/deleteConfirmModal/ConfirmModal.";
 import PendingRequestsSection from "../../components/pendingRequestsSection/PendingRequestsSection";
+import {
+  getParticipationRequests,
+  joinEvent,
+} from "../../redux/actions/ParticipationActions";
+import ParticipantsSection from "../../components/participantsSection/ParticipantsSection";
 
 function EventPage() {
   const params = useParams();
@@ -25,9 +28,7 @@ function EventPage() {
   const userLogged = useSelector((state) => state.auth.userLogged);
   const navigate = useNavigate();
   const message = useSelector((state) => state.events.message);
-  const pendingReqList = useSelector(
-    (state) => state.events.participationRequests,
-  );
+  const pendingReqList = useSelector((state) => state.participations.requests);
   let date = null;
 
   const isCreator =
@@ -121,19 +122,25 @@ function EventPage() {
         <Container className="event-detail-container w-100" fluid>
           <Row className="w-100 justify-content-center">
             <Col xs={12} lg={8}>
-              {/* SECTION DETAILS */}
-
-              <EventDetailCard
-                currentEvent={currentEvent}
-                isCreator={isCreator}
-                isPastEvent={isPastEvent}
-                participationStatus={participationStatus}
-                isFull={isFull}
-                date={date}
-                handleOpenJoin={handleOpenJoin}
-                handleOpenDelete={handleOpenDelete}
-              />
-              {/* SECTION PARTICIPANTS */}
+              <Row>
+                {/* SECTION DETAILS */}
+                <Col xs={12}>
+                  <EventDetailCard
+                    currentEvent={currentEvent}
+                    isCreator={isCreator}
+                    isPastEvent={isPastEvent}
+                    participationStatus={participationStatus}
+                    isFull={isFull}
+                    date={date}
+                    handleOpenJoin={handleOpenJoin}
+                    handleOpenDelete={handleOpenDelete}
+                  />
+                </Col>{" "}
+                {/* SECTION PARTICIPANTS */}
+                <Col>
+                  <ParticipantsSection />
+                </Col>
+              </Row>
             </Col>
             {isCreator && (
               <Col xs={4}>

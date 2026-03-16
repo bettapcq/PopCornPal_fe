@@ -3,11 +3,17 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./PendingRequestsSection.scss";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
+import { useDispatch } from "react-redux";
+import { manageParticipationsRequests } from "../../redux/actions/ParticipationActions";
 
 function PendingRequestsSection() {
   const participationRequests = useSelector(
-    (state) => state.events.participationRequests,
+    (state) => state.participations.requests,
   );
+
+  console.log("Pending Req: ", participationRequests);
+
+  const dispatch = useDispatch();
 
   return (
     <Container fluid>
@@ -38,10 +44,35 @@ function PendingRequestsSection() {
                       </Link>
                     </Col>
                     <Col className="text-end">
-                      <Button size="sm" variant="success">
+                      <Button
+                        size="sm"
+                        variant="success"
+                        onClick={() => {
+                          dispatch(
+                            manageParticipationsRequests(
+                              req.participationId,
+                              "ACCEPTED",
+                              req.eventId,
+                            ),
+                          );
+                        }}
+                      >
                         Accept
                       </Button>
-                      <Button size="sm" variant="danger" className="ms-2">
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        className="ms-2"
+                        onClick={() => {
+                          dispatch(
+                            manageParticipationsRequests(
+                              req.participationId,
+                              "REJECTED",
+                              req.eventId,
+                            ),
+                          );
+                        }}
+                      >
                         Reject
                       </Button>
                     </Col>
