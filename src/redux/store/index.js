@@ -3,6 +3,7 @@ import AuthReducer from "../reducers/AuthReducer";
 import UserReducer from "../reducers/UserReducer";
 import EventReducer from "../reducers/EventReducer";
 import NotificationReducer from "../reducers/NotificationReducer";
+import ParticipationReducer from "../reducers/ParticipationReducer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     users: UserReducer,
     events: EventReducer,
     notifications: NotificationReducer,
+    participations: ParticipationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ immutableCheck: false }),

@@ -5,20 +5,16 @@ import {
   GET_USERS_PAST_EVENTS_SUCCESS,
   GET_USERS_FUTURE_EVENTS_SUCCESS,
   GET_USERS_JOINED_EVENTS_SUCCESS,
-  JOIN_EVENT_SUCCESS,
   GET_SINGLE_EVENT_SUCCESS,
   DELETE_EVENT_SUCCESS,
   CREATE_EVENT_SUCCESS,
   CLEAR_EVENTS_ALERTS,
-  GET_EVENT_REQUESTS_SUCCESS,
   EDIT_EVENT_SUCCESS,
 } from "../actions/EventActions";
 
 const initialState = {
   homeEvents: [],
   selectedEvent: null,
-  participationStatus: {},
-  participationRequests: [],
   userEvents: {
     pastEvents: { content: [] },
     futureEvents: { content: [] },
@@ -89,18 +85,6 @@ function EventReducer(state = initialState, action) {
         loading: false,
       };
 
-    case JOIN_EVENT_SUCCESS:
-      return {
-        ...state,
-        participationStatus: {
-          ...state.participationStatus,
-          [action.payload.eventId]: action.payload.participationStatus,
-        },
-        selectedEvent: {
-          ...state.selectedEvent,
-          userParticipationStatus: action.payload.participationStatus,
-        },
-      };
     case DELETE_EVENT_SUCCESS:
       return {
         ...state,
@@ -133,15 +117,6 @@ function EventReducer(state = initialState, action) {
         ...state,
         message: null,
         error: null,
-      };
-
-    case GET_EVENT_REQUESTS_SUCCESS:
-      return {
-        ...state,
-        participationRequests: action.payload,
-        error: null,
-        loading: null,
-        message: null,
       };
 
     case EDIT_EVENT_SUCCESS:

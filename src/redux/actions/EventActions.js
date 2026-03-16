@@ -7,11 +7,9 @@ export const GET_USERS_FUTURE_EVENTS_SUCCESS =
 export const GET_USERS_JOINED_EVENTS_SUCCESS =
   "GET_USERS_JOINED_EVENTS_SUCCESS";
 export const GET_SINGLE_EVENT_SUCCESS = "GET_SINGLE_EVENT_SUCCESS";
-export const JOIN_EVENT_SUCCESS = "JOIN_EVENT_SUCCESS";
 export const DELETE_EVENT_SUCCESS = "DELETE_EVENT_SUCCESS";
 export const CLEAR_EVENTS_ALERTS = "CLEAR_EVENTS_ALERTS";
 export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
-export const GET_EVENT_REQUESTS_SUCCESS = "GET_EVENT_REQUESTS_SUCCESS";
 export const EDIT_EVENT_SUCCESS = "EDIT_EVENT_SUCCESS";
 
 // --------- HOME EVENTS FETCH
@@ -199,79 +197,6 @@ export const getUserJoinedEvents = (userId) => {
   };
 };
 
-// ------JOIN EVENT
-
-export const joinEvent = (eventId) => {
-  return async (dispatch) => {
-    dispatch({ type: EVENTS_LOADING });
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await fetch(
-        `http://localhost:7001/events/${eventId}/join`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error joining event");
-      }
-
-      dispatch({
-        type: JOIN_EVENT_SUCCESS,
-        payload: {
-          eventId: data.eventId,
-          participationStatus: data.participationStatus,
-        },
-      });
-    } catch (error) {
-      dispatch({
-        type: EVENTS_ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
-
-//-- DELETE EVENT
-
-export const deleteEvent = (eventId) => {
-  return async (dispatch) => {
-    dispatch({ type: EVENTS_LOADING });
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await fetch(`http://localhost:7001/events/${eventId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Error deleting event");
-      }
-
-      dispatch({
-        type: DELETE_EVENT_SUCCESS,
-        payload: eventId,
-      });
-    } catch (error) {
-      dispatch({
-        type: EVENTS_ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
-
 // CREATE EVENT
 
 export const createEvent = (eventData) => {
@@ -312,40 +237,6 @@ export const createEvent = (eventData) => {
   };
 };
 
-// GET PENDING JOIN REQUESTS
-
-export const getParticipationRequests = (eventId) => {
-  return async (dispatch) => {
-    dispatch({ type: EVENTS_LOADING });
-    try {
-      const response = await fetch(
-        `http://localhost:7001/events/${eventId}/requests`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error fetching requests");
-      }
-
-      dispatch({
-        type: GET_EVENT_REQUESTS_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: EVENTS_ERROR,
-        payload: error.message,
-      });
-    }
-  };
-};
-
 //EDIT EVENT
 
 export const editEvent = (eventId, eventData) => {
@@ -375,6 +266,38 @@ export const editEvent = (eventId, eventData) => {
         payload: data,
       });
       return data;
+    } catch (error) {
+      dispatch({
+        type: EVENTS_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+//-- DELETE EVENT
+
+export const deleteEvent = (eventId) => {
+  return async (dispatch) => {
+    dispatch({ type: EVENTS_LOADING });
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`http://localhost:7001/events/${eventId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error deleting event");
+      }
+
+      dispatch({
+        type: DELETE_EVENT_SUCCESS,
+        payload: eventId,
+      });
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,
