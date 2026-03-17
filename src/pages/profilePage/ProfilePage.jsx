@@ -19,6 +19,7 @@ function ProfilePage() {
   const profileUsername = useSelector(
     (state) => state.auth.userLogged?.username,
   );
+  const userLogged = useSelector((state) => state.auth.userLogged);
   const params = useParams();
   const userId = params.userId;
   // const events = useSelector((state) => state.events.events);
@@ -40,10 +41,10 @@ function ProfilePage() {
     if (!profileId) return;
 
     dispatch(getProfile(profileId));
-    dispatch(getUserFutureEvents(profileId));
-    dispatch(getUserPastEvents(profileId));
-    dispatch(getUserJoinedEvents(profileId));
-    dispatch(getUserFutureEventsToJoin(profileId));
+    dispatch(getUserFutureEvents(userLogged.userId));
+    dispatch(getUserPastEvents(userLogged.userId));
+    dispatch(getUserJoinedEvents(userLogged.userId));
+    dispatch(getUserFutureEventsToJoin(userLogged.userId));
   }, [dispatch, userId, myId]);
 
   return (
