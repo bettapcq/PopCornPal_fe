@@ -123,19 +123,25 @@ export const manageParticipationsRequests = (
   };
 };
 
+//leave event
+
 export const leaveEvent = (participationId) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`/api/participations/${participationId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      const response = await fetch(
+        `http://localhost:7001/participations/${participationId}/leave`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) throw new Error("Failed to leave event");
 
       dispatch({ type: LEAVE_EVENT_SUCCESS });
+      dispatch(getSingleEvent(eventId));
     } catch (error) {
       dispatch({ type: PARTICIPATIONS_ERROR, payload: error.message });
     }

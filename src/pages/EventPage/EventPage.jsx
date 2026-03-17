@@ -73,8 +73,13 @@ function EventPage() {
   console.log("PENDING REQUESTS: ", pendingReqList);
 
   //Leave:
+
+  const participationId = currentEvent?.participants?.find(
+    (p) => p.user.userId === userLogged.userId,
+  )?.participationId;
+
   const handleLeave = async () => {
-    await dispatch(leaveEvent(currentEventId));
+    await dispatch(leaveEvent(participationId));
     await dispatch(getSingleEvent(currentEventId));
   };
 
