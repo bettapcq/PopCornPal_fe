@@ -4,6 +4,7 @@ import {
   MANAGE_JOIN_REQUEST_SUCCESS,
   PARTICIPATIONS_ERROR,
   PARTICIPATIONS_LOADING,
+  LEAVE_EVENT_SUCCESS,
 } from "../actions/ParticipationActions";
 
 const initialState = {
@@ -37,7 +38,13 @@ function ParticipationReducer(state = initialState, action) {
           [action.payload.eventId]: action.payload.participationStatus,
         },
       };
-
+    case LEAVE_EVENT_SUCCESS:
+      return {
+        ...state,
+        message: "You left the event",
+        loading: false,
+        error: null,
+      };
     case GET_EVENT_REQUESTS_SUCCESS:
       return {
         ...state,

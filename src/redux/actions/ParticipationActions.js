@@ -5,6 +5,7 @@ export const PARTICIPATIONS_ERROR = "PARTICIPATIONS_ERROR";
 export const JOIN_EVENT_SUCCESS = "JOIN_EVENT_SUCCESS";
 export const GET_EVENT_REQUESTS_SUCCESS = "GET_EVENT_REQUESTS_SUCCESS";
 export const MANAGE_JOIN_REQUEST_SUCCESS = "MANAGE_JOIN_REQUEST_SUCCESS";
+export const LEAVE_EVENT_SUCCESS = "LEAVE_EVENT_SUCCESS";
 
 // ------JOIN EVENT
 export const joinEvent = (eventId) => {
@@ -118,6 +119,25 @@ export const manageParticipationsRequests = (
         type: PARTICIPATIONS_ERROR,
         payload: error.message,
       });
+    }
+  };
+};
+
+export const leaveEvent = (participationId) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`/api/participations/${participationId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to leave event");
+
+      dispatch({ type: LEAVE_EVENT_SUCCESS });
+    } catch (error) {
+      dispatch({ type: PARTICIPATIONS_ERROR, payload: error.message });
     }
   };
 };
