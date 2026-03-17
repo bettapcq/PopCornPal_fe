@@ -49,7 +49,7 @@ function PendingRequestsSection() {
                         size="sm"
                         variant="success"
                         disabled={
-                          selectedEvent.reservedSpots ===
+                          selectedEvent.reservedSpots >=
                           selectedEvent.maxParticipants
                         }
                         onClick={() => {

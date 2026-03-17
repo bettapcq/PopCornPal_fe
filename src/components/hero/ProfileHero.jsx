@@ -71,7 +71,7 @@ function ProfileHero() {
                 src={profile?.profileImg || avatar_placeholder}
                 roundedCircle
                 className="avatar p-3 "
-                width={200}
+                width={170}
               />
             </Col>
 

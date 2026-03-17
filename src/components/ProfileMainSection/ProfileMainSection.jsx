@@ -12,7 +12,7 @@ function ProfileMainSection(props) {
 
   return (
     <Container fluid>
-      <h2>{props.profileUsername} Future Events</h2>
+      <h2>Future Events Created</h2>
       <Row className="flex-column my-4 ">
         {/* lg version */}
         <Col xs={12} className="d-none d-lg-flex flex-column">

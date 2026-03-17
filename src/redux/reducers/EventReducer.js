@@ -10,15 +10,17 @@ import {
   CREATE_EVENT_SUCCESS,
   CLEAR_EVENTS_ALERTS,
   EDIT_EVENT_SUCCESS,
+  GET_USERS_EVENTS_TO_JOIN_SUCCESS,
 } from "../actions/EventActions";
 
 const initialState = {
   homeEvents: [],
   selectedEvent: null,
   userEvents: {
-    pastEvents: { content: [] },
+    pastEvents: { content: [] }, // in responses Page<event> i need content
     futureEvents: { content: [] },
     joinedEvents: { content: [] },
+    toJoinEvents: { content: [] },
   },
 
   loading: false,
@@ -83,6 +85,16 @@ function EventReducer(state = initialState, action) {
         ...state,
         selectedEvent: action.payload,
         loading: false,
+      };
+
+    case GET_USERS_EVENTS_TO_JOIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        userEvents: {
+          ...state.userEvents,
+          toJoinEvents: action.payload,
+        },
       };
 
     case DELETE_EVENT_SUCCESS:

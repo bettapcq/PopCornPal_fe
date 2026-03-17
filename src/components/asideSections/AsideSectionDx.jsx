@@ -4,7 +4,7 @@ import EventMiniCard from "../eventCards/eventMiniCard/EventMiniCard";
 import "./AsideSection.scss";
 import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
 
-function AsideSection() {
+function AsideSectionDx() {
   const joinedEvents = useSelector(
     (state) => state.events.userEvents.joinedEvents.content,
   );
@@ -94,4 +94,4 @@ function AsideSection() {
   );
 }
 
-export default AsideSection;
+export default AsideSectionDx;

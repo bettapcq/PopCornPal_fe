@@ -25,17 +25,17 @@ function ParticipantsSection({ isCreator }) {
                   <Row className="align-items-center">
                     <Col className="flex-row">
                       <Link
-                        to={`/private/profile/${p.user.userId}`}
+                        to={`/private/profile/${p.userId}`}
                         className="d-flex align-items-center gap-2"
                       >
                         <Image
                           className="rounded-circle avatar"
-                          src={p.user.profileImg || avatar_placeholder}
+                          src={p.profileImg || avatar_placeholder}
                           alt="avatar"
                           height={30}
                           width={30}
                         />
-                        <h3 className="mb-0">{p.user.username}</h3>
+                        <h3 className="mb-0">{p.username}</h3>
                       </Link>
                     </Col>
 

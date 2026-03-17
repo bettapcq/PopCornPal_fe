@@ -75,7 +75,7 @@ function EventPage() {
   //Leave:
 
   const participationId = currentEvent?.participants?.find(
-    (p) => p.user.userId === userLogged.userId,
+    (p) => p.userId === userLogged.userId,
   )?.participationId;
 
   const handleLeave = async () => {

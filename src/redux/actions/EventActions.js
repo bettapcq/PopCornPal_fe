@@ -11,6 +11,8 @@ export const DELETE_EVENT_SUCCESS = "DELETE_EVENT_SUCCESS";
 export const CLEAR_EVENTS_ALERTS = "CLEAR_EVENTS_ALERTS";
 export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
 export const EDIT_EVENT_SUCCESS = "EDIT_EVENT_SUCCESS";
+export const GET_USERS_EVENTS_TO_JOIN_SUCCESS =
+  "GET_USERS_EVENTS_TO_JOIN_SUCCESS";
 
 // --------- HOME EVENTS FETCH
 
@@ -133,7 +135,7 @@ export const getUserFutureEvents = (userId) => {
 
     try {
       const response = await fetch(
-        `${eventsUrl}?creatorId=${userId}&size=200`,
+        `${eventsUrl}?creatorId=${userId}&size=200&sort=dateTime,asc`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -160,7 +162,7 @@ export const getUserFutureEvents = (userId) => {
   };
 };
 
-// ---------- USERS JOINED EVENTS FETCH
+// ---------- USERS PAST JOINED EVENTS FETCH
 
 export const getUserJoinedEvents = (userId) => {
   return async (dispatch) => {
@@ -186,6 +188,44 @@ export const getUserJoinedEvents = (userId) => {
 
       dispatch({
         type: GET_USERS_JOINED_EVENTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: EVENTS_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+// -------GET USERS FUTURE EVENTS TO JOIN
+
+export const getUserFutureEventsToJoin = (userId) => {
+  return async (dispatch) => {
+    dispatch({ type: EVENTS_LOADING });
+
+    const token = localStorage.getItem("token");
+    const eventsUrl = "http://localhost:7001/events";
+
+    try {
+      const response = await fetch(
+        `${eventsUrl}/to-join/${userId}?page=0&size=200`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error fetching events");
+      }
+
+      dispatch({
+        type: GET_USERS_EVENTS_TO_JOIN_SUCCESS,
         payload: data,
       });
     } catch (error) {
