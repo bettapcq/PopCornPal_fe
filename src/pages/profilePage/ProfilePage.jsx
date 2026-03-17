@@ -21,7 +21,7 @@ function ProfilePage() {
   const userId = params.userId;
   // const events = useSelector((state) => state.events.events);
 
-  const profileId = userId || myId;
+  const profileId = userId ?? myId;
 
   console.log("userId param:", userId);
   console.log("myId from store:", myId);

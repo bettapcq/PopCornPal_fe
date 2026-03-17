@@ -14,6 +14,7 @@ import PendingRequestsSection from "../../components/pendingRequestsSection/Pend
 import {
   getParticipationRequests,
   joinEvent,
+  leaveEvent,
 } from "../../redux/actions/ParticipationActions";
 import ParticipantsSection from "../../components/participantsSection/ParticipantsSection";
 
@@ -55,8 +56,8 @@ function EventPage() {
   const handleCloseJoin = () => setShowJoinModal(false);
 
   const handleJoin = async () => {
-    dispatch(joinEvent(currentEventId));
-    dispatch(getSingleEvent(currentEventId));
+    await dispatch(joinEvent(currentEventId));
+    await dispatch(getSingleEvent(currentEventId));
     setShowJoinModal(false);
   };
 
@@ -71,8 +72,13 @@ function EventPage() {
   console.log("IS CREATOR:", isCreator);
   console.log("PENDING REQUESTS: ", pendingReqList);
 
-  //Delete:
+  //Leave:
+  const handleLeave = async () => {
+    await dispatch(leaveEvent(currentEventId));
+    await dispatch(getSingleEvent(currentEventId));
+  };
 
+  //Delete:
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleOpenDelete = () => setShowDeleteModal(true);
@@ -134,11 +140,15 @@ function EventPage() {
                     date={date}
                     handleOpenJoin={handleOpenJoin}
                     handleOpenDelete={handleOpenDelete}
+                    handleLeave={handleLeave}
                   />
                 </Col>{" "}
                 {/* SECTION PARTICIPANTS */}
                 <Col>
-                  <ParticipantsSection />
+                  <ParticipantsSection
+                    isCreator={isCreator}
+                    currentEvent={currentEvent}
+                  />
                 </Col>
               </Row>
             </Col>

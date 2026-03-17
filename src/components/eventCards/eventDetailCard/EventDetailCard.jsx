@@ -30,6 +30,7 @@ function EventDetailCard({
   date,
   handleOpenJoin,
   handleOpenDelete,
+  handleLeave,
 }) {
   const navigate = useNavigate();
 
@@ -190,30 +191,36 @@ function EventDetailCard({
                     {!isCreator && (
                       <Button
                         variant={
-                          participationStatus === "ACCEPTED"
-                            ? "success"
-                            : participationStatus === "PENDING"
-                              ? "warning"
-                              : "primary"
+                          participationStatus === "PENDING"
+                            ? "warning"
+                            : "primary"
                         }
                         className="w-100 join-btn"
                         disabled={
                           isPastEvent ||
-                          currentEvent?.availableSpots === 0 ||
-                          participationStatus === "PENDING" ||
-                          participationStatus === "ACCEPTED"
+                          participationStatus === "REJECTED" ||
+                          participationStatus === "PENDING"
                         }
-                        onClick={handleOpenJoin}
+                        onClick={
+                          participationStatus === "ACCEPTED"
+                            ? handleLeave
+                            : handleOpenJoin
+                        }
                       >
                         {isPastEvent
-                          ? "Event finished"
-                          : currentEvent?.availableSpots === 0
-                            ? "Sold Out"
-                            : participationStatus === "PENDING"
-                              ? "Request sent"
+                          ? participationStatus === "ACCEPTED"
+                            ? "Joined"
+                            : "Event finished"
+                          : participationStatus === "PENDING"
+                            ? "Request sent"
+                            : participationStatus === "REJECTED"
+                              ? "Rejected"
                               : participationStatus === "ACCEPTED"
-                                ? "Joined"
-                                : "Join Event"}
+                                ? "Leave Event"
+                                : currentEvent?.reservedSpots ===
+                                    currentEvent?.maxParticipants
+                                  ? "Join waiting list"
+                                  : "Join Event"}
                       </Button>
                     )}
                   </Col>
