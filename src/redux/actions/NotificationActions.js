@@ -77,14 +77,22 @@ export const markNotificationAsRead = (notificationId) => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
 
-    await fetch(`http://localhost:7001/notifications/${notificationId}/read`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      `http://localhost:7001/notifications/${notificationId}/read`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to mark notification as read");
+    }
 
     dispatch(getNotifications());
     dispatch(getnotificationUnreadCount());
+    return true;
   };
 };

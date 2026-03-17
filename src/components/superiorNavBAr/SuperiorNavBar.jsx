@@ -32,10 +32,10 @@ function SuperiorNavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const unreadNotificationCount = useSelector(
-    (state) => state.notifications.unreadCount,
+    (state) => state.notifications?.unreadCount,
   );
   const notifications = useSelector(
-    (state) => state.notifications.notifications.content,
+    (state) => state.notifications?.notifications.content,
   );
 
   const profileId = userId || myId;
