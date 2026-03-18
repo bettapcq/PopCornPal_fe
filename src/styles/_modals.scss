@@ -47,6 +47,23 @@
   color: $gold-main !important;
 }
 
+/* upload photo button */
+
+.form-control[type="file"].file-input::-webkit-file-upload-button {
+  background: $gold-main !important;
+  color: #2b2150 !important;
+  border: none !important;
+  border-radius: 3px !important;
+  padding: 0.55rem 1rem !important;
+  margin-right: 1rem !important;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form-control[type="file"].file-input::file-selector-button:hover {
+  filter: brightness(1.05);
+}
+
 /* main button */
 
 .modal-button {

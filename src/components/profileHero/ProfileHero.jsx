@@ -19,15 +19,16 @@ import {
   faMapMarker,
   faStar,
   faStarHalfStroke,
+  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import EditProfileModal from "../modals/editProfileModal/editProfileModal.jsx";
 import { useParams } from "react-router-dom";
+import UploadProfileImageModal from "../modals/uploadImageProfileModal/UploadImageProfileModal.jsx";
 
 function ProfileHero() {
   const profile = useSelector((state) => state.users.profile);
   const userLogged = useSelector((state) => state.auth.userLogged);
   const params = useParams();
-  const profileId = Number(params.userId);
 
   const [showEdit, setShowEdit] = useState(false);
 
@@ -36,6 +37,9 @@ function ProfileHero() {
 
   const isMyProfile =
     !params.userId || Number(params.userId) === userLogged?.userId;
+
+  //upload profile picture
+  const [showUpload, setShowUpload] = useState(false);
 
   return (
     <>
@@ -58,7 +62,7 @@ function ProfileHero() {
                         as={Button}
                         onClick={handleOpen}
                         icon={faPencilAlt}
-                        className="pencil-btn "
+                        className="pencil-btn fs-5"
                       />
                     </OverlayTrigger>
                   </Col>
@@ -71,16 +75,41 @@ function ProfileHero() {
               <Image
                 src={profile?.profileImg || avatar_placeholder}
                 roundedCircle
-                className="avatar p-3 "
-                width={170}
+                className="avatar p-2"
+                width={160}
+                height={160}
               />
+              {/* upload photo toggle */}
+              {isMyProfile && (
+                <Row className="flex-row justify-content-start text-start">
+                  <Col>
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">Change photo</Tooltip>
+                      }
+                    >
+                      <FontAwesomeIcon
+                        as={Button}
+                        onClick={() => setShowUpload(true)}
+                        icon={faCamera}
+                        className="pencil-btn fs-5"
+                      />
+                    </OverlayTrigger>
+                  </Col>
+                </Row>
+              )}
             </Col>
 
-            <Col xs={12} md={9} className="p-4 text-center text-lg-start">
+            <Col xs={12} md={8} className="p-2 mx-1 text-center text-lg-start">
               <Card.Title className="profile-name">
                 {profile?.username || "Username"}
               </Card.Title>
-              <Card.Text xs={3} className="d-flex text-nowrap p-4">
+              <Card.Text
+                xs={3}
+                className=" text-center text-lg-start text-nowrap p-4 mx-1"
+              >
                 <FontAwesomeIcon icon={faStar} className="star" />
                 <FontAwesomeIcon icon={faStar} className="star" />
                 <FontAwesomeIcon icon={faStar} className="star" />
@@ -115,6 +144,10 @@ function ProfileHero() {
       <Modal show={showEdit} onHide={handleClose} centered>
         <EditProfileModal handleClose={handleClose} />
       </Modal>
+      <UploadProfileImageModal
+        show={showUpload}
+        handleClose={() => setShowUpload(false)}
+      />
     </>
   );
 }

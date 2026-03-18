@@ -1,9 +1,18 @@
 @import "../../styles/variables";
 
 .profile-hero {
-  background: transparent;
-  border: none;
+  background: rgba(20, 20, 40, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 18px;
+  padding: 2rem;
+
   color: $space-light;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(154, 100, 255, 0.08);
+
+  transition: all 0.25s ease;
 }
 
 .profile-name {
