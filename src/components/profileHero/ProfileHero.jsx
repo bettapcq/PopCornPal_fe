@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../hero/ProfileHero.scss";
+import "./ProfileHero.scss";
 import {
   Col,
   Row,
@@ -34,7 +34,8 @@ function ProfileHero() {
   const handleOpen = () => setShowEdit(true);
   const handleClose = () => setShowEdit(false);
 
-  const isMyProfile = profileId === userLogged?.userId;
+  const isMyProfile =
+    !params.userId || Number(params.userId) === userLogged?.userId;
 
   return (
     <>

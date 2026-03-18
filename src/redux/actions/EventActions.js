@@ -13,22 +13,25 @@ export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
 export const EDIT_EVENT_SUCCESS = "EDIT_EVENT_SUCCESS";
 export const GET_USERS_EVENTS_TO_JOIN_SUCCESS =
   "GET_USERS_EVENTS_TO_JOIN_SUCCESS";
+export const GET_NEAR_EVENTS_SUCCESS = "GET_NEAR_EVENTS_SUCCESS";
 
-// --------- HOME EVENTS FETCH
+const eventsUrl = "http://localhost:7001/events";
+
+// --------- HOME FILTERED FETCH
 
 export const getFilteredEvents = (filters = {}) => {
   //fetch with filter object (can add all filter combinations, using just one fetch)
 
   return async (dispatch) => {
     dispatch({ type: EVENTS_LOADING });
+    console.log("GET FILTERED EVENTS ACTION TRIGGERED");
+    const token = localStorage.getItem("token");
 
     try {
-      const eventsUrl = "http://localhost:7001/events";
-      const token = localStorage.getItem("token");
-
       const query = new URLSearchParams(filters).toString();
+      const url = query ? `${eventsUrl}?${query}` : eventsUrl;
 
-      const response = await fetch(`${eventsUrl}?${query}`, {
+      const response = await fetch(`${url}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -42,7 +45,7 @@ export const getFilteredEvents = (filters = {}) => {
 
       dispatch({
         type: GET_HOME_EVENTS_SUCCESS,
-        payload: data,
+        payload: data.content,
       });
     } catch (error) {
       dispatch({
@@ -53,16 +56,72 @@ export const getFilteredEvents = (filters = {}) => {
   };
 };
 
+// -- GET EVENTS NEAR ME WITH GEOLOCATION
+
+export const getEventsNearMe = () => {
+  return async (dispatch) => {
+    dispatch({ type: EVENTS_LOADING });
+    const token = localStorage.getItem("token");
+
+    // no browser geolocation
+    if (!navigator.geolocation) {
+      dispatch(getFilteredEvents({ timeFilter: "future" }));
+      return;
+    }
+
+    // user accept geolocation
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        const token = localStorage.getItem("token");
+
+        try {
+          const response = await fetch(
+            `${eventsUrl}?lat=${lat}&lng=${lng}&radius=50&timeFilter=future`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Error fetching events");
+          }
+
+          dispatch({
+            type: GET_NEAR_EVENTS_SUCCESS,
+            payload: data.content,
+          });
+        } catch (error) {
+          dispatch({
+            type: EVENTS_ERROR,
+            payload: error.message,
+          });
+        }
+      },
+
+      // user reject geolocation callback
+      () => {
+        dispatch(getFilteredEvents({ timeFilter: "future" }));
+      },
+    );
+  };
+};
+
 //-------GET SINGLE EVENT
 
 export const getSingleEvent = (eventId) => {
   return async (dispatch) => {
     dispatch({ type: EVENTS_LOADING });
-
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:7001/events/${eventId}`, {
+      const response = await fetch(`${eventsUrl}/${eventId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -92,8 +151,6 @@ export const getSingleEvent = (eventId) => {
 export const getUserPastEvents = (userId) => {
   return async (dispatch) => {
     dispatch({ type: EVENTS_LOADING });
-
-    const eventsUrl = "http://localhost:7001/events";
     const token = localStorage.getItem("token");
 
     try {
@@ -130,7 +187,6 @@ export const getUserFutureEvents = (userId) => {
   return async (dispatch) => {
     dispatch({ type: EVENTS_LOADING });
 
-    const eventsUrl = "http://localhost:7001/events";
     const token = localStorage.getItem("token");
 
     try {
@@ -172,7 +228,7 @@ export const getUserJoinedEvents = (userId) => {
 
     try {
       const response = await fetch(
-        `http://localhost:7001/events/joined/${userId}?page=0&size=200`,
+        `${eventsUrl}/joined/${userId}?page=0&size=200`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -206,7 +262,6 @@ export const getUserFutureEventsToJoin = (userId) => {
     dispatch({ type: EVENTS_LOADING });
 
     const token = localStorage.getItem("token");
-    const eventsUrl = "http://localhost:7001/events";
 
     try {
       const response = await fetch(
@@ -246,7 +301,7 @@ export const createEvent = (eventData) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:7001/events", {
+      const response = await fetch(`${eventsUrl}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -286,7 +341,7 @@ export const editEvent = (eventId, eventData) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:7001/events/${eventId}`, {
+      const response = await fetch(`${eventsUrl}/${eventId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -320,10 +375,11 @@ export const editEvent = (eventId, eventData) => {
 export const deleteEvent = (eventId) => {
   return async (dispatch) => {
     dispatch({ type: EVENTS_LOADING });
+
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:7001/events/${eventId}`, {
+      const response = await fetch(`${eventsUrl}/${eventId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -11,10 +11,14 @@ import {
   CLEAR_EVENTS_ALERTS,
   EDIT_EVENT_SUCCESS,
   GET_USERS_EVENTS_TO_JOIN_SUCCESS,
+  GET_NEAR_EVENTS_SUCCESS,
 } from "../actions/EventActions";
 
 const initialState = {
-  homeEvents: [],
+  homeEvents: {
+    nearEvents: [],
+    filteredEvents: [],
+  },
   selectedEvent: null,
   userEvents: {
     pastEvents: { content: [] }, // in responses Page<event> i need content
@@ -39,8 +43,21 @@ function EventReducer(state = initialState, action) {
     case GET_HOME_EVENTS_SUCCESS:
       return {
         ...state,
+        homeEvents: {
+          ...state.homeEvents,
+          filteredEvents: action.payload,
+        },
         loading: false,
-        homeEvents: action.payload,
+      };
+
+    case GET_NEAR_EVENTS_SUCCESS:
+      return {
+        ...state,
+        homeEvents: {
+          ...state.homeEvents,
+          nearEvents: action.payload,
+        },
+        loading: false,
       };
 
     case GET_USERS_PAST_EVENTS_SUCCESS:
@@ -102,9 +119,12 @@ function EventReducer(state = initialState, action) {
         ...state,
         message: "Event successfully deleted",
         selectedEvent: null,
-        homeEvents: state.homeEvents.filter(
-          (event) => event.eventId !== action.payload,
-        ),
+        homeEvents: {
+          ...state.homeEvents,
+          filteredEvents: state.homeEvents.filteredEvents.filter(
+            (event) => event.eventId !== action.payload,
+          ),
+        },
         userEvents: {
           ...state.userEvents,
           futureEvents: {
@@ -134,7 +154,7 @@ function EventReducer(state = initialState, action) {
     case EDIT_EVENT_SUCCESS:
       return {
         ...state,
-        loading: null,
+        loading: false,
         error: null,
         selectedEvent: action.payload,
       };
