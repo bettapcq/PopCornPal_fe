@@ -130,7 +130,7 @@ function EventPage() {
       )}
       {/* no loading e no error build omponent */}
       {!error && !loading && currentEvent && (
-        <Container className="event-detail-container w-100" fluid>
+        <Container className="main-content event-detail-container w-100" fluid>
           <Row className="w-100 justify-content-center">
             <Col xs={12} lg={8}>
               <Row>
@@ -158,7 +158,7 @@ function EventPage() {
               </Row>
             </Col>
             {isCreator && (
-              <Col xs={4}>
+              <Col xs={12} lg={4}>
                 {/* SECTION REQUESTS */}
                 <PendingRequestsSection />
                 {/* SECTION MESSAGES */}

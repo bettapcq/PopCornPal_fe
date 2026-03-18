@@ -9,7 +9,7 @@ import {
 } from "../../redux/actions/EventActions";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import ProfileHero from "../../components/hero/ProfileHero";
+import ProfileHero from "../../components/profileHero/ProfileHero";
 import AsideSectionDx from "../../components/asideSections/AsideSectionDx";
 import AsideSectionSx from "../../components/asideSections/AsideSectionSx";
 import ProfileMainSection from "../../components/ProfileMainSection/ProfileMainSection";

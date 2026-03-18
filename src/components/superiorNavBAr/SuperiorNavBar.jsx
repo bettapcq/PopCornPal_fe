@@ -147,7 +147,7 @@ function SuperiorNavBar() {
         </Nav.Link>
         <Nav.Link
           as={NavLink}
-          to="/private/create-event"
+          to="/private/event/form"
           className="px-3 d-lg-none"
         >
           <FontAwesomeIcon icon={faPlus} className="create-event-icon" />
@@ -175,7 +175,7 @@ function SuperiorNavBar() {
           align="end"
         >
           <p className="w-100 fs-7 text-center px-1">{userLogged?.email}</p>
-          <NavDropdown.Item as={NavLink} to="/private/profile/me">
+          <NavDropdown.Item as={NavLink} to="/private/profile">
             My Profile
           </NavDropdown.Item>
           <NavDropdown.Item as={NavLink} to="/private/edit-profile">

@@ -23,7 +23,7 @@ function ParticipantsSection({ isCreator }) {
                 >
                   {console.log("participant", p)}
                   <Row className="align-items-center">
-                    <Col className="flex-row">
+                    <Col xs={12} lg="auto" className="flex-row">
                       <Link
                         to={`/private/profile/${p.userId}`}
                         className="d-flex align-items-center gap-2"
@@ -40,7 +40,7 @@ function ParticipantsSection({ isCreator }) {
                     </Col>
 
                     {isCreator && (
-                      <Col className="text-end">
+                      <Col xs={12} className="text-end">
                         <Button
                           size="sm"
                           variant="danger"

@@ -1,12 +1,11 @@
 import { Container, Row, Col, Carousel } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import EventMiniCard from "../eventCards/eventMiniCard/EventMiniCard";
-import "./AsideSection.scss";
 import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
 
 function AsideSectionDx() {
   const joinedEvents = useSelector(
-    (state) => state.events.userEvents.joinedEvents.content,
+    (state) => state.events?.userEvents?.joinedEvents.content,
   );
   const pastEvents = useSelector(
     (state) => state.events.userEvents.pastEvents.content,

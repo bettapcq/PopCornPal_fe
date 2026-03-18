@@ -44,16 +44,18 @@
 
 .autocomplete-list {
   position: absolute;
-  top: 88%;
-  left: 3%;
-  width: 100%;
-
-  margin-top: 6px;
+  width: max-content;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  overflow-y: visible;
+  overflow-x: visible;
 
   background: #08132c;
   border: 1px solid #3a3a6a;
   border-radius: 8px;
-  z-index: 20;
+
+  z-index: 999;
 }
 
 .autocomplete-item {
