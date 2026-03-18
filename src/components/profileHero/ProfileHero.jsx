@@ -17,13 +17,12 @@ import {
   faBirthdayCake,
   faPencilAlt,
   faMapMarker,
-  faStar,
-  faStarHalfStroke,
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import EditProfileModal from "../modals/editProfileModal/editProfileModal.jsx";
 import { useParams } from "react-router-dom";
 import UploadProfileImageModal from "../modals/uploadImageProfileModal/UploadImageProfileModal.jsx";
+import StaticRatingStars from "../ratingStars/StaticRatingStars.jsx";
 
 function ProfileHero() {
   const profile = useSelector((state) => state.users.profile);
@@ -71,13 +70,12 @@ function ProfileHero() {
             </Col>
           </Row>
           <Row className="align-items-center">
-            <Col xs={12} md={3} className="text-center">
+            <Col xs={12} md={4} className="text-center">
               <Image
                 src={profile?.profileImg || avatar_placeholder}
                 roundedCircle
                 className="avatar p-2"
-                width={160}
-                height={160}
+                fluid
               />
               {/* upload photo toggle */}
               {isMyProfile && (
@@ -102,19 +100,19 @@ function ProfileHero() {
               )}
             </Col>
 
-            <Col xs={12} md={8} className="p-2 mx-1 text-center text-lg-start">
+            <Col xs={12} md={7} className="p-2 mx-2 text-center text-lg-start">
               <Card.Title className="profile-name">
                 {profile?.username || "Username"}
               </Card.Title>
-              <Card.Text
-                xs={3}
-                className=" text-center text-lg-start text-nowrap p-4 mx-1"
-              >
-                <FontAwesomeIcon icon={faStar} className="star" />
-                <FontAwesomeIcon icon={faStar} className="star" />
-                <FontAwesomeIcon icon={faStar} className="star" />
-                <FontAwesomeIcon icon={faStar} className="star" />
-                <FontAwesomeIcon icon={faStarHalfStroke} className="star" />
+              <Card.Text xs={3} className="p-2 mx-1 d-flex wrap-nowrap">
+                {profile?.avgRating > 0 ? (
+                  <StaticRatingStars rating={profile.avgRating} />
+                ) : (
+                  "No ratings yet"
+                )}
+                {profile?.ratingCount > 0 && (
+                  <span className="ms-2 fs-7">({profile?.ratingCount})</span>
+                )}
               </Card.Text>
               <hr className="profile-divider my-4" />
               <Row className="align-items-center my-3">

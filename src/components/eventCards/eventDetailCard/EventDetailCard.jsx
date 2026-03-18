@@ -9,6 +9,7 @@ import {
   faMapMarker,
   faPencilAlt,
   faTrashAlt,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -20,19 +21,26 @@ import {
   Tooltip,
   Image,
 } from "react-bootstrap";
+import { rateParticipation } from "../../../redux/actions/ParticipationActions";
+import DinamicRatingStars from "../../ratingStars/DinamicRatingStars";
+import { useDispatch } from "react-redux";
+import { getSingleEvent } from "../../../redux/actions/EventActions";
+import StaticRatingStars from "../../ratingStars/StaticRatingStars";
 
-function EventDetailCard({
-  currentEvent,
-  isCreator,
-  isPastEvent,
-  participationStatus,
-  isFull,
-  date,
-  handleOpenJoin,
-  handleOpenDelete,
-  handleLeave,
-}) {
+function EventDetailCard(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const canRate =
+    props.isPastEvent &&
+    props.participation?.status === "ACCEPTED" &&
+    props.participation?.participantRating <= 0 &&
+    !props.isCreator;
+
+  const handleRate = (rating) => {
+    dispatch(rateParticipation(props.participation.participationId, rating));
+    dispatch(getSingleEvent(props.currentEvent.eventId));
+  };
 
   return (
     <Card className="event-detail-card">
@@ -41,9 +49,9 @@ function EventDetailCard({
           {/* POSTER */}
           <Col md={4}>
             <Image
-              src={currentEvent?.movie?.Poster || poster_placeholder}
+              src={props.currentEvent?.movie?.Poster || poster_placeholder}
               className="event-poster"
-              alt={currentEvent?.title}
+              alt={props.currentEvent?.title}
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = poster_placeholder;
@@ -53,7 +61,7 @@ function EventDetailCard({
 
           <Col md={8}>
             {/* creator button edit toggle */}
-            {isCreator && !isPastEvent && (
+            {props.isCreator && !props.isPastEvent && (
               <Row className="flex-row justify-content-end text-end">
                 <Col>
                   <OverlayTrigger
@@ -66,7 +74,9 @@ function EventDetailCard({
                     <FontAwesomeIcon
                       as={Button}
                       onClick={() =>
-                        navigate(`/private/event/form/${currentEvent.eventId}`)
+                        navigate(
+                          `/private/event/form/${props.currentEvent.eventId}`,
+                        )
                       }
                       icon={faPencilAlt}
                       className="pencil-btn"
@@ -79,23 +89,29 @@ function EventDetailCard({
             <Row className="flex-column g-4">
               <Col
                 as={Link}
-                to={`/private/profile/${currentEvent?.creator.userId}`}
+                to={`/private/profile/${props.currentEvent?.creator.userId}`}
                 className="d-flex flex-row align-items-center "
               >
                 <Image
                   className="rounded-circle avatar m-3 avatar-link"
-                  src={currentEvent.creator.profileImg || avatar_placeholder}
+                  src={
+                    props.currentEvent.creator.profileImg || avatar_placeholder
+                  }
                   alt="avatar"
                   height={45}
                   width={45}
                 />
+
                 <Card.Subtitle className="avatar-link">
-                  {currentEvent?.creator.username}
+                  {props.currentEvent?.creator.username}
                 </Card.Subtitle>
               </Col>
               <Col>
-                <h2>{currentEvent.title}</h2>
-                <p>{currentEvent.description}</p>
+                {props.currentEvent?.ratingAvg > 0 && (
+                  <StaticRatingStars rating={props.currentEvent?.ratingAvg} />
+                )}
+                <h2>{props.currentEvent.title}</h2>
+                <p>{props.currentEvent.description}</p>
               </Col>
               <Row className="my-4">
                 <Col>
@@ -104,30 +120,31 @@ function EventDetailCard({
                       className="general-icon"
                       icon={faCalendarAlt}
                     />
-                    {date.toLocaleDateString("it-IT")}
+                    {props.date.toLocaleDateString("it-IT")}
                   </Card.Text>
-                  {date && (
+                  {props.date && (
                     <Card.Text>
                       <FontAwesomeIcon
                         className="general-icon"
                         icon={faClock}
                       />
 
-                      {date.toLocaleTimeString("it-IT", {
+                      {props.date.toLocaleTimeString("it-IT", {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
                     </Card.Text>
                   )}
-                  {date && (
+                  {props.date && (
                     <Card.Text>
                       <FontAwesomeIcon
                         icon={faMapMarker}
                         className="general-icon"
                       />
-                      {currentEvent?.eventType === "ONLINE"
+                      {props.currentEvent?.eventType === "ONLINE"
                         ? "Online"
-                        : `${currentEvent?.location?.street} ${currentEvent?.location?.civicNumber}, ${currentEvent?.location?.city}`}
+                        : `${props.currentEvent?.location?.street} 
+                        ${props.currentEvent?.location?.civicNumber}, ${props.currentEvent?.location?.city}`}
                     </Card.Text>
                   )}
                 </Col>
@@ -139,19 +156,19 @@ function EventDetailCard({
                     MOVIE:
                   </Card.Text>
                   <Card.Subtitle className="mb-0 ms-2">
-                    {currentEvent.movie.Title}
+                    {props.currentEvent.movie.Title}
                   </Card.Subtitle>
                   <Card.Text className="mb-0  ms-2">
-                    {currentEvent.movie.Year}
+                    {props.currentEvent.movie.Year}
                   </Card.Text>
                   <Card.Text className="mb-0  ms-2">
-                    {currentEvent.movie.Plot}
+                    {props.currentEvent.movie.Plot}
                   </Card.Text>
                   <Card.Text className="mb-0  ms-2">
-                    {currentEvent.movie.Runtime}
+                    {props.currentEvent.movie.Runtime}
                   </Card.Text>
                   <Card.Text className="mb-0  ms-2">
-                    {currentEvent.movie.Genre}
+                    {props.currentEvent.movie.Genre}
                   </Card.Text>
                 </Col>
               </Row>
@@ -160,20 +177,20 @@ function EventDetailCard({
                 <Row className="d-flex flex-row justify-content-between align-items-center me-auto my-3 ">
                   <Col xs={4}>
                     <Card.Text
-                      className={` ${isFull ? "text-danger" : "text-success"}`}
+                      className={` ${props.isFull ? "text-danger" : "text-success"}`}
                     >
                       <FontAwesomeIcon
                         className="general-icon"
                         xs={2}
                         icon={faUser}
                       />
-                      {currentEvent.reservedSpots || 0}/
-                      {currentEvent.maxParticipants}
+                      {props.currentEvent.reservedSpots || 0}/
+                      {props.currentEvent.maxParticipants}
                     </Card.Text>
                   </Col>
                   {/* creator button delete toggle*/}
-                  <Col xs={4} className="text-end">
-                    {isCreator && !isPastEvent && (
+                  <Col xs={4} className="text-end mb-2">
+                    {props.isCreator && !props.isPastEvent && (
                       <OverlayTrigger
                         placement="right"
                         delay={{ show: 250, hide: 400 }}
@@ -183,47 +200,73 @@ function EventDetailCard({
                           as={Button}
                           icon={faTrashAlt}
                           className="pencil-btn event-delete-icon"
-                          onClick={handleOpenDelete}
+                          onClick={props.handleOpenDelete}
                         />
                       </OverlayTrigger>
                     )}
 
-                    {!isCreator && (
+                    {!props.isCreator && (
                       <Button
                         variant={
-                          participationStatus === "PENDING"
+                          props.participation.status === "PENDING"
                             ? "warning"
                             : "primary"
                         }
                         className="w-100 join-btn"
                         disabled={
-                          isPastEvent ||
-                          participationStatus === "REJECTED" ||
-                          participationStatus === "PENDING"
+                          props.isPastEvent ||
+                          props.participation.status === "REJECTED" ||
+                          props.participation.status === "PENDING"
                         }
                         onClick={
-                          participationStatus === "ACCEPTED"
-                            ? handleLeave
-                            : handleOpenJoin
+                          props.participation.status === "ACCEPTED"
+                            ? props.handleLeave
+                            : props.handleOpenJoin
                         }
                       >
-                        {isPastEvent
-                          ? participationStatus === "ACCEPTED"
+                        {props.isPastEvent
+                          ? props.participation.status === "ACCEPTED"
                             ? "Joined"
                             : "Event finished"
-                          : participationStatus === "PENDING"
+                          : props.participation.status === "PENDING"
                             ? "Request sent"
-                            : participationStatus === "REJECTED"
+                            : props.participation.status === "REJECTED"
                               ? "Rejected"
-                              : participationStatus === "ACCEPTED"
+                              : props.participation.status === "ACCEPTED"
                                 ? "Leave Event"
-                                : currentEvent?.reservedSpots ===
-                                    currentEvent?.maxParticipants
+                                : props.currentEvent?.reservedSpots ===
+                                    props.currentEvent?.maxParticipants
                                   ? "Join waiting list"
                                   : "Join Event"}
                       </Button>
                     )}
                   </Col>
+
+                  {/* rating section */}
+                  {canRate && (
+                    <Row className="d-flex flex-column align-items-end text-end me-0 px-1">
+                      <Col className="px-0">
+                        <Card.Text className="mb-0">
+                          How was this event?
+                        </Card.Text>
+                        <DinamicRatingStars onRate={handleRate} />
+                      </Col>
+                    </Row>
+                  )}
+                  {props.participation?.participantRating > 0 && (
+                    <Row className="d-flex flex-column align-items-end text-end me-0 px-1">
+                      <Col className="px-0">
+                        <Card.Text className="fs-7">
+                          Your rating:{" "}
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            className="star fs-7"
+                          />
+                          {props.participation?.participantRating} / 5
+                        </Card.Text>
+                      </Col>
+                    </Row>
+                  )}
                 </Row>
               </Col>
             </Row>

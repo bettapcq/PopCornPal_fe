@@ -74,9 +74,11 @@ function EventPage() {
 
   //Leave:
 
-  const participationId = currentEvent?.participants?.find(
+  const participation = currentEvent?.participants?.find(
     (p) => p.userId === userLogged.userId,
-  )?.participationId;
+  );
+
+  const participationId = participation?.participationId;
 
   const handleLeave = async () => {
     await dispatch(leaveEvent(participationId));
@@ -140,7 +142,7 @@ function EventPage() {
                     currentEvent={currentEvent}
                     isCreator={isCreator}
                     isPastEvent={isPastEvent}
-                    participationStatus={participationStatus}
+                    participation={participation}
                     isFull={isFull}
                     date={date}
                     handleOpenJoin={handleOpenJoin}

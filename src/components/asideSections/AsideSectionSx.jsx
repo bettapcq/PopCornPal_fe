@@ -23,7 +23,7 @@ function AsideSectionSx() {
               ))}
             </Row>
           ) : (
-            <p className="text-center no-content-text">No past events yet</p>
+            <p className="text-center no-content-text">No events to join yet</p>
           )}
         </Col>
         {/* xs version */}

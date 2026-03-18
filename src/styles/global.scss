@@ -15,6 +15,7 @@ h2,
 h3 {
   font-family: $font-heading;
   color: $gold-main;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .no-content-text {
@@ -69,6 +70,8 @@ h3 {
   background: $gold-gradient;
   object-fit: cover;
   border-radius: 50%;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 a {
@@ -159,6 +162,10 @@ input[type="datetime-local"] {
   .star svg {
     fill: transparent;
   }
+}
+
+.star-empty {
+  color: #555;
 }
 
 .carousel-item {
