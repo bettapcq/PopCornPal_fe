@@ -1,6 +1,8 @@
-export const PROFILE_LOADING = "PROFILE_LOADING";
-export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
-export const PROFILE_ERROR = "PROFILE_ERROR";
+import {
+  PROFILE_LOADING,
+  PROFILE_SUCCESS,
+  PROFILE_ERROR,
+} from "../actions/UserActions";
 
 const initialState = {
   profile: null,
@@ -21,6 +23,7 @@ function UserReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
+        error: null,
         profile: action.payload,
       };
 
