@@ -5,6 +5,7 @@ import {
   PARTICIPATIONS_ERROR,
   PARTICIPATIONS_LOADING,
   LEAVE_EVENT_SUCCESS,
+  RATE_PARTICIPATION_SUCCESS,
 } from "../actions/ParticipationActions";
 
 const initialState = {
@@ -35,7 +36,7 @@ function ParticipationReducer(state = initialState, action) {
         ...state,
         myParticipations: {
           ...state.myParticipations,
-          [action.payload.eventId]: action.payload.participationStatus,
+          [action.payload.eventId]: action.payload,
         },
       };
     case LEAVE_EVENT_SUCCESS:
@@ -60,6 +61,16 @@ function ParticipationReducer(state = initialState, action) {
         requests: state.requests.filter(
           (req) => req.participationId !== action.payload.participationId,
         ),
+      };
+
+    case RATE_PARTICIPATION_SUCCESS:
+      return {
+        ...state,
+        myParticipations: {
+          ...state.myParticipations,
+          [action.payload.eventId]: action.payload,
+          rating: action.payload.rating,
+        },
       };
 
     default:

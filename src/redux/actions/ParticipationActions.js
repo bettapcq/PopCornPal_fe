@@ -6,6 +6,7 @@ export const JOIN_EVENT_SUCCESS = "JOIN_EVENT_SUCCESS";
 export const GET_EVENT_REQUESTS_SUCCESS = "GET_EVENT_REQUESTS_SUCCESS";
 export const MANAGE_JOIN_REQUEST_SUCCESS = "MANAGE_JOIN_REQUEST_SUCCESS";
 export const LEAVE_EVENT_SUCCESS = "LEAVE_EVENT_SUCCESS";
+export const RATE_PARTICIPATION_SUCCESS = "RATE_PARTICIPATION_SUCCESS";
 
 // ------JOIN EVENT
 export const joinEvent = (eventId) => {
@@ -142,6 +143,37 @@ export const leaveEvent = (participationId) => {
 
       dispatch({ type: LEAVE_EVENT_SUCCESS });
       dispatch(getSingleEvent(eventId));
+    } catch (error) {
+      dispatch({ type: PARTICIPATIONS_ERROR, payload: error.message });
+    }
+  };
+};
+
+// rate paricipation
+export const rateParticipation = (participationId, rating) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(
+        `http://localhost:7001/participations/${participationId}/rate`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rating }),
+        },
+      );
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to rate participation");
+
+      dispatch({
+        type: RATE_PARTICIPATION_SUCCESS,
+        payload: data,
+      });
     } catch (error) {
       dispatch({ type: PARTICIPATIONS_ERROR, payload: error.message });
     }
