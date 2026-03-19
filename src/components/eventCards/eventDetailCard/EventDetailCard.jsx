@@ -151,7 +151,6 @@ function EventDetailCard(props) {
                           {props.currentEvent?.location?.city}
                         </>
                       ) : (
-                        // ❌ indirizzo nascosto
                         <>
                           {props.currentEvent?.location?.city} —{" "}
                           <span className="text-muted">

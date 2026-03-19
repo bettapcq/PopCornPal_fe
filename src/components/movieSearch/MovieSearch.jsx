@@ -67,7 +67,7 @@ function MovieSearch({ onSelect, initialValue = "" }) {
   }, []);
 
   const handleSelect = (movie) => {
-    setQuery(movie.Title);
+    setQuery(movie.Title || "");
     setShowDropdown(false);
 
     onSelect(movie);

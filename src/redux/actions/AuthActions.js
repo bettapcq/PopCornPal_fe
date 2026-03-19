@@ -148,9 +148,8 @@ export const getMe = () => async (dispatch, getState) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  if (res.status !== 204) {
-    const data = await res.json();
-  }
+
+  const data = await response.json();
 
   dispatch({
     type: LOGIN_SUCCESS,
