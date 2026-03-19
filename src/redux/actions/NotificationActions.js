@@ -1,3 +1,5 @@
+import { API_URL } from "../../api/api";
+
 export const NOTIFICATIONS_LOADING = "NOTIFICATIONS_LOADING";
 export const GET_NOTIFICATIONS_SUCCESS = "GET_NOTIFICATIONS_SUCCESS";
 export const NOTIFICATIONS_ERROR = "NOTIFICATIONS_ERROR";
@@ -13,7 +15,7 @@ export const getNotifications = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:7001/notifications`, {
+      const response = await fetch(`${API_URL}/notifications`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,14 +46,11 @@ export const getnotificationUnreadCount = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(
-        `http://localhost:7001/notifications/unread`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await fetch(`${API_URL}/notifications/unread`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -78,7 +77,7 @@ export const markNotificationAsRead = (notificationId) => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:7001/notifications/${notificationId}/read`,
+      `${API_URL}/notifications/${notificationId}/read`,
       {
         method: "PATCH",
         headers: {

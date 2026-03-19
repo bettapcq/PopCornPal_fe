@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
+import { API_URL } from "../api/api";
 
 function AddressSearch({ value = "", onSelect }) {
   const token = localStorage.getItem("token");
@@ -32,7 +33,7 @@ function AddressSearch({ value = "", onSelect }) {
       setLoading(true);
 
       const response = await fetch(
-        `http://localhost:7001/locations/autocomplete?text=${encodeURIComponent(value)}`,
+        `${API_URL}/locations/autocomplete?text=${encodeURIComponent(value)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -9,7 +9,6 @@ function HeroSection({ events }) {
     <Row className="hero-section align-items-center my-4">
       <Col md={5}>
         <h1>Find your next movie night</h1>
-
         <Button
           className="hero-btn"
           onClick={() => navigate("/private/event/form")}

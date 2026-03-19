@@ -1,3 +1,4 @@
+import { API_URL } from "../api/api";
 import {
   Container,
   Row,
@@ -66,7 +67,7 @@ function HomeEventsSection({ title, events }) {
 
     try {
       const response = await fetch(
-        `http://localhost:7001/locations/autocomplete?text=${encodeURIComponent(value)}`,
+        `${API_URL}/locations/autocomplete?text=${encodeURIComponent(value)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -98,7 +99,7 @@ function HomeEventsSection({ title, events }) {
       ) : (
         <Container fluid className="glass-section home-events my-4">
           {/* loading */}
-          {loading && <Spinner animation="grow" variant="info" />}
+          {loading && <Spinner animation="grow" variant="primary" />}
 
           {/* success message */}
           {message && (
@@ -199,7 +200,7 @@ function HomeEventsSection({ title, events }) {
             {console.log("LOADING: ", loading)}
             {loading && (
               <Col className="text-center">
-                <Spinner animation="grow" variant="info" />
+                <Spinner animation="grow" variant="primary" />
               </Col>
             )}
 

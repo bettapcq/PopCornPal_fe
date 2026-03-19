@@ -1,3 +1,5 @@
+import { API_URL } from "../../api/api";
+
 export const PROFILE_LOADING = "PROFILE_LOADING";
 export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
 export const PROFILE_ERROR = "PROFILE_ERROR";
@@ -8,8 +10,8 @@ export const getProfile = (userId) => {
     dispatch({ type: PROFILE_LOADING });
 
     const profileUrl = userId
-      ? `http://localhost:7001/users/${userId}`
-      : `http://localhost:7001/users/me`;
+      ? `${API_URL}/users/${userId}`
+      : `${API_URL}/users/me`;
 
     const token = localStorage.getItem("token");
 
@@ -48,7 +50,7 @@ export const editProfileDetails = (updatedData) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:7001/users/me/details", {
+      const response = await fetch(`${API_URL}/users/me/details`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +85,7 @@ export const uploadProfileImage = (formData) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:7001/users/me/avatar", {
+      const response = await fetch(`${API_URL}/users/me/avatar`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -9,13 +9,14 @@ export const CLEAR_AUTH_ERROR = "CLEAR_AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
 export const EDIT_SECURITY_SUCCESS = "EDIT_SECURITY_SUCCESS";
 export const SECURITY_ERROR = "SECURITY_ERROR";
+import { API_URL } from "../../api/api";
 import { getProfile } from "./UserActions";
 
 // ------LOGIN
 export const login = (email, password) => {
   return async (dispatch) => {
     try {
-      const response = await fetch("http://localhost:7001/auth/login", {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +78,7 @@ export const register = (userData) => {
 
   return async (dispatch) => {
     try {
-      const response = await fetch("http://localhost:7001/auth/register", {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +118,7 @@ export const resetPassword = (email) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        `http://localhost:7001/auth/reset-password?email=${email}`,
+        `${API_URL}/auth/reset-password?email=${email}`,
         { method: "POST" },
       );
       const data = await response.json();
@@ -143,7 +144,7 @@ export const getMe = () => async (dispatch, getState) => {
 
   if (!token) return;
 
-  const response = await fetch("http://localhost:7001/users/me", {
+  const response = await fetch(`${API_URL}/users/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -167,7 +168,7 @@ export const editProfileSecurity = (formData) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:7001/users/me/security`, {
+      const response = await fetch(`${API_URL}/users/me/security`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -203,7 +204,7 @@ export const deleteAccount = () => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:7001/users/me", {
+    const response = await fetch(`${API_URL}/users/me`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

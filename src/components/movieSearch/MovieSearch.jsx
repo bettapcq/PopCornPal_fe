@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Form, Spinner } from "react-bootstrap";
+import { API_URL } from "../../api/api";
 
 function MovieSearch({ onSelect, initialValue = "" }) {
   const [query, setQuery] = useState(initialValue);
@@ -35,14 +36,11 @@ function MovieSearch({ onSelect, initialValue = "" }) {
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch(
-        `http://localhost:7001/movies/search?query=${q}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await fetch(`${API_URL}/movies/search?query=${q}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       const data = await res.json();
 
@@ -86,7 +84,7 @@ function MovieSearch({ onSelect, initialValue = "" }) {
         <div className="movie-dropdown">
           {loading && (
             <div className="p-2 text-center">
-              <Spinner size="sm" variant="info" animation="grow" />
+              <Spinner size="sm" variant="primary" animation="grow" />
             </div>
           )}
 

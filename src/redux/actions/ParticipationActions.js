@@ -1,3 +1,4 @@
+import { API_URL } from "../../api/api";
 import { getSingleEvent } from "./EventActions";
 
 export const PARTICIPATIONS_LOADING = "PARTICIPATIONS_LOADING";
@@ -15,16 +16,13 @@ export const joinEvent = (eventId) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(
-        `http://localhost:7001/events/${eventId}/join`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+      const response = await fetch(`${API_URL}/events/${eventId}/join`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-      );
+      });
 
       const data = await response.json();
 
@@ -51,14 +49,11 @@ export const getParticipationRequests = (eventId) => {
   return async (dispatch) => {
     dispatch({ type: PARTICIPATIONS_LOADING });
     try {
-      const response = await fetch(
-        `http://localhost:7001/events/${eventId}/requests`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const response = await fetch(`${API_URL}/events/${eventId}/requests`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+      });
 
       const data = await response.json();
 
@@ -91,7 +86,7 @@ export const manageParticipationsRequests = (
 
     try {
       const response = await fetch(
-        `http://localhost:7001/participations/${participationId}?status=${status}`,
+        `${API_URL}/participations/${participationId}?status=${status}`,
         {
           method: "PATCH",
           headers: {
@@ -130,7 +125,7 @@ export const leaveEvent = (participationId) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        `http://localhost:7001/participations/${participationId}/leave`,
+        `${API_URL}/participations/${participationId}/leave`,
         {
           method: "DELETE",
           headers: {
@@ -156,7 +151,7 @@ export const rateParticipation = (participationId, rating) => {
 
     try {
       const response = await fetch(
-        `http://localhost:7001/participations/${participationId}/rate`,
+        `${API_URL}/participations/${participationId}/rate`,
         {
           method: "PATCH",
           headers: {

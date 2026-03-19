@@ -11,6 +11,8 @@ function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
+  console.log("API URL:", import.meta.env.VITE_API_URL);
+
   return (
     <Container className="pt-5" fluid>
       {/* video background */}

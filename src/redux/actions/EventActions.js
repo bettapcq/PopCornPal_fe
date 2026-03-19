@@ -1,3 +1,5 @@
+import { API_URL } from "../../api/api";
+
 export const EVENTS_ERROR = "GET_EVENTS_ERROR";
 export const EVENTS_LOADING = "GET_EVENTS_LOADING";
 export const GET_HOME_EVENTS_SUCCESS = "GET_HOME_EVENTS_SUCCESS";
@@ -15,7 +17,7 @@ export const GET_USERS_EVENTS_TO_JOIN_SUCCESS =
   "GET_USERS_EVENTS_TO_JOIN_SUCCESS";
 export const GET_NEAR_EVENTS_SUCCESS = "GET_NEAR_EVENTS_SUCCESS";
 
-const eventsUrl = "http://localhost:7001/events";
+const eventsUrl = `${API_URL}/events`;
 
 // --------- HOME FILTERED FETCH
 
