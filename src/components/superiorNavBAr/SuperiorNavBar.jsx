@@ -178,7 +178,7 @@ function SuperiorNavBar() {
           <NavDropdown.Item as={NavLink} to="/private/profile">
             My Profile
           </NavDropdown.Item>
-          <NavDropdown.Item as={NavLink} to="/private/edit-profile">
+          <NavDropdown.Item as={NavLink} to="/private/security">
             Settings
           </NavDropdown.Item>
           <NavDropdown.Item as={NavLink} to="/private/backoffice">
