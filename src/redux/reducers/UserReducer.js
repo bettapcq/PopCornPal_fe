@@ -2,6 +2,7 @@ import {
   PROFILE_LOADING,
   PROFILE_SUCCESS,
   PROFILE_ERROR,
+  CLEAR_USER_ALERTS,
 } from "../actions/UserActions";
 
 const initialState = {
@@ -25,6 +26,13 @@ function UserReducer(state = initialState, action) {
         loading: false,
         error: null,
         profile: action.payload,
+      };
+
+    case CLEAR_USER_ALERTS:
+      return {
+        ...state,
+        message: null,
+        error: null,
       };
 
     case PROFILE_ERROR:

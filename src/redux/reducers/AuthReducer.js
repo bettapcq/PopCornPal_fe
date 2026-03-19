@@ -8,6 +8,8 @@ import {
   RESET_PASSWORD_CLOSE,
   LOGOUT,
   CLEAR_AUTH_ERROR,
+  EDIT_SECURITY_SUCCESS,
+  SECURITY_ERROR,
 } from "../actions/AuthActions";
 
 const initialState = {
@@ -82,6 +84,20 @@ function AuthReducer(state = initialState, action) {
 
     case RESET_PASSWORD_ERROR:
       return { ...state, loading: false, error: action.payload };
+
+    case EDIT_SECURITY_SUCCESS:
+      return {
+        ...state,
+        userLogged: action.payload.user,
+        message: action.payload.message,
+        error: null,
+      };
+    case SECURITY_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
 
     case CLEAR_AUTH_ERROR:
       return {

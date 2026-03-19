@@ -7,6 +7,8 @@ export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR";
 export const RESET_PASSWORD_CLOSE = "RESET_PASSWORD_CLOSE";
 export const CLEAR_AUTH_ERROR = "CLEAR_AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
+export const EDIT_SECURITY_SUCCESS = "EDIT_SECURITY_SUCCESS";
+export const SECURITY_ERROR = "SECURITY_ERROR";
 import { getProfile } from "./UserActions";
 
 // ------LOGIN
@@ -154,4 +156,41 @@ export const getMe = () => async (dispatch, getState) => {
       userLogged: data,
     },
   });
+};
+
+//change security info
+
+export const editProfileSecurity = (formData) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`http://localhost:7001/users/me/security`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error uploading security info");
+      }
+
+      dispatch({
+        type: EDIT_SECURITY_SUCCESS,
+        payload: {
+          user: data,
+          message: "Security settings updated successfully",
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: RESET_PASSWORD_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 };
