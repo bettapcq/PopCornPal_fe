@@ -117,21 +117,21 @@ function SuperiorNavBar() {
               )}
             </div>
 
-            <Nav.Link as={NavLink} to="/private/messages">
+            {/* <Nav.Link as={NavLink} to="/private/messages">
               Messages
-            </Nav.Link>
+            </Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
 
         {/* icons */}
 
-        <Nav.Link
+        {/* <Nav.Link
           as={NavLink}
           to="/private/messages"
           className="px-3 d-lg-none"
         >
           <FontAwesomeIcon icon={faComment} className="nav-icon" />
-        </Nav.Link>
+        </Nav.Link> */}
         <Nav.Link
           as={NavLink}
           to="/private/notifications"
@@ -181,9 +181,9 @@ function SuperiorNavBar() {
           <NavDropdown.Item as={NavLink} to="/private/security">
             Settings
           </NavDropdown.Item>
-          <NavDropdown.Item as={NavLink} to="/private/backoffice">
+          {/* <NavDropdown.Item as={NavLink} to="/private/backoffice">
             Backoffice
-          </NavDropdown.Item>
+          </NavDropdown.Item> */}
           <NavDropdown.Divider color="$text-light" />
           <NavDropdown.Item
             type="button"
