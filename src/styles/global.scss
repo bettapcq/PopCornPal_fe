@@ -239,3 +239,24 @@ input[type="datetime-local"] {
 .glass-section::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.35);
 }
+
+.list-dark {
+  background: #08132c;
+  border: 1px solid #3a3a6a;
+  border-radius: 8px;
+}
+.notification-read {
+  color: $gold-light;
+  opacity: 0.5;
+}
+
+.notification-unread {
+  color: $gold-light;
+  opacity: 1;
+  font-weight: 600;
+}
+
+.text-muted {
+  color: $space-light !important;
+  opacity: 0.7;
+}

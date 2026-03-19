@@ -82,7 +82,7 @@ function SuperiorNavBar() {
             </Nav.Link>
             <div className="notification-link">
               <NavDropdown title={"Notifications"}>
-                {notifications?.slice(0, 5).map((n) => (
+                {notifications?.slice(0, 3).map((n) => (
                   <NavDropdown.Item
                     key={n.notificationId}
                     onClick={() => {

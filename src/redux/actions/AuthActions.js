@@ -188,7 +188,7 @@ export const editProfileSecurity = (formData) => {
       });
     } catch (error) {
       dispatch({
-        type: RESET_PASSWORD_ERROR,
+        type: SECURITY_ERROR,
         payload: error.message,
       });
     }
