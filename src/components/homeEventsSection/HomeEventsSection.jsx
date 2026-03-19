@@ -206,7 +206,7 @@ function HomeEventsSection({ title, events }) {
             {!loading &&
               events?.length > 0 &&
               events.map((event) => (
-                <Col lg={4} md={6} key={event.eventId}>
+                <Col md={4} lg={6} key={event.eventId}>
                   <EventXsCard event={event} />
                 </Col>
               ))}

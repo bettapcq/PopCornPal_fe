@@ -134,7 +134,7 @@ function SecuritySettingsPage() {
       {!error && !loading && (
         <Container className="mt-4">
           <Row className="justify-content-center">
-            <Col lg={10}>
+            <Col md={10}>
               <Card>
                 <Card.Body>
                   <Card.Title className="mb-4 modal-title text-start">
