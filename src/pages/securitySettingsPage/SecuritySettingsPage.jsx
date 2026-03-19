@@ -11,16 +11,21 @@ import {
 import { useEffect, useState } from "react";
 import {
   CLEAR_AUTH_ERROR,
+  deleteAccount,
   editProfileSecurity,
+  logout,
 } from "../../redux/actions/AuthActions";
 import { useDispatch, useSelector } from "react-redux";
 import { validationRules } from "../../validationRoules";
+import ConfirmModal from "../../components/modals/confirmModal/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 function SecuritySettingsPage() {
   const message = useSelector((state) => state.auth.message);
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const initialFormState = {
     currentPassword: "",
@@ -80,6 +85,22 @@ function SecuritySettingsPage() {
     setFormError(null);
     dispatch({ type: CLEAR_AUTH_ERROR });
   };
+
+  //delete account
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleCloseDelete = () => {
+    setShowDeleteModal(false);
+  };
+
+  const handleConfirmDelete = () => {
+    dispatch(deleteAccount());
+    dispatch(logout());
+    navigate("/");
+  };
+
+  const user = useSelector((state) => state.auth.userLogged);
 
   return (
     <>
@@ -193,6 +214,8 @@ function SecuritySettingsPage() {
                       </Col>
                     </Row>
 
+                    <hr className="my-4" />
+
                     <div className="mt-3 text-center">
                       <Button type="submit" className="modal-button w-50">
                         Save Settings
@@ -206,12 +229,29 @@ function SecuritySettingsPage() {
                       Cancel
                     </Button>
                   </Form>
+                  <div className="text-center">
+                    <Button
+                      variant="danger"
+                      onClick={() => setShowDeleteModal(true)}
+                    >
+                      Delete Account
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
         </Container>
       )}
+
+      <ConfirmModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        handleConfirm={handleConfirmDelete}
+        confirmType="Delete account"
+        variantBtn="danger"
+        msg="Are you sure you want to delete your account?"
+      />
     </>
   );
 }

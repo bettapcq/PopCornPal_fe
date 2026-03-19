@@ -139,15 +139,18 @@ export const resetPassword = (email) => {
 
 //to refresh page
 export const getMe = () => async (dispatch, getState) => {
-  const token = getState().auth.token;
+  const token = localStorage.getItem("token");
+
+  if (!token) return;
 
   const response = await fetch("http://localhost:7001/users/me", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-
-  const data = await response.json();
+  if (res.status !== 204) {
+    const data = await res.json();
+  }
 
   dispatch({
     type: LOGIN_SUCCESS,
@@ -192,5 +195,22 @@ export const editProfileSecurity = (formData) => {
         payload: error.message,
       });
     }
+  };
+};
+
+//DELETE ACCOUNT
+
+export const deleteAccount = () => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:7001/users/me", {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Delete failed");
   };
 };

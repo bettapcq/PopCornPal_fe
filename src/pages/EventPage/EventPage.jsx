@@ -9,7 +9,7 @@ import EventDetailCard from "../../components/eventCards/eventDetailCard/EventDe
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ConfirmModal from "../../components/modals/deleteConfirmModal/ConfirmModal.";
+import ConfirmModal from "../../components/modals/confirmModal/ConfirmModal";
 import PendingRequestsSection from "../../components/pendingRequestsSection/PendingRequestsSection";
 import {
   getParticipationRequests,

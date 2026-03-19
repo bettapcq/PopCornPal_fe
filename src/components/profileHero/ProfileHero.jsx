@@ -104,16 +104,18 @@ function ProfileHero() {
               <Card.Title className="profile-name">
                 {profile?.username || "Username"}
               </Card.Title>
-              <Card.Text xs={3} className="p-2 mx-1 d-flex wrap-nowrap">
+              <div className="p-2 mx-1 d-flex align-items-center flex-nowrap">
                 {profile?.avgRating > 0 ? (
-                  <StaticRatingStars rating={profile.avgRating} />
+                  <>
+                    <StaticRatingStars rating={profile.avgRating} />
+                    {profile?.ratingCount > 0 && (
+                      <span className="ms-2 fs-7">({profile.ratingCount})</span>
+                    )}
+                  </>
                 ) : (
                   "No ratings yet"
                 )}
-                {profile?.ratingCount > 0 && (
-                  <span className="ms-2 fs-7">({profile?.ratingCount})</span>
-                )}
-              </Card.Text>
+              </div>
               <hr className="profile-divider my-4" />
               <Row className="align-items-center my-3">
                 <Col xs={5}>
