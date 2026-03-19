@@ -20,6 +20,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { CLEAR_EVENTS_ALERTS } from "../../redux/actions/EventActions";
 import MovieSearch from "../../components/movieSearch/MovieSearch";
+import AddressSearch from "../../components/addressSearch/AddressSearch";
 
 function EventFormPage() {
   const params = useParams();
@@ -32,10 +33,10 @@ function EventFormPage() {
   const loading = useSelector((state) => state.events.loading);
   const error = useSelector((state) => state.events.error);
   const message = useSelector((state) => state.events.message);
-  const token = localStorage.getItem("token");
   const selectedEvent = useSelector((state) => state.events.selectedEvent);
   const [selectedMovie, setSelectedMovie] = useState(null);
-
+  const [addressQuery, setAddressQuery] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [validated, setValidated] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -47,6 +48,7 @@ function EventFormPage() {
     imdbID: "",
     maxParticipants: 2,
     location: null,
+    address: "",
   });
 
   const handleChange = (e) => {
@@ -82,6 +84,7 @@ function EventFormPage() {
         imdbID: selectedEvent.movie.imdbID,
         maxParticipants: selectedEvent.maxParticipants,
         location: selectedEvent.location || null,
+        address: selectedEvent.address || "",
       });
 
       //refetch movie to populate movie input
@@ -126,70 +129,31 @@ function EventFormPage() {
       return;
     }
 
+    const finalLocation =
+      formData.eventType === "IN_PERSON"
+        ? selectedLocation || selectedEvent?.location
+        : null;
+
     let result;
 
     if (isEditForm) {
       result = await dispatch(
         editEvent(params.eventId, {
           ...payload,
-          location:
-            formData.eventType === "IN_PERSON" ? selectedLocation : null,
+          location: finalLocation,
         }),
       );
     } else {
       result = await dispatch(
         createEvent({
-          ...formData,
-          location: selectedLocation,
+          ...payload,
+          location: finalLocation,
         }),
       );
     }
 
     if (result) {
       navigate(`/private/event/${result.eventId}`);
-    }
-  };
-
-  // -----------GEOAPIFY FETCH FOR AUTOCOMPLETE SEARCH AND SEND LOCATION
-
-  const [addressQuery, setAddressQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-
-  const handleSelectAddress = (item) => {
-    const input = item.properties;
-
-    setSelectedLocation({
-      city: input.city || input.town || "",
-      country: input.country,
-      latitude: input.lat,
-      longitude: input.lon,
-    });
-
-    setAddressQuery(input.formatted);
-    setSuggestions([]);
-  };
-
-  const fetchAddressSearch = async (value) => {
-    if (value.length < 3) {
-      setSuggestions([]);
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `http://localhost:7001/locations/autocomplete?text=${encodeURIComponent(value)}`, //encodeURIComponent to normalize string (ex: via roma 12 -> via%20roma%2012)
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-      setSuggestions(data.features || []);
-    } catch (err) {
-      console.error("Address search error:", err);
     }
   };
 
@@ -350,39 +314,36 @@ function EventFormPage() {
                 </Form.Group>
                 {/* location logic */}
                 {formData.eventType === "IN_PERSON" && (
-                  <Row className="mb-3 mt-2 g-4 address-autocomplete">
-                    <Form.Label className="mt-4 mb-0">
-                      Event Location
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Search address"
+                  <Form.Group className="mb-3 mt-2">
+                    <Form.Label>Event City</Form.Label>
+                    <AddressSearch
                       value={addressQuery}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setAddressQuery(value);
-                        setSelectedLocation(null);
-                        fetchAddressSearch(value);
+                      onSelect={(location, formatted) => {
+                        console.log("NEW LOCATION:", location);
+                        setSelectedLocation(location);
+                        setAddressQuery(formatted);
                       }}
                     />
-                    {suggestions?.length > 0 && (
-                      <div className="autocomplete-list">
-                        {suggestions
-                          .filter((item) => item?.properties)
-                          .map((item) => (
-                            <div
-                              key={item.properties.place_id}
-                              className="autocomplete-item"
-                              onClick={() => handleSelectAddress(item)}
-                            >
-                              {item.properties.formatted}
-                            </div>
-                          ))}
-                      </div>
-                    )}
-                  </Row>
+                  </Form.Group>
                 )}
-                {/* TODO: add policy select */}
+                {formData.eventType === "IN_PERSON" && (
+                  <Form.Group className="mb-3">
+                    <Form.Label>Event Address (private)</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="address"
+                      placeholder="e.g. Via Roma 10, interno 3"
+                      value={formData.address}
+                      onChange={handleChange}
+                      maxLength={100}
+                    />
+                    <Form.Text className="text-muted">
+                      This address will be visible only to participants 3 days
+                      before the event
+                    </Form.Text>
+                  </Form.Group>
+                )}
+                {/* TODO: add policy select? */}
                 <Button variant="primary" className="w-100" type="submit">
                   {isEditForm ? "Edit" : "Create"}
                 </Button>

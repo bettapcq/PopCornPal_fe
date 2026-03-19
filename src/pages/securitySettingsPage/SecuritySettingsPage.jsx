@@ -8,7 +8,7 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   CLEAR_AUTH_ERROR,
   deleteAccount,
@@ -89,10 +89,6 @@ function SecuritySettingsPage() {
   //delete account
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const handleCloseDelete = () => {
-    setShowDeleteModal(false);
-  };
 
   const handleConfirmDelete = () => {
     dispatch(deleteAccount());
