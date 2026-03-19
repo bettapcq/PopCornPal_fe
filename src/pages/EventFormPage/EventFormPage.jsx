@@ -21,6 +21,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CLEAR_EVENTS_ALERTS } from "../../redux/actions/EventActions";
 import MovieSearch from "../../components/movieSearch/MovieSearch";
 import AddressSearch from "../../components/addressSearch/AddressSearch";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function EventFormPage() {
   const params = useParams();
@@ -167,7 +169,7 @@ function EventFormPage() {
   return (
     <>
       {/* loading */}
-      {loading && <Spinner variant="info" animation="radius" />}
+      {loading && <Spinner variant="primary" animation="grow" />}
       {message && (
         <Alert variant="success" className="my-alert">
           {message}{" "}
@@ -196,6 +198,13 @@ function EventFormPage() {
       {/* no loading e no error build omponent */}
       {!error && !loading && (
         <Container className="py-4 mb-4" fluid>
+          <Button
+            variant="link"
+            className="mb-3 modal-close text-start"
+            onClick={() => navigate(-1)}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} /> Back
+          </Button>
           <Card className="event-form-card">
             <Card.Body>
               <h2 className="mb-4">

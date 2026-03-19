@@ -17,6 +17,8 @@ import {
   leaveEvent,
 } from "../../redux/actions/ParticipationActions";
 import ParticipantsSection from "../../components/participantsSection/ParticipantsSection";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function EventPage() {
   const params = useParams();
@@ -104,7 +106,7 @@ function EventPage() {
   return (
     <>
       {/* loading */}
-      {loading && <Spinner variant="info" animation="radius" />}
+      {loading && <Spinner variant="primary" animation="grow" />}
       {message && (
         <Alert variant="success" className="my-alert">
           {message}{" "}
@@ -134,7 +136,14 @@ function EventPage() {
       {!error && !loading && currentEvent && (
         <Container className="main-content event-detail-container w-100" fluid>
           <Row className="w-100 justify-content-center">
-            <Col xs={12} lg={8}>
+            <Button
+              variant="link"
+              className="mb-3 modal-close text-start"
+              onClick={() => navigate(-1)}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+            <Col xs={12} md={8}>
               <Row>
                 {/* SECTION DETAILS */}
                 <Col xs={12}>
@@ -159,8 +168,8 @@ function EventPage() {
                 </Col>
               </Row>
             </Col>
-            {isCreator && (
-              <Col xs={12} lg={4}>
+            {isCreator && !isPastEvent && (
+              <Col xs={12} md={4}>
                 {/* SECTION REQUESTS */}
                 <PendingRequestsSection />
                 {/* SECTION MESSAGES */}

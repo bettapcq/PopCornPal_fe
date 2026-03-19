@@ -7,9 +7,8 @@ function HeroSection({ events }) {
 
   return (
     <Row className="hero-section align-items-center my-4">
-      <Col lg={5}>
+      <Col md={5}>
         <h1>Find your next movie night</h1>
-        <p>Join movie lovers near you</p>
 
         <Button
           className="hero-btn"
@@ -19,8 +18,8 @@ function HeroSection({ events }) {
         </Button>
       </Col>
 
-      <Col lg={7}>
-        <Carousel indicators={false}>
+      <Col xs={12} lg={7}>
+        <Carousel indicators={false} className="w-100">
           {events?.map((event) => (
             <Carousel.Item key={event.eventId}>
               <EventCard event={event} />

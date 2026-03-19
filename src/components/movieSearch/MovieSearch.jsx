@@ -86,7 +86,7 @@ function MovieSearch({ onSelect, initialValue = "" }) {
         <div className="movie-dropdown">
           {loading && (
             <div className="p-2 text-center">
-              <Spinner size="sm" variant="info" />
+              <Spinner size="sm" variant="info" animation="grow" />
             </div>
           )}
 

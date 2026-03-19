@@ -37,7 +37,7 @@ function HomePage() {
   return (
     <>
       {/* loading */}
-      {loading && <Spinner variant="gold-light" animation="radius" />}
+      {loading && <Spinner variant="primary" animation="grow" />}
       {message && (
         <Alert variant="success" className="my-alert">
           {message}{" "}

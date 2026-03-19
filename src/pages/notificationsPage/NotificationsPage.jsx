@@ -8,7 +8,7 @@ import {
 } from "../../redux/actions/NotificationActions";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 
 function NotificationsPage() {
   const dispatch = useDispatch();
@@ -36,7 +36,15 @@ function NotificationsPage() {
 
   return (
     <Container fluid className="mt-4 main-content">
-      <h2>All Notifications</h2> {loading && <Spinner animation="border" />}
+      <Button
+        variant="link"
+        className="mb-3 modal-close text-start"
+        onClick={() => navigate(-1)}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} /> Back
+      </Button>
+      <h2>All Notifications</h2>{" "}
+      {loading && <Spinner animation="grow" variant="primary" />}
       {error && <Alert variant="danger">{error}</Alert>}
       <ListGroup className="mt-3 ">
         {notifications?.length === 0 && <p>No notifications yet</p>}

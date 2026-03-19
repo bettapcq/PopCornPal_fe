@@ -199,7 +199,7 @@ function HomeEventsSection({ title, events }) {
             {console.log("LOADING: ", loading)}
             {loading && (
               <Col className="text-center">
-                <Spinner animation="border" variant="info" />
+                <Spinner animation="grow" variant="info" />
               </Col>
             )}
 

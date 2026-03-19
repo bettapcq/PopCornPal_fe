@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { validationRules } from "../../validationRoules";
 import ConfirmModal from "../../components/modals/confirmModal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function SecuritySettingsPage() {
   const message = useSelector((state) => state.auth.message);
@@ -101,7 +103,7 @@ function SecuritySettingsPage() {
   return (
     <>
       {/* loading */}
-      {loading && <Spinner variant="gold-light" animation="radius" />}
+      {loading && <Spinner variant="primary" animation="grow" />}
       {message && (
         <Alert variant="success" className="my-alert">
           {message}{" "}
@@ -129,6 +131,13 @@ function SecuritySettingsPage() {
       )}
       {!error && !loading && (
         <Container className="mt-4">
+          <Button
+            variant="link"
+            className="mb-3 modal-close text-start"
+            onClick={() => navigate(-1)}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} /> Back
+          </Button>
           <Row className="justify-content-center">
             <Col md={10}>
               <Card>

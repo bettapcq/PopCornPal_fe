@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 
-function AddressSearch({ value, onSelect }) {
+function AddressSearch({ value = "", onSelect }) {
   const token = localStorage.getItem("token");
 
   const [query, setQuery] = useState(value || "");

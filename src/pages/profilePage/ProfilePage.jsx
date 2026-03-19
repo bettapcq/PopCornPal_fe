@@ -51,11 +51,11 @@ function ProfilePage() {
     <Container className="main-content" fluid>
       <Row className="d-flex flex-column flex-lg-row justify-content-between">
         {/* col sx */}
-        <Col xs={12} lg={3} className="order-2 order-lg-1">
+        <Col xs={12} md={3} className="order-2 order-lg-1">
           <AsideSectionSx />
         </Col>
         {/* col center */}
-        <Col xs={12} lg={6} className="order-1 order-lg-2">
+        <Col xs={12} md={6} className="order-1 order-lg-2">
           <Row className="d-flex flex-column">
             <Col>
               <ProfileHero />
@@ -66,7 +66,7 @@ function ProfilePage() {
           </Row>
         </Col>
         {/* col sx */}
-        <Col xs={12} lg={3} className="order-3 ">
+        <Col xs={12} md={3} className="order-3 ">
           <AsideSectionDx />
         </Col>
       </Row>
