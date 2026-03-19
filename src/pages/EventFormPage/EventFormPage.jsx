@@ -19,6 +19,7 @@ import {
 } from "../../redux/actions/EventActions";
 import { useNavigate, useParams } from "react-router-dom";
 import { CLEAR_EVENTS_ALERTS } from "../../redux/actions/EventActions";
+import MovieSearch from "../../components/movieSearch/MovieSearch";
 
 function EventFormPage() {
   const params = useParams();
@@ -33,6 +34,7 @@ function EventFormPage() {
   const message = useSelector((state) => state.events.message);
   const token = localStorage.getItem("token");
   const selectedEvent = useSelector((state) => state.events.selectedEvent);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   const [validated, setValidated] = useState(false);
 
@@ -82,6 +84,9 @@ function EventFormPage() {
         location: selectedEvent.location || null,
       });
 
+      //refetch movie to populate movie input
+      setSelectedMovie(selectedEvent.movie);
+
       // refetch the location to populate location input
       setSelectedLocation(selectedEvent.location || null);
       if (selectedEvent.location) {
@@ -98,6 +103,16 @@ function EventFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const payload = {
+      ...formData,
+      imdbID: selectedMovie?.imdbID || formData.imdbID,
+    };
+
+    if (!selectedMovie) {
+      alert("Please select a movie");
+      return;
+    }
 
     if (formData.eventType === "IN_PERSON" && !selectedLocation) {
       alert("Please select a valid address from the suggestions");
@@ -116,7 +131,7 @@ function EventFormPage() {
     if (isEditForm) {
       result = await dispatch(
         editEvent(params.eventId, {
-          ...formData,
+          ...payload,
           location:
             formData.eventType === "IN_PERSON" ? selectedLocation : null,
         }),
@@ -145,8 +160,6 @@ function EventFormPage() {
     const input = item.properties;
 
     setSelectedLocation({
-      street: input.street || "",
-      civicNumber: input.housenumber || "",
       city: input.city || input.town || "",
       country: input.country,
       latitude: input.lat,
@@ -320,14 +333,19 @@ function EventFormPage() {
                     {"Select an event type"}
                   </Form.Control.Feedback>
                 </Form.Group>
-                {/* TODO: add search movie logic */}
+                {/*  search movie logic */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Movie IMDb ID</Form.Label>
-                  <Form.Control
-                    name="imdbID"
-                    value={formData.imdbID}
-                    placeholder="tt1375666"
-                    onChange={handleChange}
+                  <Form.Label>Movie</Form.Label>
+                  <MovieSearch
+                    initialValue={selectedEvent?.movie?.Title}
+                    onSelect={(movie) => {
+                      setSelectedMovie(movie);
+
+                      setFormData((prev) => ({
+                        ...prev,
+                        imdbID: movie.imdbID,
+                      }));
+                    }}
                   />
                 </Form.Group>
                 {/* location logic */}

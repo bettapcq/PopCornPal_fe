@@ -3,7 +3,7 @@ import SuperiorNavBar from "../components/superiorNavBAr/SuperiorNavBar";
 import HomePage from "./HomePage/HomePage";
 import ProfilePage from "./profilePage/ProfilePage";
 import EventPage from "./EventPage/EventPage";
-import EventFormPage from "./EventFormPage/eventFormPage";
+import EventFormPage from "./EventFormPage/EventFormPage";
 import SecuritySettingsPage from "./securitySettingsPage/SecuritySettingsPage";
 import NotificationsPage from "./notificationsPage/NotificationsPage";
 
