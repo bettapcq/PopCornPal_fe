@@ -141,10 +141,24 @@ function EventDetailCard(props) {
                         icon={faMapMarker}
                         className="general-icon"
                       />
-                      {props.currentEvent?.eventType === "ONLINE"
-                        ? "Online"
-                        : `${props.currentEvent?.location?.street} 
-                        ${props.currentEvent?.location?.civicNumber}, ${props.currentEvent?.location?.city}`}
+
+                      {props.currentEvent?.eventType === "ONLINE" ? (
+                        "Online event"
+                      ) : props.currentEvent?.address ? (
+                        // ✅ indirizzo visibile
+                        <>
+                          {props.currentEvent.address} —{" "}
+                          {props.currentEvent?.location?.city}
+                        </>
+                      ) : (
+                        // ❌ indirizzo nascosto
+                        <>
+                          {props.currentEvent?.location?.city} —{" "}
+                          <span className="text-muted">
+                            Address available 3 days before the event
+                          </span>
+                        </>
+                      )}
                     </Card.Text>
                   )}
                 </Col>
@@ -208,31 +222,31 @@ function EventDetailCard(props) {
                     {!props.isCreator && (
                       <Button
                         variant={
-                          props.participation.status === "PENDING"
+                          props.participation?.status === "PENDING"
                             ? "warning"
                             : "primary"
                         }
                         className="w-100 join-btn"
                         disabled={
                           props.isPastEvent ||
-                          props.participation.status === "REJECTED" ||
-                          props.participation.status === "PENDING"
+                          props.participation?.status === "REJECTED" ||
+                          props.participation?.status === "PENDING"
                         }
                         onClick={
-                          props.participation.status === "ACCEPTED"
+                          props.participation?.status === "ACCEPTED"
                             ? props.handleLeave
                             : props.handleOpenJoin
                         }
                       >
                         {props.isPastEvent
-                          ? props.participation.status === "ACCEPTED"
+                          ? props.participation?.status === "ACCEPTED"
                             ? "Joined"
                             : "Event finished"
-                          : props.participation.status === "PENDING"
+                          : props.participation?.status === "PENDING"
                             ? "Request sent"
-                            : props.participation.status === "REJECTED"
+                            : props.participation?.status === "REJECTED"
                               ? "Rejected"
-                              : props.participation.status === "ACCEPTED"
+                              : props.participation?.status === "ACCEPTED"
                                 ? "Leave Event"
                                 : props.currentEvent?.reservedSpots ===
                                     props.currentEvent?.maxParticipants
