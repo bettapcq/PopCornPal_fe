@@ -69,13 +69,13 @@ function ProfileHero() {
               )}
             </Col>
           </Row>
-          <Row className="align-items-center">
-            <Col xs={12} md={4} className="text-center">
+          <Row className="align-items-center g-4">
+            {/* AVATAR */}
+            <Col xs={12} md="auto" className="text-center">
               <Image
                 src={profile?.profileImg || avatar_placeholder}
+                className="avatar"
                 roundedCircle
-                className="avatar p-2"
-                fluid
               />
               {/* upload photo toggle */}
               {isMyProfile && (
@@ -99,45 +99,44 @@ function ProfileHero() {
                 </Row>
               )}
             </Col>
-
-            <Col xs={12} md={7} className="p-2 mx-2 text-center text-lg-start">
-              <Card.Title className="profile-name">
-                {profile?.username || "Username"}
-              </Card.Title>
-              <div className="p-2 mx-1 d-flex align-items-center flex-nowrap">
-                {profile?.avgRating > 0 ? (
-                  <>
-                    <StaticRatingStars rating={profile.avgRating} />
-                    {profile?.ratingCount > 0 && (
-                      <span className="ms-2 fs-7">({profile.ratingCount})</span>
-                    )}
-                  </>
-                ) : (
-                  "No ratings yet"
-                )}
-              </div>
-              <hr className="profile-divider my-4" />
-              <Row className="align-items-center my-3">
-                <Col xs={5}>
-                  <Card.Subtitle className="profile-data mb-2 text-end">
-                    <FontAwesomeIcon icon={faMapMarker} className="col me-2" />
-                    {profile?.city || "City"}
-                  </Card.Subtitle>
-                </Col>
-                <Col xs={5}>
-                  <Card.Subtitle xs={6} className="mb-2">
-                    <FontAwesomeIcon icon={faBirthdayCake} className="me-2" />
-                    {profile?.age || "Age"} years
-                  </Card.Subtitle>
-                </Col>
-              </Row>
-            </Col>
             <Col>
-              <Card.Text className="profile-bio m-4 p-4">
-                {profile?.bio || "Profile Bio"}
-              </Card.Text>
+              <div className="d-flex flex-column gap-2 text-center text-md-start">
+                <h2 className="profile-name m-0">{profile?.username}</h2>
+
+                {/* rating */}
+                <div className="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                  {profile?.avgRating > 0 ? (
+                    <>
+                      <StaticRatingStars rating={profile.avgRating} />
+                      <span className="small">({profile.ratingCount})</span>
+                    </>
+                  ) : (
+                    <span>No ratings yet</span>
+                  )}
+                </div>
+
+                <hr className="my-2" />
+
+                {/* info */}
+                <div className="d-flex gap-4 justify-content-center justify-content-md-start flex-wrap">
+                  <span>
+                    <FontAwesomeIcon icon={faMapMarker} className="me-2" />
+                    {profile?.city}
+                  </span>
+
+                  <span>
+                    <FontAwesomeIcon icon={faBirthdayCake} className="me-2" />
+                    {profile?.age} years
+                  </span>
+                </div>
+              </div>
             </Col>
           </Row>
+
+          {/* BIO */}
+          <div className="mt-4 text-center text-md-start">
+            <p>{profile?.bio || "Profile Bio"}</p>
+          </div>
         </Card.Body>
       </Card>
       {/* edit profile modal */}
