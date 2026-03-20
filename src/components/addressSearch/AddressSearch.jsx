@@ -42,7 +42,7 @@ function AddressSearch({ value = "", onSelect }) {
       );
 
       const data = await response.json();
-      setSuggestions(data.features || []);
+      setSuggestions(data || []);
       setShowDropdown(true);
     } catch (err) {
       console.error("Address search error:", err);
@@ -63,16 +63,14 @@ function AddressSearch({ value = "", onSelect }) {
   }, []);
 
   const handleSelect = (item) => {
-    const input = item.properties;
-
     const location = {
-      city: input.city || input.town || "",
-      country: input.country,
-      latitude: input.lat,
-      longitude: input.lon,
+      city: item.city,
+      country: item.country,
+      latitude: item.latitude,
+      longitude: item.longitude,
     };
 
-    onSelect(location, input.formatted);
+    onSelect(location, `${item.city}, ${item.country}`);
     setSuggestions([]);
     setShowDropdown(false);
   };
@@ -88,17 +86,15 @@ function AddressSearch({ value = "", onSelect }) {
 
       {showDropdown && suggestions.length > 0 && (
         <div className="autocomplete-list">
-          {suggestions
-            .filter((item) => item?.properties)
-            .map((item) => (
-              <div
-                key={item.properties.place_id}
-                className="autocomplete-item"
-                onClick={() => handleSelect(item)}
-              >
-                {item.properties.formatted}
-              </div>
-            ))}
+          {suggestions.map((item, index) => (
+            <div
+              key={index}
+              className="autocomplete-item"
+              onClick={() => handleSelect(item)}
+            >
+              {item.city}, {item.country}
+            </div>
+          ))}
         </div>
       )}
     </div>
