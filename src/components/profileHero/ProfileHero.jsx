@@ -19,7 +19,7 @@ import {
   faMapMarker,
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
-import EditProfileModal from "../modals/editProfileModal/editProfileModal.jsx";
+import EditProfileModal from "../modals/editProfileModal/EditProfileModal.jsx";
 import { useParams } from "react-router-dom";
 import UploadProfileImageModal from "../modals/uploadImageProfileModal/UploadImageProfileModal.jsx";
 import StaticRatingStars from "../ratingStars/StaticRatingStars.jsx";
