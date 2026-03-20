@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
-import { API_URL } from "../api/api";
+import { API_URL } from "../../api/api";
 
 function AddressSearch({ value = "", onSelect }) {
   const token = localStorage.getItem("token");

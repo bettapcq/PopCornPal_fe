@@ -1,4 +1,3 @@
-import { API_URL } from "../api/api";
 import {
   Container,
   Row,
@@ -17,6 +16,7 @@ import {
 } from "../../redux/actions/EventActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { API_URL } from "../../api/api";
 
 function HomeEventsSection({ title, events }) {
   const message = useSelector((state) => state.events.message);
