@@ -1,4 +1,5 @@
 @import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
 @import "./variables";
 
 $custom-colors: (
@@ -7,8 +8,6 @@ $custom-colors: (
   "warning": $pop-red,
   "light": $text-light,
 );
-
-@import "bootstrap/scss/variables";
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
