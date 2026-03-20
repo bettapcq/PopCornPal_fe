@@ -4,7 +4,7 @@ import LandingPage from "./pages/landingPage/LandingPage";
 import { Container } from "react-bootstrap";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./components/footer/Footer";
-import PrivatePages from "./pages/privatePages";
+import PrivatePages from "./pages/PrivatePages";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getMe } from "./redux/actions/AuthActions";
