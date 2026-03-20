@@ -6,6 +6,7 @@ import LoginModal from "../../components/modals/loginModal/LoginModal";
 import "./LandingPage.scss";
 import RegisterModal from "../../components/modals/registerModal/RegisterModal";
 import spaceVideo from "../../assets/videos/space.mp4";
+import logoFull from "../../assets/img/logo-full.png";
 
 function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
@@ -22,12 +23,7 @@ function LandingPage() {
       </div>
       <Row className="justify-content-center">
         <Col className="text-center">
-          <Image
-            className="logo-full"
-            src="/src/assets/img/LogoFull.png"
-            alt="logo full"
-            fluid
-          />
+          <Image className="logo-full" src={logoFull} alt="logo full" fluid />
         </Col>
       </Row>
       <Row className="justify-content-center align-items-center mt-2 d-flex flex-column">

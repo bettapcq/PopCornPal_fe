@@ -6,6 +6,7 @@ import { Image, Button, Badge } from "react-bootstrap";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
+import logo_mini from "../../assets/img/logo_mini.png";
 import {
   faBell,
   faComment,
@@ -60,11 +61,7 @@ function SuperiorNavBar() {
         {/* logo */}
 
         <Navbar.Brand md={2} as={NavLink} to="/private/home">
-          <img
-            className="logo-mini"
-            src="/src/assets/img/logo_mini.png"
-            alt="logo"
-          />
+          <img className="logo-mini" src={logo_mini} alt="logo" />
         </Navbar.Brand>
 
         {/* toggle */}
