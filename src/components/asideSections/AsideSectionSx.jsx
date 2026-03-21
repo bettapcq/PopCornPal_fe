@@ -2,7 +2,6 @@ import { Container, Row, Col, Carousel, Spinner } from "react-bootstrap";
 import EventMiniCard from "../eventCards/eventMiniCard/EventMiniCard";
 import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 function AsideSectionSx() {
   const eventsToJoin = useSelector(
@@ -32,7 +31,7 @@ function AsideSectionSx() {
         {/* xs version */}
         <Col className="d-lg-none">
           <Carousel>
-            {!hasLoaded ? (
+            {!eventsToJoin ? (
               <Spinner variant="primary" animation="grow" />
             ) : eventsToJoin?.length > 0 ? (
               eventsToJoin.map((event) => (

@@ -12,12 +12,6 @@ function AsideSectionDx() {
     (state) => state.events.userEvents.pastEvents.content,
   );
 
-  useEffect(() => {
-    if (joinedEventsRaw && pastEventsRaw) {
-      setFirstLoad(false);
-    }
-  }, [joinedEventsRaw, pastEventsRaw]);
-
   return (
     <Container fluid>
       {/* PAST EVENTS PORTION */}
@@ -42,7 +36,7 @@ function AsideSectionDx() {
         {/* xs version */}
         <Col className="d-lg-none">
           <Carousel>
-            {pastEvents ? (
+            {!pastEvents ? (
               <Spinner variant="primary" animation="grow" />
             ) : pastEvents?.length > 0 ? (
               pastEvents.map((event) => (
@@ -66,7 +60,7 @@ function AsideSectionDx() {
       {/* lg version */}
       <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
         <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
-          {joinedEvents ? (
+          {!joinedEvents ? (
             <Spinner variant="primary" animation="grow" />
           ) : joinedEvents?.length > 0 ? (
             <Row xs={12} className="g-2">
@@ -83,7 +77,7 @@ function AsideSectionDx() {
         {/* xs version */}
         <Col className="d-lg-none">
           <Carousel>
-            {joinedEvents ? (
+            {!joinedEvents ? (
               <Spinner variant="primary" animation="grow" />
             ) : joinedEvents?.length > 0 ? (
               joinedEvents.map((event) => (
