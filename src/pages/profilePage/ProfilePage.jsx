@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../redux/actions/UserActions";
 import {
@@ -16,30 +16,25 @@ import ProfileMainSection from "../../components/ProfileMainSection/ProfileMainS
 
 function ProfilePage() {
   const myId = useSelector((state) => state.auth.userLogged?.userId);
-  const profileUsername = useSelector(
-    (state) => state.auth.userLogged?.username,
-  );
-  const userLogged = useSelector((state) => state.auth.userLogged);
   const params = useParams();
   const userId = params.userId;
-  // const events = useSelector((state) => state.events.events);
 
   const profileId = userId ? Number(userId) : myId;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // no rerender if userId === profileId
-    if (!profileId) return;
+    // no rerender if userId === profileId or nan
+    if (!profileId || isNaN(profileId)) return;
 
     dispatch(getProfile(profileId));
 
-    if (userLogged?.userId) {
-      dispatch(getUserFutureEvents(userLogged.userId));
-      dispatch(getUserPastEvents(userLogged.userId));
-      dispatch(getUserJoinedEvents(userLogged.userId));
-      dispatch(getUserFutureEventsToJoin(userLogged.userId));
+    if (profileId) {
+      dispatch(getUserFutureEvents(profileId));
+      dispatch(getUserPastEvents(profileId));
+      dispatch(getUserJoinedEvents(profileId));
+      dispatch(getUserFutureEventsToJoin(profileId));
     }
-  }, [dispatch, userId, myId]);
+  }, [dispatch, profileId]);
 
   return (
     <Container className="main-content" fluid>
@@ -55,7 +50,7 @@ function ProfilePage() {
               <ProfileHero />
             </Col>
             <Col>
-              <ProfileMainSection profileUsername={profileUsername} />
+              <ProfileMainSection />
             </Col>
           </Row>
         </Col>

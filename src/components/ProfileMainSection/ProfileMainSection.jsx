@@ -3,12 +3,10 @@ import EventCard from "../eventCards/eventCard/EventCard";
 import { useSelector } from "react-redux";
 import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
 
-function ProfileMainSection(props) {
+function ProfileMainSection() {
   const futureEvents = useSelector(
     (state) => state.events.userEvents.futureEvents?.content,
   );
-
-  console.log("FUTURE EVENTS FROM STORE: ", futureEvents);
 
   return (
     <Container fluid>
