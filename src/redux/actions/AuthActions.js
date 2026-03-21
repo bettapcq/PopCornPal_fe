@@ -31,6 +31,10 @@ export const login = (email, password) => {
 
       console.log("LOGIN RESPONSE:", data);
 
+      if (response.status === 403) {
+        return;
+      }
+
       if (!response.ok) {
         throw new Error(data.message || "Login failed"); // Use error message from server if available
       }

@@ -6,30 +6,21 @@ import {
   Button,
   Spinner,
   Dropdown,
-  Form,
 } from "react-bootstrap";
 import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
 import "./HomeEventsSection.scss";
-import {
-  CLEAR_EVENTS_ALERTS,
-  getFilteredEvents,
-} from "../../redux/actions/EventActions";
+import { CLEAR_EVENTS_ALERTS } from "../../redux/actions/EventActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { API_URL } from "../../api/api";
+import AddressSearch from "../addressSearch/AddressSearch";
+import { useEffect, useState } from "react";
 
-function HomeEventsSection({ title, events }) {
+function HomeEventsSection({ title, events, loading, onFilter }) {
   const message = useSelector((state) => state.events.message);
-  const loading = useSelector((state) => state.events.loading);
   const error = useSelector((state) => state.events.error);
   const dispatch = useDispatch();
 
-  const handleMessageTurnBack = () => {
-    dispatch({ type: CLEAR_EVENTS_ALERTS });
-  };
-
   // filtering dropdown
-
+  const [cityQuery, setCityQuery] = useState("");
   const filterOptions = {
     eventType: [
       { label: "Online", value: "ONLINE" },
@@ -44,43 +35,8 @@ function HomeEventsSection({ title, events }) {
     ],
   };
 
-  const [filters, setFilters] = useState({});
-
-  const handleFilter = (key, value) => {
-    const updatedFilters = { ...filters, [key]: value };
-    setFilters(updatedFilters);
-    dispatch(getFilteredEvents(updatedFilters));
-  };
-
-  //city query geoapify
-  const token = localStorage.getItem("token");
-  const [cityQuery, setCityQuery] = useState("");
-  const [citySuggestions, setCitySuggestions] = useState([]);
-
-  const fetchCitySearch = async (value) => {
-    setCityQuery(value);
-
-    if (value.length < 3) {
-      setCitySuggestions([]);
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${API_URL}/locations/autocomplete?text=${encodeURIComponent(value)}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-
-      setCitySuggestions(data.features || []);
-    } catch (err) {
-      console.error("City search error:", err);
-    }
+  const handleMessageTurnBack = () => {
+    dispatch({ type: CLEAR_EVENTS_ALERTS });
   };
 
   return (
@@ -98,9 +54,6 @@ function HomeEventsSection({ title, events }) {
         </Alert>
       ) : (
         <Container fluid className="glass-section home-events my-4">
-          {/* loading */}
-          {loading && <Spinner animation="grow" variant="primary" />}
-
           {/* success message */}
           {message && (
             <Alert variant="success" className="my-alert">
@@ -133,9 +86,7 @@ function HomeEventsSection({ title, events }) {
                       {filterOptions.eventType.map((option) => (
                         <Dropdown.Item
                           key={option.value}
-                          onClick={() =>
-                            handleFilter("eventType", option.value)
-                          }
+                          onClick={() => onFilter("eventType", option.value)}
                         >
                           {option.label}
                         </Dropdown.Item>
@@ -153,7 +104,7 @@ function HomeEventsSection({ title, events }) {
                       {filterOptions.language.map((option) => (
                         <Dropdown.Item
                           key={option.value}
-                          onClick={() => handleFilter("language", option.value)}
+                          onClick={() => onFilter("language", option.value)}
                         >
                           {option.label}
                         </Dropdown.Item>
@@ -163,58 +114,32 @@ function HomeEventsSection({ title, events }) {
 
                   {/* city */}
                   <div className="city-filter-wrapper">
-                    <Form.Control
-                      type="text"
-                      placeholder="Search city..."
+                    <AddressSearch
                       value={cityQuery}
-                      onChange={(e) => fetchCitySearch(e.target.value)}
+                      onSelect={(location, formatted) => {
+                        setCityQuery(formatted);
+                        onFilter("city", location.city);
+                      }}
                     />
-
-                    {citySuggestions?.length > 0 && (
-                      <div className="autocomplete-list">
-                        {citySuggestions
-                          .filter((item) => item?.properties)
-                          .map((item) => (
-                            <div
-                              key={item.properties.place_id}
-                              className="autocomplete-item"
-                              onClick={() => {
-                                const city = item.properties.city;
-                                handleFilter("city", city);
-                                setCityQuery(city);
-                                setCitySuggestions([]);
-                              }}
-                            >
-                              {item.properties.city}, {item.properties.country}
-                            </div>
-                          ))}
-                      </div>
-                    )}
                   </div>
                 </div>
               </Col>
             )}
           </Row>
-
           <Row className="events-row g-3 mt-2">
-            {console.log("LOADING: ", loading)}
-            {loading && (
-              <Col className="text-center">
+            {loading ? (
+              <Col className="text-center py-4">
                 <Spinner animation="grow" variant="primary" />
               </Col>
-            )}
-
-            {!loading &&
-              events?.length > 0 &&
+            ) : events?.length > 0 ? (
               events.map((event) => (
                 <Col md={4} lg={6} key={event.eventId}>
                   <EventXsCard event={event} />
                 </Col>
-              ))}
-
-            {!loading && events?.length === 0 && (
+              ))
+            ) : (
               <Col>
-                <p className="no-content-text">No results found</p>
+                <p className="no-content-text">No results</p>
               </Col>
             )}
           </Row>

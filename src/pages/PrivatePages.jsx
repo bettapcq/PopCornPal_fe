@@ -6,8 +6,20 @@ import EventPage from "./EventPage/EventPage";
 import EventFormPage from "./EventFormPage/EventFormPage";
 import SecuritySettingsPage from "./securitySettingsPage/SecuritySettingsPage";
 import NotificationsPage from "./notificationsPage/NotificationsPage";
+import { getMe } from "../redux/actions/AuthActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function PrivatePages() {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+
+  //persist userLogged in app after refresh
+  useEffect(() => {
+    if (token) {
+      dispatch(getMe());
+    }
+  }, [token]);
   return (
     <>
       <SuperiorNavBar />
