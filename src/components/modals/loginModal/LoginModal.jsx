@@ -1,4 +1,4 @@
-import { Modal, Button, Form, ModalTitle } from "react-bootstrap";
+import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { CLEAR_AUTH_ERROR, login } from "../../../redux/actions/AuthActions";
@@ -16,8 +16,9 @@ function LoginModal({ show, handleClose }) {
   const [validated, setValidated] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [showReset, setShowReset] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const error = useSelector((state) => state.auth.error);
+  const message = useSelector((state) => state.auth.message);
   const isLogged = useSelector((state) => state.auth.isLogged);
   const user = useSelector((state) => state.users.profile);
   const dispatch = useDispatch();
@@ -29,23 +30,26 @@ function LoginModal({ show, handleClose }) {
     if (isLogged && user) {
       handleClose();
 
-      // !!!!!  TODO: decide where to navigate after login, maybe to the profile page or to the home page
-
       navigate(`/private/profile`); //go to profile page after isLogged becomes true
     }
   }, [isLogged, user, handleClose, navigate]);
 
   console.log("PROFILE:", user);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     const form = e.currentTarget;
 
     if (form.checkValidity() === false) {
-      e.preventDefault();
       e.stopPropagation();
     } else {
-      e.preventDefault();
-      dispatch(login(email, password));
+      setLoading(true);
+
+      try {
+        await dispatch(login(email, password));
+      } finally {
+        setLoading(false);
+      }
     }
 
     setValidated(true);
@@ -71,6 +75,32 @@ function LoginModal({ show, handleClose }) {
 
   return (
     <>
+      {loading && <Spinner variant="primary" animation="grow" />}
+      {message && (
+        <Alert variant="success" className="my-alert">
+          {message}{" "}
+          <Button
+            variant="link"
+            className="modal-link"
+            onClick={handleMessageTurnBack}
+          >
+            Turn back
+          </Button>
+        </Alert>
+      )}
+      {/* error */}
+      {error && (
+        <Alert variant="danger" className="my-alert">
+          {error}{" "}
+          <Button
+            variant="link"
+            className="modal-link"
+            onClick={handleMessageTurnBack}
+          >
+            Turn back
+          </Button>
+        </Alert>
+      )}
       <Modal
         show={show}
         onHide={handleClose}
