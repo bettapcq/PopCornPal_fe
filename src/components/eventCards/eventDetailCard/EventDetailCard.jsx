@@ -147,11 +147,13 @@ function EventDetailCard(props) {
                       ) : props.currentEvent?.address ? (
                         <>
                           {props.currentEvent.address} —{" "}
-                          {props.currentEvent?.location?.city}
+                          {props.currentEvent?.location?.country}
+                          {", "} {props.currentEvent.location?.city}
                         </>
                       ) : (
                         <>
-                          {props.currentEvent?.location?.city} —{" "}
+                          {props.currentEvent?.location?.city} —
+                          {props.currentEvent?.location?.country}
                           <span className="text-muted">
                             Address available 3 days before the event
                           </span>

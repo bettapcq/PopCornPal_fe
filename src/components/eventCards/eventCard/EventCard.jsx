@@ -4,8 +4,6 @@ import {
   faUser,
   faGlobeAsia,
   faHome,
-  faStar,
-  faStarHalfStroke,
   faCrown,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
