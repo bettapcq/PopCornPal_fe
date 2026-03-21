@@ -1,18 +1,22 @@
-import { Container, Row, Col, Carousel } from "react-bootstrap";
+import { Container, Row, Col, Carousel, Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import EventMiniCard from "../eventCards/eventMiniCard/EventMiniCard";
 import EventXsCard from "../eventCards/eventXsCard/EventXsCard";
+import { useEffect, useState } from "react";
 
 function AsideSectionDx() {
   const joinedEvents = useSelector(
-    (state) => state.events?.userEvents?.joinedEvents.content,
+    (state) => state.events.userEvents.joinedEvents.content,
   );
   const pastEvents = useSelector(
     (state) => state.events.userEvents.pastEvents.content,
   );
 
-  console.log("PAST EVENTS FROM STORE: ", pastEvents);
-  console.log("JOINED EVENTS FROM STORE: ", joinedEvents);
+  useEffect(() => {
+    if (joinedEventsRaw && pastEventsRaw) {
+      setFirstLoad(false);
+    }
+  }, [joinedEventsRaw, pastEventsRaw]);
 
   return (
     <Container fluid>
@@ -21,7 +25,9 @@ function AsideSectionDx() {
       {/* lg version */}
       <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
         <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
-          {pastEvents?.length > 0 ? (
+          {!pastEvents ? (
+            <Spinner variant="primary" animation="grow" />
+          ) : pastEvents?.length > 0 ? (
             <Row xs={12} className="g-2">
               {pastEvents.map((event) => (
                 <Col xs={6} key={event.eventId}>
@@ -36,7 +42,9 @@ function AsideSectionDx() {
         {/* xs version */}
         <Col className="d-lg-none">
           <Carousel>
-            {pastEvents?.length > 0 ? (
+            {pastEvents ? (
+              <Spinner variant="primary" animation="grow" />
+            ) : pastEvents?.length > 0 ? (
               pastEvents.map((event) => (
                 <Carousel.Item key={event.eventId}>
                   <EventXsCard event={event} />
@@ -58,7 +66,9 @@ function AsideSectionDx() {
       {/* lg version */}
       <Row className="glass-section my-4 flex-column gx-0 overflow-auto">
         <Col xs={12} className="d-none d-lg-flex aside-events flex-column">
-          {joinedEvents?.length > 0 ? (
+          {joinedEvents ? (
+            <Spinner variant="primary" animation="grow" />
+          ) : joinedEvents?.length > 0 ? (
             <Row xs={12} className="g-2">
               {joinedEvents.map((event) => (
                 <Col xs={6} key={event.eventId}>
@@ -73,7 +83,9 @@ function AsideSectionDx() {
         {/* xs version */}
         <Col className="d-lg-none">
           <Carousel>
-            {joinedEvents?.length > 0 ? (
+            {joinedEvents ? (
+              <Spinner variant="primary" animation="grow" />
+            ) : joinedEvents?.length > 0 ? (
               joinedEvents.map((event) => (
                 <Carousel.Item key={event.eventId}>
                   <EventXsCard event={event} />

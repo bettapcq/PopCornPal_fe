@@ -51,6 +51,7 @@ export const getFilteredEvents = (filters = {}) => {
         type: GET_HOME_EVENTS_SUCCESS,
         payload: data.content,
       });
+      return data;
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,
@@ -105,6 +106,7 @@ export const getEventsNearMe = () => {
             type: GET_NEAR_EVENTS_SUCCESS,
             payload: data.content,
           });
+          return data;
         } catch (error) {
           dispatch({
             type: EVENTS_ERROR,
@@ -145,6 +147,7 @@ export const getSingleEvent = (eventId) => {
         type: GET_SINGLE_EVENT_SUCCESS,
         payload: data,
       });
+      return data;
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,
@@ -180,6 +183,7 @@ export const getUserPastEvents = (userId) => {
         type: GET_USERS_PAST_EVENTS_SUCCESS,
         payload: data,
       });
+      return data;
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,
@@ -217,6 +221,7 @@ export const getUserFutureEvents = (userId) => {
         type: GET_USERS_FUTURE_EVENTS_SUCCESS,
         payload: data,
       });
+      return data;
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,
@@ -254,6 +259,7 @@ export const getUserJoinedEvents = (userId) => {
         type: GET_USERS_JOINED_EVENTS_SUCCESS,
         payload: data,
       });
+      return data;
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,
@@ -291,6 +297,7 @@ export const getUserFutureEventsToJoin = (userId) => {
         type: GET_USERS_EVENTS_TO_JOIN_SUCCESS,
         payload: data,
       });
+      return data;
     } catch (error) {
       dispatch({
         type: EVENTS_ERROR,
