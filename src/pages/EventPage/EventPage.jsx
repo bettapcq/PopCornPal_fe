@@ -26,7 +26,7 @@ function EventPage() {
   const dispatch = useDispatch();
   const currentEvent = useSelector((state) => state.events.selectedEvent);
   const participationStatus = currentEvent?.userParticipationStatus;
-  const loading = useSelector((state) => state.events.loading);
+  const [loading, setLoading] = useState(false);
   const error = useSelector((state) => state.events.error);
   const userLogged = useSelector((state) => state.auth.userLogged);
   const navigate = useNavigate();
@@ -42,13 +42,26 @@ function EventPage() {
 
   //dispatch details
   useEffect(() => {
-    if (!message) {
-      dispatch(getSingleEvent(currentEventId));
-      if (isCreator) {
-        dispatch(getParticipationRequests(currentEventId));
+    const fetchData = async () => {
+      if (!message) {
+        setLoading(true);
+
+        try {
+          await dispatch(getSingleEvent(currentEventId));
+
+          if (isCreator) {
+            await dispatch(getParticipationRequests(currentEventId));
+          }
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
       }
-    }
-  }, [currentEventId, dispatch, isCreator]);
+    };
+
+    fetchData();
+  }, [currentEventId, dispatch, isCreator, message]);
 
   const isFull = currentEvent?.reservedSpots >= currentEvent?.maxParticipants;
 

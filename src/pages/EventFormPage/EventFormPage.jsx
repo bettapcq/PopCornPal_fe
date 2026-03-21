@@ -32,7 +32,7 @@ function EventFormPage() {
   const isEditForm = Boolean(params.eventId);
   const userLogged = useSelector((state) => state.auth.userLogged);
 
-  const loading = useSelector((state) => state.events.loading);
+  const [loading, setLoading] = useState(false);
   const error = useSelector((state) => state.events.error);
   const message = useSelector((state) => state.events.message);
   const selectedEvent = useSelector((state) => state.events.selectedEvent);
@@ -75,8 +75,10 @@ function EventFormPage() {
     }
   }, [params.eventId]);
 
+  const [initialized, setInitialized] = useState(false);
+
   useEffect(() => {
-    if (isEditForm && selectedEvent) {
+    if (isEditForm && selectedEvent && !initialized) {
       setFormData({
         title: selectedEvent.title,
         description: selectedEvent.description,
@@ -99,63 +101,72 @@ function EventFormPage() {
           `${selectedEvent.location.country},${selectedEvent.location.city}`,
         );
       } else {
+        setSelectedMovie(null);
+        setSelectedLocation(null);
         setAddressQuery("");
       }
     }
-  }, [isEditForm, selectedEvent]);
+  }, [isEditForm, selectedEvent, initialized]);
 
   //----------SUBMIT
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    const payload = {
-      ...formData,
-      imdbID: selectedMovie?.imdbID || formData.imdbID,
-    };
+    try {
+      const payload = {
+        ...formData,
+        imdbID: selectedMovie?.imdbID || formData.imdbID,
+      };
 
-    if (!selectedMovie) {
-      alert("Please select a movie");
-      return;
-    }
+      if (!selectedMovie) {
+        alert("Please select a movie");
+        return;
+      }
 
-    if (formData.eventType === "IN_PERSON" && !selectedLocation) {
-      alert("Please select a valid address from the suggestions");
-      return;
-    }
+      if (formData.eventType === "IN_PERSON" && !selectedLocation) {
+        alert("Please select a valid address from the suggestions");
+        return;
+      }
 
-    const form = e.currentTarget;
+      const form = e.currentTarget;
 
-    if (!form.checkValidity()) {
-      setValidated(true);
-      return;
-    }
+      if (!form.checkValidity()) {
+        setValidated(true);
+        return;
+      }
 
-    const finalLocation =
-      formData.eventType === "IN_PERSON"
-        ? selectedLocation || selectedEvent?.location
-        : null;
+      const finalLocation =
+        formData.eventType === "IN_PERSON"
+          ? selectedLocation || selectedEvent?.location
+          : null;
 
-    let result;
+      let result;
 
-    if (isEditForm) {
-      result = await dispatch(
-        editEvent(params.eventId, {
-          ...payload,
-          location: finalLocation,
-        }),
-      );
-    } else {
-      result = await dispatch(
-        createEvent({
-          ...payload,
-          location: finalLocation,
-        }),
-      );
-    }
+      if (isEditForm) {
+        result = await dispatch(
+          editEvent(params.eventId, {
+            ...payload,
+            location: finalLocation,
+          }),
+        );
+      } else {
+        result = await dispatch(
+          createEvent({
+            ...payload,
+            location: finalLocation,
+          }),
+        );
+      }
 
-    if (result) {
-      navigate(`/private/event/${result.eventId}`);
+      if (result) {
+        navigate(`/private/event/${result.eventId}`);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false); // 🔥 SEMPRE
     }
   };
 
@@ -168,8 +179,6 @@ function EventFormPage() {
 
   return (
     <>
-      {/* loading */}
-      {loading && <Spinner variant="primary" animation="grow" />}
       {message && (
         <Alert variant="success" className="my-alert">
           {message}{" "}
@@ -195,6 +204,7 @@ function EventFormPage() {
           </Button>
         </Alert>
       )}
+      {loading && <Spinner variant="primary" animation="grow" />}
       {/* no loading e no error build omponent */}
       {!error && !loading && (
         <Container className="py-4 mb-4" fluid>
@@ -310,10 +320,12 @@ function EventFormPage() {
                 <Form.Group className="mb-3">
                   <Form.Label>Movie</Form.Label>
                   <MovieSearch
-                    initialValue={selectedEvent?.movie?.Title}
+                    key={selectedMovie?.imdbID || "empty"}
+                    initialValue={
+                      selectedMovie?.Title || selectedEvent?.movie?.Title
+                    }
                     onSelect={(movie) => {
                       setSelectedMovie(movie);
-
                       setFormData((prev) => ({
                         ...prev,
                         imdbID: movie.imdbID,

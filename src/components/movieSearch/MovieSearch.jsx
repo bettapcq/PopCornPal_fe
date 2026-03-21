@@ -81,7 +81,7 @@ function MovieSearch({ onSelect, initialValue = "" }) {
       />
 
       {showDropdown && (
-        <div className="movie-dropdown">
+        <div className="autocomplete-list">
           {loading && (
             <div className="p-2 text-center">
               <Spinner size="sm" variant="primary" animation="grow" />
@@ -96,7 +96,7 @@ function MovieSearch({ onSelect, initialValue = "" }) {
             movies.map((movie) => (
               <div
                 key={movie.imdbID}
-                className="movie-item"
+                className="autocomplete-item"
                 onClick={() => handleSelect(movie)}
               >
                 <span>

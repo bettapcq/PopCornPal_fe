@@ -24,7 +24,7 @@ function RegisterModal({ show, handleClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const isLogged = useSelector((state) => state.auth.isLogged);
   const error = useSelector((state) => state.auth.error);
   const [validated, setValidated] = useState(false);
@@ -37,9 +37,9 @@ function RegisterModal({ show, handleClose }) {
     setShowPassword(!showPassword);
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const form = e.currentTarget;
 
     console.log(form.querySelector(":invalid"));
@@ -56,7 +56,13 @@ function RegisterModal({ show, handleClose }) {
       password,
     });
 
-    dispatch(register({ username, dateOfBirth, city, email, password }));
+    try {
+      await dispatch(
+        register({ username, dateOfBirth, city, email, password }),
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCloseModal = () => {
