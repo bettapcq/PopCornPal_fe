@@ -13,8 +13,8 @@ function HomePage() {
   const message = useSelector((state) => state.events.message);
   const error = useSelector((state) => state.events.error);
   const dispatch = useDispatch();
-  const [loadingNear, setLoadingNear] = useState(false);
-  const [loadingFiltered, setLoadingFiltered] = useState(false);
+  const loadingNear = useSelector((state) => state.events.loadingNear);
+  const loadingFiltered = useSelector((state) => state.events.loadingFiltered);
   const nearEvents = useSelector(
     (state) => state.events.homeEvents?.nearEvents,
   );
@@ -26,30 +26,15 @@ function HomePage() {
   const [fallbackEvents, setFallbackEvents] = useState([]);
 
   useEffect(() => {
-    const fetchNear = async () => {
-      setLoadingNear(true);
-      try {
-        await dispatch(getEventsNearMe());
-      } finally {
-        setLoadingNear(false);
-      }
-    };
-
-    fetchNear();
+    dispatch(getEventsNearMe());
   }, [dispatch]);
 
   useEffect(() => {
-    const fetchFiltered = async () => {
-      setLoadingFiltered(true);
-      try {
-        await dispatch(getFilteredEvents());
-      } finally {
-        setLoadingFiltered(false);
-      }
-    };
-
-    fetchFiltered();
+    dispatch(getFilteredEvents());
   }, [dispatch]);
+
+  console.log("loadingNear:", loadingNear);
+  console.log("nearEvents:", nearEvents);
 
   // fallback to seed if no nears
   useEffect(() => {
@@ -68,13 +53,7 @@ function HomePage() {
     const updatedFilters = { ...filters, [key]: value };
     setFilters(updatedFilters);
 
-    setLoadingFiltered(true);
-
-    try {
-      await dispatch(getFilteredEvents(updatedFilters));
-    } finally {
-      setLoadingFiltered(false);
-    }
+    dispatch(getFilteredEvents(updatedFilters));
   };
 
   const handleMessageTurnBack = () => {

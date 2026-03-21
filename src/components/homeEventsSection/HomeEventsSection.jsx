@@ -14,7 +14,13 @@ import { useDispatch, useSelector } from "react-redux";
 import AddressSearch from "../addressSearch/AddressSearch";
 import { useEffect, useState } from "react";
 
-function HomeEventsSection({ title, events, loading, onFilter }) {
+function HomeEventsSection({
+  title,
+  events,
+  loading,
+  onFilter,
+  isFilterSection,
+}) {
   const message = useSelector((state) => state.events.message);
   const error = useSelector((state) => state.events.error);
   const dispatch = useDispatch();
@@ -137,11 +143,11 @@ function HomeEventsSection({ title, events, loading, onFilter }) {
                   <EventXsCard event={event} />
                 </Col>
               ))
-            ) : (
+            ) : isFilterSection ? (
               <Col>
                 <p className="no-content-text">No results</p>
               </Col>
-            )}
+            ) : null}
           </Row>
         </Container>
       )}

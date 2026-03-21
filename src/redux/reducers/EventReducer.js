@@ -12,6 +12,8 @@ import {
   EDIT_EVENT_SUCCESS,
   GET_USERS_EVENTS_TO_JOIN_SUCCESS,
   GET_NEAR_EVENTS_SUCCESS,
+  EVENTS_NEAR_LOADING,
+  EVENTS_FILTERED_LOADING,
 } from "../actions/EventActions";
 
 const initialState = {
@@ -19,6 +21,8 @@ const initialState = {
     nearEvents: [],
     filteredEvents: [],
   },
+  loadingNear: false,
+  loadingFiltered: false,
   selectedEvent: null,
   userEvents: {
     pastEvents: { content: [] }, // in responses Page<event> i need content
@@ -26,7 +30,6 @@ const initialState = {
     joinedEvents: { content: [] },
     toJoinEvents: { content: [] },
   },
-
   loading: false,
   message: null,
   error: null,
@@ -40,6 +43,18 @@ function EventReducer(state = initialState, action) {
         loading: true,
       };
 
+    case EVENTS_FILTERED_LOADING:
+      return {
+        ...state,
+        loadingFiltered: true,
+      };
+
+    case EVENTS_NEAR_LOADING:
+      return {
+        ...state,
+        loadingNear: true,
+      };
+
     case GET_HOME_EVENTS_SUCCESS:
       return {
         ...state,
@@ -47,7 +62,7 @@ function EventReducer(state = initialState, action) {
           ...state.homeEvents,
           filteredEvents: action.payload,
         },
-        loading: false,
+        loadingFiltered: false,
       };
 
     case GET_NEAR_EVENTS_SUCCESS:
@@ -57,7 +72,7 @@ function EventReducer(state = initialState, action) {
           ...state.homeEvents,
           nearEvents: action.payload,
         },
-        loading: false,
+        loadingNear: false,
       };
 
     case GET_USERS_PAST_EVENTS_SUCCESS:

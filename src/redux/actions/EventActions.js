@@ -16,6 +16,8 @@ export const EDIT_EVENT_SUCCESS = "EDIT_EVENT_SUCCESS";
 export const GET_USERS_EVENTS_TO_JOIN_SUCCESS =
   "GET_USERS_EVENTS_TO_JOIN_SUCCESS";
 export const GET_NEAR_EVENTS_SUCCESS = "GET_NEAR_EVENTS_SUCCESS";
+export const EVENTS_FILTERED_LOADING = "EVENTS_FILTERED_LOADING";
+export const EVENTS_NEAR_LOADING = "EVENTS_NEAR_LOADING";
 
 const eventsUrl = `${API_URL}/events`;
 
@@ -25,7 +27,7 @@ export const getFilteredEvents = (filters = {}) => {
   //fetch with filter object (can add all filter combinations, using just one fetch)
 
   return async (dispatch) => {
-    dispatch({ type: EVENTS_LOADING });
+    dispatch({ type: EVENTS_FILTERED_LOADING });
     console.log("GET FILTERED EVENTS ACTION TRIGGERED");
     const token = localStorage.getItem("token");
 
@@ -62,7 +64,11 @@ export const getFilteredEvents = (filters = {}) => {
 
 export const getEventsNearMe = () => {
   return async (dispatch) => {
-    dispatch({ type: EVENTS_LOADING });
+    dispatch({ type: EVENTS_NEAR_LOADING });
+
+    //give react time to render
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
     const token = localStorage.getItem("token");
 
     // no browser geolocation
