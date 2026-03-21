@@ -24,16 +24,7 @@ function ProfilePage() {
   const userId = params.userId;
   // const events = useSelector((state) => state.events.events);
 
-  const profileId = userId ?? myId;
-
-  console.log("userId param:", userId);
-  console.log("myId from store:", myId);
-  console.log("profileId:", profileId);
-  console.log(
-    "AUTH STATE:",
-    useSelector((state) => state.auth),
-  );
-
+  const profileId = userId ? Number(userId) : myId;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,10 +32,13 @@ function ProfilePage() {
     if (!profileId) return;
 
     dispatch(getProfile(profileId));
-    dispatch(getUserFutureEvents(userLogged.userId));
-    dispatch(getUserPastEvents(userLogged.userId));
-    dispatch(getUserJoinedEvents(userLogged.userId));
-    dispatch(getUserFutureEventsToJoin(userLogged.userId));
+
+    if (userLogged?.userId) {
+      dispatch(getUserFutureEvents(userLogged.userId));
+      dispatch(getUserPastEvents(userLogged.userId));
+      dispatch(getUserJoinedEvents(userLogged.userId));
+      dispatch(getUserFutureEventsToJoin(userLogged.userId));
+    }
   }, [dispatch, userId, myId]);
 
   return (

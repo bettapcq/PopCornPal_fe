@@ -162,7 +162,7 @@ function SuperiorNavBar() {
           title={
             <Image
               className="rounded-circle avatar"
-              src={user?.profileImg || avatar_placeholder}
+              src={userLogged?.profileImg || avatar_placeholder}
               alt="avatar"
               height={45}
               width={45}

@@ -10,6 +10,7 @@ import {
   faPencilAlt,
   faTrashAlt,
   faStar,
+  faLanguage,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -134,7 +135,14 @@ function EventDetailCard(props) {
                         minute: "2-digit",
                       })}
                     </Card.Text>
-                  )}
+                  )}{" "}
+                  <Card.Text>
+                    <FontAwesomeIcon
+                      icon={faLanguage}
+                      className="general-icon"
+                    />
+                    <span>{props.currentEvent?.language}</span>
+                  </Card.Text>
                   {props.date && (
                     <Card.Text>
                       <FontAwesomeIcon

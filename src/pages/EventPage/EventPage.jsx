@@ -42,26 +42,32 @@ function EventPage() {
 
   //dispatch details
   useEffect(() => {
-    const fetchData = async () => {
-      if (!message) {
-        setLoading(true);
-
-        try {
-          await dispatch(getSingleEvent(currentEventId));
-
-          if (isCreator) {
-            await dispatch(getParticipationRequests(currentEventId));
-          }
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(false);
-        }
+    const fetchEvent = async () => {
+      setLoading(true);
+      try {
+        await dispatch(getSingleEvent(currentEventId));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, [currentEventId, dispatch, isCreator, message]);
+    fetchEvent();
+  }, [currentEventId, dispatch]);
+
+  //dispatch requests
+
+  useEffect(() => {
+    if (!userLogged?.userId || !currentEvent?.creator?.userId) return;
+
+    const isCreator =
+      Number(userLogged.userId) === Number(currentEvent.creator.userId);
+
+    if (isCreator) {
+      dispatch(getParticipationRequests(currentEventId));
+    }
+  }, [userLogged, currentEvent, currentEventId, dispatch]);
 
   const isFull = currentEvent?.reservedSpots >= currentEvent?.maxParticipants;
 
