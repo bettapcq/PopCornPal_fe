@@ -32,7 +32,7 @@ function PendingRequestsSection() {
                     <Col className="flex-row">
                       <Link
                         to={`/private/profile/${req.user.userId}`}
-                        className="d-flex align-items-center gap-2"
+                        className="d-flex align-items-center gap-2 flex-wrap"
                       >
                         <Image
                           className="rounded-circle avatar"
@@ -41,7 +41,9 @@ function PendingRequestsSection() {
                           height={30}
                           width={30}
                         />
-                        <h3 className="mb-0">{req.user.username}</h3>
+                        <h3 className="mb-0 word-wrap flex-grow-1 ">
+                          {req.user.username}
+                        </h3>
                       </Link>
                     </Col>
                     <Col className="text-end">

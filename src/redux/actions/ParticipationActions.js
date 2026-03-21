@@ -46,8 +46,18 @@ export const joinEvent = (eventId) => {
 // GET PENDING JOIN REQUESTS
 
 export const getParticipationRequests = (eventId) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const userLogged = state.auth.userLogged;
+    const currentEvent = state.events.selectedEvent;
+
+    const isCreator =
+      Number(userLogged?.userId) === Number(currentEvent?.creator?.userId);
+
+    if (!isCreator) return;
+
     dispatch({ type: PARTICIPATIONS_LOADING });
+
     try {
       const response = await fetch(`${API_URL}/events/${eventId}/requests`, {
         headers: {
