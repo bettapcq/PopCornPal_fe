@@ -105,6 +105,11 @@ export const uploadProfileImage = (formData) => {
         type: PROFILE_SUCCESS,
         payload: data,
       });
+
+      dispatch({
+        type: "UPDATE_LOGGED_USER",
+        payload: data,
+      });
     } catch (error) {
       dispatch({
         type: PROFILE_ERROR,
