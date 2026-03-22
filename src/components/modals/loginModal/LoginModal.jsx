@@ -73,6 +73,10 @@ function LoginModal({ show, handleClose }) {
     setShowReset(false);
   };
 
+  const handleMessageTurnBack = () => {
+    dispatch({ type: CLEAR_AUTH_ERROR });
+  };
+
   return (
     <>
       {loading && <Spinner variant="primary" animation="grow" />}

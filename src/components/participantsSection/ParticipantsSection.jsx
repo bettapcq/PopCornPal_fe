@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import avatar_placeholder from "../../assets/img/avatar_placeholder.jpg";
 import { manageParticipationsRequests } from "../../redux/actions/ParticipationActions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
 function ParticipantsSection({ isCreator }) {
   const dispatch = useDispatch();
@@ -21,7 +23,6 @@ function ParticipantsSection({ isCreator }) {
                   key={p.participationId}
                   className="participant-list-item"
                 >
-                  {console.log("participant", p)}
                   <Row className="align-items-center">
                     <Col xs={12} lg="auto" className="flex-row">
                       <Link
@@ -37,6 +38,11 @@ function ParticipantsSection({ isCreator }) {
                         />
                         <h3 className="mb-0">{p.username}</h3>
                       </Link>
+                      {isCreator && (
+                        <small className="text-muted">
+                          <FontAwesomeIcon icon={faEnvelope} /> {p.email}
+                        </small>
+                      )}
                     </Col>
 
                     {isCreator && (
