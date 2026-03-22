@@ -79,7 +79,6 @@ function LoginModal({ show, handleClose }) {
 
   return (
     <>
-      {loading && <Spinner variant="primary" animation="grow" />}
       {message && (
         <Alert variant="success" className="my-alert">
           {message}{" "}
@@ -171,6 +170,7 @@ function LoginModal({ show, handleClose }) {
               Close
             </Button>
           </Form>
+          {loading && <Spinner variant="primary" animation="grow" />}
         </Modal.Body>
       </Modal>
 

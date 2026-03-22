@@ -322,7 +322,9 @@ function EventFormPage() {
                   <MovieSearch
                     key={selectedMovie?.imdbID || "empty"}
                     initialValue={
-                      selectedMovie?.Title || selectedEvent?.movie?.Title
+                      isEditForm
+                        ? selectedMovie?.Title || selectedEvent?.movie?.Title
+                        : ""
                     }
                     onSelect={(movie) => {
                       setSelectedMovie(movie);
