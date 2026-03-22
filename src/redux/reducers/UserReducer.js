@@ -35,6 +35,15 @@ function UserReducer(state = initialState, action) {
         error: null,
       };
 
+    case "UPDATE_LOGGED_USER":
+      return {
+        ...state,
+        userLogged: {
+          ...state.userLogged,
+          ...action.payload,
+        },
+      };
+
     case PROFILE_ERROR:
       return {
         ...state,
