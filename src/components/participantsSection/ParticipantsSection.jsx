@@ -10,6 +10,9 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 function ParticipantsSection({ isCreator }) {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) => state.events.selectedEvent);
+  const isPastEvent = selectedEvent?.eventDateTime
+    ? new Date(selectedEvent.eventDateTime) < new Date()
+    : false;
 
   return (
     <Container fluid>
@@ -38,14 +41,14 @@ function ParticipantsSection({ isCreator }) {
                         />
                         <h3 className="mb-0">{p.username}</h3>
                       </Link>
-                      {isCreator && (
+                      {isCreator && !isPastEvent && (
                         <small className="text-muted">
                           <FontAwesomeIcon icon={faEnvelope} /> {p.email}
                         </small>
                       )}
                     </Col>
 
-                    {isCreator && (
+                    {isCreator && !isPastEvent && (
                       <Col xs={12} className="text-end">
                         <Button
                           size="sm"
