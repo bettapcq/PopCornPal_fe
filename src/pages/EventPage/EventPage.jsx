@@ -37,9 +37,6 @@ function EventPage() {
   const isCreator =
     Number(userLogged?.userId) === Number(currentEvent?.creator?.userId);
 
-  console.log("EVENT ID:", currentEventId);
-  console.log("CURRENT EVENT: ", currentEvent);
-
   //dispatch details
   useEffect(() => {
     const fetchEvent = async () => {
@@ -86,12 +83,6 @@ function EventPage() {
     date = new Date(currentEvent?.eventDateTime);
   }
   const isPastEvent = date && date < new Date();
-
-  console.log("STATUS: ", participationStatus);
-  console.log("USER LOGGED:", userLogged);
-  console.log("EVENT CREATOR:", currentEvent?.creator);
-  console.log("IS CREATOR:", isCreator);
-  console.log("PENDING REQUESTS: ", pendingReqList);
 
   //Leave:
 

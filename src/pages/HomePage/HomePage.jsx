@@ -33,9 +33,6 @@ function HomePage() {
     dispatch(getFilteredEvents());
   }, [dispatch]);
 
-  console.log("loadingNear:", loadingNear);
-  console.log("nearEvents:", nearEvents);
-
   // fallback to seed if no nears
   useEffect(() => {
     if (

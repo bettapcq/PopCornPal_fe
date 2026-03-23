@@ -42,19 +42,10 @@ function RegisterModal({ show, handleClose }) {
     setLoading(true);
     const form = e.currentTarget;
 
-    console.log(form.querySelector(":invalid"));
     if (!form.checkValidity()) {
       setValidated(true);
       return;
     }
-
-    console.log("REGISTER MODAL INPUTS", {
-      username,
-      dateOfBirth,
-      city,
-      email,
-      password,
-    });
 
     try {
       await dispatch(

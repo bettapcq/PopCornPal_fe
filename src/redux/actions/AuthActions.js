@@ -29,8 +29,6 @@ export const login = (email, password) => {
 
       const data = await response.json();
 
-      console.log("LOGIN RESPONSE:", data);
-
       if (response.status === 403) {
         return;
       }
@@ -78,8 +76,6 @@ export const logout = () => {
 
 //-----REGISTER
 export const register = (userData) => {
-  console.log("REGISTER PAYLOAD:", userData);
-
   return async (dispatch) => {
     try {
       const response = await fetch(`${API_URL}/auth/register`, {
