@@ -32,8 +32,6 @@ function EventPage() {
   const message = useSelector((state) => state.events.message);
   let date = null;
 
-  if (!currentEvent || !userLogged) return null;
-
   const isCreator =
     Number(userLogged?.userId) === Number(currentEvent?.creator?.userId);
 
