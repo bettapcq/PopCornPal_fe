@@ -12,8 +12,6 @@ function PendingRequestsSection() {
   );
   const selectedEvent = useSelector((state) => state.events.selectedEvent);
 
-  console.log("Pending Req: ", participationRequests);
-
   const dispatch = useDispatch();
 
   return (

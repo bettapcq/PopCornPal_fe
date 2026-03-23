@@ -28,7 +28,6 @@ export const getFilteredEvents = (filters = {}) => {
 
   return async (dispatch) => {
     dispatch({ type: EVENTS_FILTERED_LOADING });
-    console.log("GET FILTERED EVENTS ACTION TRIGGERED");
     const token = localStorage.getItem("token");
 
     try {

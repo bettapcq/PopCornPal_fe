@@ -24,17 +24,12 @@ function LoginModal({ show, handleClose }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("isLogged:", isLogged);
-    console.log("USER FROM STORE:", user);
-
     if (isLogged && user) {
       handleClose();
 
       navigate(`/private/profile`); //go to profile page after isLogged becomes true
     }
   }, [isLogged, user, handleClose, navigate]);
-
-  console.log("PROFILE:", user);
 
   const handleLogin = async (e) => {
     e.preventDefault();

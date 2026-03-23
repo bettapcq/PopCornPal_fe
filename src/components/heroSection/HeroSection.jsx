@@ -21,7 +21,7 @@ function HeroSection({ events }) {
         <Carousel indicators={false} className="w-100">
           {events?.map((event) => (
             <Carousel.Item key={event.eventId}>
-              <EventCard event={event} />
+              <EventCard event={event} className="mx-3" />
             </Carousel.Item>
           ))}
         </Carousel>

@@ -342,7 +342,6 @@ function EventFormPage() {
                     <AddressSearch
                       value={addressQuery}
                       onSelect={(location, formatted) => {
-                        console.log("NEW LOCATION:", location);
                         setSelectedLocation(location);
                         setAddressQuery(formatted);
                       }}

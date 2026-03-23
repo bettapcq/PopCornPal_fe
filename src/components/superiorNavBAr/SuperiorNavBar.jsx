@@ -52,9 +52,6 @@ function SuperiorNavBar() {
     dispatch(getnotificationUnreadCount());
   }, [dispatch, profileId, unreadNotificationCount]);
 
-  console.log("NOTIFICATIONS: ", notifications);
-  console.log("COUNT: ", unreadNotificationCount);
-
   return (
     <Navbar expand="lg" className="my-nav mt-3 mb-4">
       <Container className="justify-content-between" fluid>
