@@ -24,10 +24,10 @@ function EventPage() {
   const params = useParams();
   const currentEventId = params.eventId;
   const dispatch = useDispatch();
-  const currentEvent = useSelector((state) => state.events.selectedEvent);
+  const currentEvent = useSelector((state) => state.events?.selectedEvent);
   const [loading, setLoading] = useState(false);
   const error = useSelector((state) => state.events.error);
-  const userLogged = useSelector((state) => state.auth.userLogged);
+  const userLogged = useSelector((state) => state.auth?.userLogged);
   const navigate = useNavigate();
   const message = useSelector((state) => state.events.message);
   let date = null;
