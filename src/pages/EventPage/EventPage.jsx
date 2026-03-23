@@ -25,14 +25,14 @@ function EventPage() {
   const currentEventId = params.eventId;
   const dispatch = useDispatch();
   const currentEvent = useSelector((state) => state.events.selectedEvent);
-  const participationStatus = currentEvent?.userParticipationStatus;
   const [loading, setLoading] = useState(false);
   const error = useSelector((state) => state.events.error);
   const userLogged = useSelector((state) => state.auth.userLogged);
   const navigate = useNavigate();
   const message = useSelector((state) => state.events.message);
-  const pendingReqList = useSelector((state) => state.participations.requests);
   let date = null;
+
+  if (!currentEvent || !userLogged) return null;
 
   const isCreator =
     Number(userLogged?.userId) === Number(currentEvent?.creator?.userId);
@@ -87,7 +87,7 @@ function EventPage() {
   //Leave:
 
   const participation = currentEvent?.participants?.find(
-    (p) => p.userId === userLogged.userId,
+    (p) => p.userId === userLogged?.userId,
   );
 
   const participationId = participation?.participationId;
