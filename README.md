@@ -1,18 +1,70 @@
-# React + Vite
+# 🍿 PopcornPal --- Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Logo](./src/assets/logo.png)
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+PopcornPal is a web app that lets people connect through their shared
+love for movies.\
+Users can create events, join others, and interact through a simple and
+intuitive interface.
 
-## React Compiler
+## Live Demo
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+App: https://your-frontend.vercel.app\
+API: https://your-backend.koyeb.app
 
-## Expanding the ESLint configuration
+## Backend Repository
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+https://github.com/your-username/popcornpal-backend
 
-PopCornPal
+## Tech Stack
+
+-   React
+-   Vite
+-   Redux
+-   React Router
+-   React Bootstrap
+
+## Features
+
+-   User authentication
+-   Create and manage events
+-   Join events with approval system
+-   Notifications
+-   Rating system
+
+## Screenshots
+
+### Home
+
+![Home](./screenshots/home.png)
+
+### Event Details
+
+![Event Details](./screenshots/event-details.png)
+
+### Profile
+
+![Profile](./screenshots/profile.png)
+
+## Setup
+
+git clone https://github.com/your-username/popcornpal-frontend\
+npm install
+
+Create a .env file:\
+VITE_API_URL=http://localhost:8080
+
+Run:\
+npm run dev
+
+## Notes
+
+-   Requires backend running
+-   API URL configurable via .env
+
+## Demo Credentials
+
+Email: test@test.com\
+Password: test123
